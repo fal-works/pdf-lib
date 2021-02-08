@@ -14,6 +14,7 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontkit: Fontkit,
     fontData: Uint8Array,
     customFontName?: string,
+    vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
     const font = await fontkit.create(fontData);
@@ -21,6 +22,7 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
       font,
       fontData,
       customFontName,
+      vertical,
       fontFeatures,
     );
   }
@@ -33,9 +35,10 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     font: Font,
     fontData: Uint8Array,
     customFontName?: string,
+    vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    super(font, fontData, customFontName, fontFeatures);
+    super(font, fontData, customFontName, vertical, fontFeatures);
 
     this.subset = this.font.createSubset();
     this.glyphs = [];

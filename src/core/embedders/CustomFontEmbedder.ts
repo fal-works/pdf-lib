@@ -23,10 +23,11 @@ class CustomFontEmbedder {
     fontkit: Fontkit,
     fontData: Uint8Array,
     customName?: string,
+    vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
     const font = await fontkit.create(fontData);
-    return new CustomFontEmbedder(font, fontData, customName, fontFeatures);
+    return new CustomFontEmbedder(font, fontData, customName, vertical, fontFeatures);
   }
 
   readonly font: Font;
@@ -34,6 +35,7 @@ class CustomFontEmbedder {
   readonly fontData: Uint8Array;
   readonly fontName: string;
   readonly customName: string | undefined;
+  readonly vertical: boolean | undefined;
   readonly fontFeatures: TypeFeatures | undefined;
 
   protected baseFontName: string;
@@ -43,6 +45,7 @@ class CustomFontEmbedder {
     font: Font,
     fontData: Uint8Array,
     customName?: string,
+    vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
     this.font = font;
@@ -50,6 +53,7 @@ class CustomFontEmbedder {
     this.fontData = fontData;
     this.fontName = this.font.postscriptName || 'Font';
     this.customName = customName;
+    this.vertical = vertical;
     this.fontFeatures = fontFeatures;
 
     this.baseFontName = '';
@@ -121,7 +125,7 @@ class CustomFontEmbedder {
       Type: 'Font',
       Subtype: 'Type0',
       BaseFont: this.baseFontName,
-      Encoding: 'Identity-H',
+      Encoding: this.vertical ?  'Identity-V' : 'Identity-H',
       DescendantFonts: [cidFontDictRef],
       ToUnicode: unicodeCMapRef,
     });
