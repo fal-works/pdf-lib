@@ -958,7 +958,13 @@ export default class PDFDocument {
             vertical,
             features,
           )
-        : await CustomFontEmbedder.for(fontkit, bytes, customName, vertical, features);
+        : await CustomFontEmbedder.for(
+            fontkit,
+            bytes,
+            customName,
+            vertical,
+            features,
+          );
     } else {
       throw new TypeError(
         '`font` must be one of `StandardFonts | string | Uint8Array | ArrayBuffer`',

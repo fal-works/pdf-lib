@@ -27,7 +27,13 @@ class CustomFontEmbedder {
     fontFeatures?: TypeFeatures,
   ) {
     const font = await fontkit.create(fontData);
-    return new CustomFontEmbedder(font, fontData, customName, vertical, fontFeatures);
+    return new CustomFontEmbedder(
+      font,
+      fontData,
+      customName,
+      vertical,
+      fontFeatures,
+    );
   }
 
   readonly font: Font;
@@ -125,7 +131,7 @@ class CustomFontEmbedder {
       Type: 'Font',
       Subtype: 'Type0',
       BaseFont: this.baseFontName,
-      Encoding: this.vertical ?  'Identity-V' : 'Identity-H',
+      Encoding: this.vertical ? 'Identity-V' : 'Identity-H',
       DescendantFonts: [cidFontDictRef],
       ToUnicode: unicodeCMapRef,
     });
