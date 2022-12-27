@@ -1,4 +1,4 @@
-import { Glyph } from 'src/types/fontkit';
+import { Glyph } from 'fontkit';
 
 import { toHexString, toHexStringOfMinLength } from 'src/utils';
 import {

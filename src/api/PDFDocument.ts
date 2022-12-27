@@ -935,10 +935,10 @@ export default class PDFDocument {
    * @param options The options to be used when embedding the font.
    * @returns Resolves with the embedded font.
    */
-  async embedFont(
+  embedFont(
     font: StandardFonts | string | Uint8Array | ArrayBuffer,
     options: EmbedFontOptions = {},
-  ): Promise<PDFFont> {
+  ): PDFFont {
     const { subset = false, customName, vertical, features } = options;
 
     assertIs(font, 'font', ['string', Uint8Array, ArrayBuffer]);
@@ -951,14 +951,14 @@ export default class PDFDocument {
       const bytes = toUint8Array(font);
       const fontkit = this.assertFontkit();
       embedder = subset
-        ? await CustomFontSubsetEmbedder.for(
+        ? CustomFontSubsetEmbedder.for(
             fontkit,
             bytes,
             customName,
             vertical,
             features,
           )
-        : await CustomFontEmbedder.for(
+        : CustomFontEmbedder.for(
             fontkit,
             bytes,
             customName,

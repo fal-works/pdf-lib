@@ -1,4 +1,5 @@
-import { Font, Fontkit, Glyph, TypeFeatures } from 'src/types/fontkit';
+import { Font, Glyph, TypeFeatures } from 'fontkit';
+import { Fontkit } from 'src/types/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
 import { deriveFontFlags } from 'src/core/embedders/FontFlags';
@@ -19,14 +20,14 @@ import {
  *   https://github.com/devongovett/pdfkit/blob/e71edab0dd4657b5a767804ba86c94c58d01fbca/lib/image/jpeg.coffee
  */
 class CustomFontEmbedder {
-  static async for(
+  static for(
     fontkit: Fontkit,
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    const font = await fontkit.create(fontData);
+    const font = fontkit.create(Buffer.from(fontData));
     return new CustomFontEmbedder(
       font,
       fontData,
@@ -114,17 +115,17 @@ class CustomFontEmbedder {
     return (1000 * height) / (yTop - yBottom);
   }
 
-  embedIntoContext(context: PDFContext, ref?: PDFRef): Promise<PDFRef> {
+  embedIntoContext(context: PDFContext, ref?: PDFRef): PDFRef {
     this.baseFontName =
       this.customName || context.addRandomSuffix(this.fontName);
     return this.embedFontDict(context, ref);
   }
 
-  protected async embedFontDict(
+  protected embedFontDict(
     context: PDFContext,
     ref?: PDFRef,
-  ): Promise<PDFRef> {
-    const cidFontDictRef = await this.embedCIDFontDict(context);
+  ): PDFRef {
+    const cidFontDictRef = this.embedCIDFontDict(context);
     const unicodeCMapRef = this.embedUnicodeCmap(context);
 
     const fontDict = context.obj({
@@ -148,8 +149,8 @@ class CustomFontEmbedder {
     return this.font.cff;
   }
 
-  protected async embedCIDFontDict(context: PDFContext): Promise<PDFRef> {
-    const fontDescriptorRef = await this.embedFontDescriptor(context);
+  protected embedCIDFontDict(context: PDFContext): PDFRef {
+    const fontDescriptorRef = this.embedFontDescriptor(context);
 
     const cidFontDict = context.obj({
       Type: 'Font',
@@ -168,8 +169,8 @@ class CustomFontEmbedder {
     return context.register(cidFontDict);
   }
 
-  protected async embedFontDescriptor(context: PDFContext): Promise<PDFRef> {
-    const fontStreamRef = await this.embedFontStream(context);
+  protected embedFontDescriptor(context: PDFContext): PDFRef {
+    const fontStreamRef = this.embedFontStream(context);
 
     const { scale } = this;
     const { italicAngle, ascent, descent, capHeight, xHeight } = this.font;
@@ -196,12 +197,12 @@ class CustomFontEmbedder {
     return context.register(fontDescriptor);
   }
 
-  protected async serializeFont(): Promise<Uint8Array> {
+  protected serializeFont(): Uint8Array {
     return this.fontData;
   }
 
-  protected async embedFontStream(context: PDFContext): Promise<PDFRef> {
-    const fontStream = context.flateStream(await this.serializeFont(), {
+  protected embedFontStream(context: PDFContext): PDFRef {
+    const fontStream = context.flateStream(this.serializeFont(), {
       Subtype: this.isCFF() ? 'CIDFontType0C' : undefined,
     });
     return context.register(fontStream);
