@@ -32,6 +32,7 @@
     "Ching Chang (https://github.com/ChingChang9)"
   ],
   "scripts": {
+    "prepare": "ts-patch install -s",
     "release:latest": "yarn publish --tag latest && yarn pack && yarn release:tag",
     "release:next": "yarn publish --tag next",
     "release:prep": "yarn clean && yarn lint && yarn typecheck && yarn test && yarn build",
