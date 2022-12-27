@@ -13,7 +13,7 @@ class LZWStream extends DecodeStream {
   private stream: StreamType;
   private cachedData: number;
   private bitsCached: number;
-  private lzwState: {
+  private lzwState?: {
     earlyChange: 0 | 1;
     codeLength: number;
     nextCode: number;

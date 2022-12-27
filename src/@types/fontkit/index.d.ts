@@ -1,4 +1,4 @@
-declare module "fontkit" {
+declare module 'fontkit' {
   /**
    * Represents a glyph bounding box
    */

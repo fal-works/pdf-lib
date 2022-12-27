@@ -139,7 +139,8 @@ export const breakTextIntoLines = (
 };
 
 // See section "7.9.4 Dates" of the PDF specification
-const dateRegex = /^D:(\d\d\d\d)(\d\d)?(\d\d)?(\d\d)?(\d\d)?(\d\d)?([+\-Z])?(\d\d)?'?(\d\d)?'?$/;
+const dateRegex =
+  /^D:(\d\d\d\d)(\d\d)?(\d\d)?(\d\d)?(\d\d)?(\d\d)?([+\-Z])?(\d\d)?'?(\d\d)?'?$/;
 
 export const parseDate = (dateStr: string): Date | undefined => {
   const match = dateStr.match(dateRegex);

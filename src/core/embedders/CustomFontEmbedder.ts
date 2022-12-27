@@ -121,10 +121,7 @@ class CustomFontEmbedder {
     return this.embedFontDict(context, ref);
   }
 
-  protected embedFontDict(
-    context: PDFContext,
-    ref?: PDFRef,
-  ): PDFRef {
+  protected embedFontDict(context: PDFContext, ref?: PDFRef): PDFRef {
     const cidFontDictRef = this.embedCIDFontDict(context);
     const unicodeCMapRef = this.embedUnicodeCmap(context);
 

@@ -39,7 +39,7 @@
     "moduleResolution": "node",
 
     /* Plugins */
-    "plugins": [{ "transform": "@zerollup/ts-transform-paths" }]
+    "plugins": [{ "transform": "typescript-transform-paths" }]
   },
   "include": ["src/**/*"]
 }
