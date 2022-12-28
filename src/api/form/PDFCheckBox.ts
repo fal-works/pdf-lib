@@ -1,5 +1,5 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
@@ -7,10 +7,7 @@ import {
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 
 import {
   PDFName,
@@ -30,7 +27,7 @@ import { assertIs, assertOrUndefined } from 'src/utils';
  * each option is represented by a single check box. Check boxes are typically
  * square in shape and display a check mark when they are in the `on` state.
  */
-export default class PDFCheckBox extends PDFField {
+export class PDFCheckBox extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getCheckBox]] method, which will create an

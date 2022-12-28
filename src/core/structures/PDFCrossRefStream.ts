@@ -1,8 +1,8 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFContext from 'src/core/PDFContext';
-import PDFFlateStream from 'src/core/structures/PDFFlateStream';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFFlateStream } from 'src/core/structures/PDFFlateStream';
 import { bytesFor, Cache, reverseArray, sizeInBytes, sum } from 'src/utils';
 
 export enum EntryType {
@@ -39,7 +39,7 @@ export type EntryTuple = [number, number, number];
  * [[addUncompressedEntry]], and [[addCompressedEntry]] methods
  * **in order of ascending object number**.
  */
-class PDFCrossRefStream extends PDFFlateStream {
+export class PDFCrossRefStream extends PDFFlateStream {
   static create = (dict: PDFDict, encode = true) => {
     const stream = new PDFCrossRefStream(dict, [], encode);
     stream.addDeletedEntry(PDFRef.of(0, 65535), 0);
@@ -242,5 +242,3 @@ class PDFCrossRefStream extends PDFFlateStream {
     return widths;
   };
 }
-
-export default PDFCrossRefStream;

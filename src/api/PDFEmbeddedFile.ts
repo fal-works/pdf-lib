@@ -1,12 +1,12 @@
-import Embeddable from 'src/api/Embeddable';
-import PDFDocument from 'src/api/PDFDocument';
-import FileEmbedder from 'src/core/embedders/FileEmbedder';
+import type { Embeddable } from 'src/api/Embeddable';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import type { FileEmbedder } from 'src/core/embedders/FileEmbedder';
 import { PDFName, PDFArray, PDFDict, PDFHexString, PDFRef } from 'src/core';
 
 /**
  * Represents a file that has been embedded in a [[PDFDocument]].
  */
-export default class PDFEmbeddedFile implements Embeddable {
+export class PDFEmbeddedFile implements Embeddable {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFDocument.attach]] method, which will create

@@ -1,10 +1,10 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFName from 'src/core/objects/PDFName';
-import PDFContext from 'src/core/PDFContext';
-import PDFAcroField from 'src/core/acroform/PDFAcroField';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFAcroField } from 'src/core/acroform/PDFAcroField';
 
-class PDFAcroNonTerminal extends PDFAcroField {
+export class PDFAcroNonTerminal extends PDFAcroField {
   static fromDict = (dict: PDFDict, ref: PDFRef) =>
     new PDFAcroNonTerminal(dict, ref);
 
@@ -30,5 +30,3 @@ class PDFAcroNonTerminal extends PDFAcroField {
     return { Kids };
   }
 }
-
-export default PDFAcroNonTerminal;

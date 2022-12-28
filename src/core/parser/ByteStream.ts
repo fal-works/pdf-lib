@@ -1,10 +1,10 @@
 import { NextByteAssertionError } from 'src/core/errors';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
+import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
 import { decodePDFRawStream } from 'src/core/streams/decode';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 
 // TODO: See how line/col tracking affects performance
-class ByteStream {
+export class ByteStream {
   static of = (bytes: Uint8Array) => new ByteStream(bytes);
 
   static fromPDFRawStream = (rawStream: PDFRawStream) =>
@@ -72,5 +72,3 @@ class ByteStream {
     return { line: this.line, column: this.column, offset: this.idx };
   }
 }
-
-export default ByteStream;

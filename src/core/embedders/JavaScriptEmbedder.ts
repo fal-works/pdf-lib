@@ -1,8 +1,8 @@
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFContext from 'src/core/PDFContext';
-import PDFRef from 'src/core/objects/PDFRef';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 
-class JavaScriptEmbedder {
+export class JavaScriptEmbedder {
   static for(script: string, scriptName: string) {
     return new JavaScriptEmbedder(script, scriptName);
   }
@@ -30,5 +30,3 @@ class JavaScriptEmbedder {
     }
   }
 }
-
-export default JavaScriptEmbedder;

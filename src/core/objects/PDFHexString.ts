@@ -1,5 +1,5 @@
-import PDFObject from 'src/core/objects/PDFObject';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import {
   copyStringIntoBuffer,
   toHexStringOfMinLength,
@@ -11,7 +11,7 @@ import {
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
-class PDFHexString extends PDFObject {
+export class PDFHexString extends PDFObject {
   static of = (value: string) => new PDFHexString(value);
 
   static fromText = (value: string) => {
@@ -90,5 +90,3 @@ class PDFHexString extends PDFObject {
     return this.value.length + 2;
   }
 }
-
-export default PDFHexString;

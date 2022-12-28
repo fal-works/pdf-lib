@@ -1,6 +1,6 @@
 import { PrivateConstructorError } from 'src/core/errors';
-import PDFObject from 'src/core/objects/PDFObject';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { IsIrregular } from 'src/core/syntax/Irregular';
 import {
   charFromHexCode,
@@ -20,7 +20,7 @@ const isRegularChar = (charCode: number) =>
 const ENFORCER = {};
 const pool = new Map<string, PDFName>();
 
-class PDFName extends PDFObject {
+export class PDFName extends PDFObject {
   static of = (name: string): PDFName => {
     const decodedValue = decodeName(name);
 
@@ -155,5 +155,3 @@ class PDFName extends PDFObject {
     return this.encodedName.length;
   }
 }
-
-export default PDFName;

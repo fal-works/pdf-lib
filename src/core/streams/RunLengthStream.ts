@@ -6,10 +6,10 @@
  * under the Apache 2.0 open source license.
  */
 
-import DecodeStream from 'src/core/streams/DecodeStream';
-import { StreamType } from 'src/core/streams/Stream';
+import { DecodeStream } from 'src/core/streams/DecodeStream';
+import type { StreamType } from 'src/core/streams/Stream';
 
-class RunLengthStream extends DecodeStream {
+export class RunLengthStream extends DecodeStream {
   private stream: StreamType;
 
   constructor(stream: StreamType, maybeLength?: number) {
@@ -51,5 +51,3 @@ class RunLengthStream extends DecodeStream {
     this.bufferLength = bufferLength;
   }
 }
-
-export default RunLengthStream;

@@ -1,10 +1,7 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFFont } from 'src/api/PDFFont';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
@@ -40,7 +37,7 @@ import {
  * with a highlighted background. Some option lists allow users to select
  * more than one option (see [[PDFOptionList.isMultiselect]]).
  */
-export default class PDFOptionList extends PDFField {
+export class PDFOptionList extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getOptionList]] method, which will create

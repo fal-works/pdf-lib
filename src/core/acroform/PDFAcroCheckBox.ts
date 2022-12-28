@@ -1,11 +1,11 @@
-import PDFContext from 'src/core/PDFContext';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFAcroButton from 'src/core/acroform/PDFAcroButton';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFAcroButton } from 'src/core/acroform/PDFAcroButton';
 import { InvalidAcroFieldValueError } from 'src/core/errors';
 
-class PDFAcroCheckBox extends PDFAcroButton {
+export class PDFAcroCheckBox extends PDFAcroButton {
   static fromDict = (dict: PDFDict, ref: PDFRef) =>
     new PDFAcroCheckBox(dict, ref);
 
@@ -45,5 +45,3 @@ class PDFAcroCheckBox extends PDFAcroButton {
     return widget?.getOnValue();
   }
 }
-
-export default PDFAcroCheckBox;

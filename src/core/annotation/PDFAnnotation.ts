@@ -1,11 +1,11 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFNumber from 'src/core/objects/PDFNumber';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
 
-class PDFAnnotation {
+export class PDFAnnotation {
   readonly dict: PDFDict;
 
   static fromDict = (dict: PDFDict): PDFAnnotation => new PDFAnnotation(dict);
@@ -144,5 +144,3 @@ class PDFAnnotation {
     else this.clearFlag(flag);
   }
 }
-
-export default PDFAnnotation;

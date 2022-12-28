@@ -1,9 +1,9 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
 
 // TODO: Also handle the `/S` and `/D` entries
-class BorderStyle {
+export class BorderStyle {
   readonly dict: PDFDict;
 
   static fromDict = (dict: PDFDict): BorderStyle => new BorderStyle(dict);
@@ -27,5 +27,3 @@ class BorderStyle {
     this.dict.set(PDFName.of('W'), W);
   }
 }
-
-export default BorderStyle;

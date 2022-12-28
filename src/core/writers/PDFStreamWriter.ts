@@ -1,18 +1,18 @@
-import PDFHeader from 'src/core/document/PDFHeader';
-import PDFTrailer from 'src/core/document/PDFTrailer';
-import PDFInvalidObject from 'src/core/objects/PDFInvalidObject';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFContext from 'src/core/PDFContext';
-import PDFCrossRefStream from 'src/core/structures/PDFCrossRefStream';
-import PDFObjectStream from 'src/core/structures/PDFObjectStream';
-import PDFWriter from 'src/core/writers/PDFWriter';
+import { PDFHeader } from 'src/core/document/PDFHeader';
+import { PDFTrailer } from 'src/core/document/PDFTrailer';
+import { PDFInvalidObject } from 'src/core/objects/PDFInvalidObject';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFCrossRefStream } from 'src/core/structures/PDFCrossRefStream';
+import { PDFObjectStream } from 'src/core/structures/PDFObjectStream';
+import { PDFWriter } from 'src/core/writers/PDFWriter';
 import { last, waitForTick } from 'src/utils';
 
-class PDFStreamWriter extends PDFWriter {
+export class PDFStreamWriter extends PDFWriter {
   static forContext = (
     context: PDFContext,
     objectsPerTick: number,
@@ -119,5 +119,3 @@ class PDFStreamWriter extends PDFWriter {
     return { size, header, indirectObjects: uncompressedObjects, trailer };
   }
 }
-
-export default PDFStreamWriter;

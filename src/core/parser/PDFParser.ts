@@ -1,6 +1,6 @@
-import PDFCrossRefSection from 'src/core/document/PDFCrossRefSection';
-import PDFHeader from 'src/core/document/PDFHeader';
-import PDFTrailer from 'src/core/document/PDFTrailer';
+import { PDFCrossRefSection } from 'src/core/document/PDFCrossRefSection';
+import { PDFHeader } from 'src/core/document/PDFHeader';
+import { PDFTrailer } from 'src/core/document/PDFTrailer';
 import {
   MissingKeywordError,
   MissingPDFHeaderError,
@@ -8,23 +8,23 @@ import {
   ReparseError,
   StalledParserError,
 } from 'src/core/errors';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFInvalidObject from 'src/core/objects/PDFInvalidObject';
-import PDFName from 'src/core/objects/PDFName';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
-import PDFRef from 'src/core/objects/PDFRef';
-import ByteStream from 'src/core/parser/ByteStream';
-import PDFObjectParser from 'src/core/parser/PDFObjectParser';
-import PDFObjectStreamParser from 'src/core/parser/PDFObjectStreamParser';
-import PDFXRefStreamParser from 'src/core/parser/PDFXRefStreamParser';
-import PDFContext from 'src/core/PDFContext';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFInvalidObject } from 'src/core/objects/PDFInvalidObject';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFRawStream } from 'src/core/objects/PDFRawStream';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { ByteStream } from 'src/core/parser/ByteStream';
+import { PDFObjectParser } from 'src/core/parser/PDFObjectParser';
+import { PDFObjectStreamParser } from 'src/core/parser/PDFObjectStreamParser';
+import { PDFXRefStreamParser } from 'src/core/parser/PDFXRefStreamParser';
+import { PDFContext } from 'src/core/PDFContext';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { Keywords } from 'src/core/syntax/Keywords';
 import { IsDigit } from 'src/core/syntax/Numeric';
 import { waitForTick } from 'src/utils';
 
-class PDFParser extends PDFObjectParser {
+export class PDFParser extends PDFObjectParser {
   static forBytesWithOptions = (
     pdfBytes: Uint8Array,
     objectsPerTick?: number,
@@ -360,5 +360,3 @@ class PDFParser extends PDFObjectParser {
     }
   }
 }
-
-export default PDFParser;

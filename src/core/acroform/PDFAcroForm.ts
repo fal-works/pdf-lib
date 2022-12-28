@@ -1,16 +1,13 @@
-import PDFContext from 'src/core/PDFContext';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFAcroField from 'src/core/acroform/PDFAcroField';
-import PDFAcroNonTerminal from 'src/core/acroform/PDFAcroNonTerminal';
-import {
-  createPDFAcroField,
-  createPDFAcroFields,
-} from 'src/core/acroform/utils';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFAcroField } from 'src/core/acroform/PDFAcroField';
+import { PDFAcroNonTerminal } from 'src/core/acroform/PDFAcroNonTerminal';
+import { createPDFAcroField, createPDFAcroFields } from 'src/core/acroform/utils';
 
-class PDFAcroForm {
+export class PDFAcroForm {
   readonly dict: PDFDict;
 
   static fromDict = (dict: PDFDict) => new PDFAcroForm(dict);
@@ -98,5 +95,3 @@ class PDFAcroForm {
     return { Fields };
   }
 }
-
-export default PDFAcroForm;

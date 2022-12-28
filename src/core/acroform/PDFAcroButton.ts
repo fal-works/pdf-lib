@@ -1,13 +1,13 @@
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFString from 'src/core/objects/PDFString';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFAcroTerminal from 'src/core/acroform/PDFAcroTerminal';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFAcroTerminal } from 'src/core/acroform/PDFAcroTerminal';
 import { IndexOutOfBoundsError } from 'src/core/errors';
 
-class PDFAcroButton extends PDFAcroTerminal {
+export class PDFAcroButton extends PDFAcroTerminal {
   Opt(): PDFString | PDFHexString | PDFArray | undefined {
     return this.dict.lookupMaybe(
       PDFName.of('Opt'),
@@ -110,5 +110,3 @@ class PDFAcroButton extends PDFAcroTerminal {
     return apStateValue;
   }
 }
-
-export default PDFAcroButton;

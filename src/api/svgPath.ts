@@ -10,7 +10,7 @@ import {
   lineTo,
   moveTo,
 } from 'src/api/operators';
-import { PDFOperator } from 'src/core';
+import type { PDFOperator } from 'src/core';
 
 let cx: number = 0;
 let cy: number = 0;

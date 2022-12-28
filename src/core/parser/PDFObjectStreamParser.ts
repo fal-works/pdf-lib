@@ -1,13 +1,13 @@
 import { ReparseError } from 'src/core/errors';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
-import PDFRef from 'src/core/objects/PDFRef';
-import ByteStream from 'src/core/parser/ByteStream';
-import PDFObjectParser from 'src/core/parser/PDFObjectParser';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { ByteStream } from 'src/core/parser/ByteStream';
+import { PDFObjectParser } from 'src/core/parser/PDFObjectParser';
 import { waitForTick } from 'src/utils';
 
-class PDFObjectStreamParser extends PDFObjectParser {
+export class PDFObjectStreamParser extends PDFObjectParser {
   static forStream = (
     rawStream: PDFRawStream,
     shouldWaitForTick?: () => boolean,
@@ -63,5 +63,3 @@ class PDFObjectStreamParser extends PDFObjectParser {
     return offsetsAndObjectNumbers;
   }
 }
-
-export default PDFObjectStreamParser;

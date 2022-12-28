@@ -1,22 +1,22 @@
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFRef from 'src/core/objects/PDFRef';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFRef } from 'src/core/objects/PDFRef';
 
-import PDFAcroField from 'src/core/acroform/PDFAcroField';
-import PDFAcroTerminal from 'src/core/acroform/PDFAcroTerminal';
-import PDFAcroNonTerminal from 'src/core/acroform/PDFAcroNonTerminal';
-import PDFAcroButton from 'src/core/acroform/PDFAcroButton';
-import PDFAcroSignature from 'src/core/acroform/PDFAcroSignature';
-import PDFAcroChoice from 'src/core/acroform/PDFAcroChoice';
-import PDFAcroText from 'src/core/acroform/PDFAcroText';
-import PDFAcroPushButton from 'src/core/acroform/PDFAcroPushButton';
-import PDFAcroRadioButton from 'src/core/acroform/PDFAcroRadioButton';
-import PDFAcroCheckBox from 'src/core/acroform/PDFAcroCheckBox';
-import PDFAcroComboBox from 'src/core/acroform/PDFAcroComboBox';
-import PDFAcroListBox from 'src/core/acroform/PDFAcroListBox';
+import type { PDFAcroField } from 'src/core/acroform/PDFAcroField';
+import { PDFAcroTerminal } from 'src/core/acroform/PDFAcroTerminal';
+import { PDFAcroNonTerminal } from 'src/core/acroform/PDFAcroNonTerminal';
+import type { PDFAcroButton } from 'src/core/acroform/PDFAcroButton';
+import { PDFAcroSignature } from 'src/core/acroform/PDFAcroSignature';
+import type { PDFAcroChoice } from 'src/core/acroform/PDFAcroChoice';
+import { PDFAcroText } from 'src/core/acroform/PDFAcroText';
+import { PDFAcroPushButton } from 'src/core/acroform/PDFAcroPushButton';
+import { PDFAcroRadioButton } from 'src/core/acroform/PDFAcroRadioButton';
+import { PDFAcroCheckBox } from 'src/core/acroform/PDFAcroCheckBox';
+import { PDFAcroComboBox } from 'src/core/acroform/PDFAcroComboBox';
+import { PDFAcroListBox } from 'src/core/acroform/PDFAcroListBox';
 import { AcroButtonFlags, AcroChoiceFlags } from 'src/core/acroform/flags';
 
 export const createPDFAcroFields = (

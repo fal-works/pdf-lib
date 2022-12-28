@@ -1,4 +1,4 @@
-import { Font } from 'fontkit';
+import type { Font } from 'fontkit';
 
 export interface Fontkit {
   // create: typeof(create);

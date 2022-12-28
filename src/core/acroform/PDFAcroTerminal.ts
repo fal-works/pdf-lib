@@ -1,11 +1,11 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFAcroField from 'src/core/acroform/PDFAcroField';
-import PDFWidgetAnnotation from 'src/core/annotation/PDFWidgetAnnotation';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFAcroField } from 'src/core/acroform/PDFAcroField';
+import { PDFWidgetAnnotation } from 'src/core/annotation/PDFWidgetAnnotation';
 import { IndexOutOfBoundsError } from 'src/core/errors';
 
-class PDFAcroTerminal extends PDFAcroField {
+export class PDFAcroTerminal extends PDFAcroField {
   static fromDict = (dict: PDFDict, ref: PDFRef) =>
     new PDFAcroTerminal(dict, ref);
 
@@ -67,5 +67,3 @@ class PDFAcroTerminal extends PDFAcroField {
     return { Kids };
   }
 }
-
-export default PDFAcroTerminal;

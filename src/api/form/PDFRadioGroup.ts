@@ -1,9 +1,6 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
@@ -40,7 +37,7 @@ import { assertIs, assertOrUndefined, assertIsOneOf } from 'src/utils';
  * state at the same type **if** they represent the same underlying value (see
  * [[PDFRadioGroup.isMutuallyExclusive]]).
  */
-export default class PDFRadioGroup extends PDFField {
+export class PDFRadioGroup extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getOptionList]] method, which will create an

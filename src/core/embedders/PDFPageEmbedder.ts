@@ -2,17 +2,17 @@ import {
   MissingPageContentsEmbeddingError,
   UnrecognizedStreamTypeError,
 } from 'src/core/errors';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFContext from 'src/core/PDFContext';
+import type { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFRawStream } from 'src/core/objects/PDFRawStream';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFContext } from 'src/core/PDFContext';
 import { decodePDFRawStream } from 'src/core/streams/decode';
-import PDFContentStream from 'src/core/structures/PDFContentStream';
-import PDFPageLeaf from 'src/core/structures/PDFPageLeaf';
-import CharCodes from 'src/core/syntax/CharCodes';
-import { TransformationMatrix } from 'src/types/matrix';
+import { PDFContentStream } from 'src/core/structures/PDFContentStream';
+import type { PDFPageLeaf } from 'src/core/structures/PDFPageLeaf';
+import { CharCodes } from 'src/core/syntax/CharCodes';
+import type { TransformationMatrix } from 'src/types/matrix';
 import { mergeIntoTypedArray } from 'src/utils';
 
 /**
@@ -57,7 +57,7 @@ const boundingBoxAdjustedMatrix = (
   bb: PageBoundingBox,
 ): TransformationMatrix => [1, 0, 0, 1, -bb.left, -bb.bottom];
 
-class PDFPageEmbedder {
+export class PDFPageEmbedder {
   static async for(
     page: PDFPageLeaf,
     boundingBox?: PageBoundingBox,
@@ -137,5 +137,3 @@ class PDFPageEmbedder {
     return mergeIntoTypedArray(...decodedContents);
   }
 }
-
-export default PDFPageEmbedder;

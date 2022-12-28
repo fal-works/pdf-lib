@@ -1,4 +1,4 @@
-class Cache<T> {
+export class Cache<T> {
   static readonly populatedBy = <T>(populate: () => T) => new Cache(populate);
 
   private readonly populate: () => T;
@@ -22,5 +22,3 @@ class Cache<T> {
     this.value = undefined;
   }
 }
-
-export default Cache;

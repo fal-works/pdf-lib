@@ -1,7 +1,7 @@
-import CharCodes from 'src/core/syntax/CharCodes';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { copyStringIntoBuffer } from 'src/utils';
 
-class PDFTrailer {
+export class PDFTrailer {
   static forLastCrossRefSectionOffset = (offset: number) =>
     new PDFTrailer(offset);
 
@@ -45,5 +45,3 @@ class PDFTrailer {
     return offset - initialOffset;
   }
 }
-
-export default PDFTrailer;

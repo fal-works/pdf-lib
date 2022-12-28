@@ -1,12 +1,12 @@
-import Embeddable from 'src/api/Embeddable';
-import PDFDocument from 'src/api/PDFDocument';
-import JavaScriptEmbedder from 'src/core/embedders/JavaScriptEmbedder';
+import type { Embeddable } from 'src/api/Embeddable';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import type { JavaScriptEmbedder } from 'src/core/embedders/JavaScriptEmbedder';
 import { PDFName, PDFArray, PDFDict, PDFHexString, PDFRef } from 'src/core';
 
 /**
  * Represents JavaScript that has been embedded in a [[PDFDocument]].
  */
-export default class PDFJavaScript implements Embeddable {
+export class PDFJavaScript implements Embeddable {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFDocument.addJavaScript]] method, which will

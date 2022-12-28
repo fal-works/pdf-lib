@@ -1,11 +1,11 @@
 import { PrivateConstructorError } from 'src/core/errors';
-import PDFObject from 'src/core/objects/PDFObject';
+import { PDFObject } from 'src/core/objects/PDFObject';
 import { copyStringIntoBuffer } from 'src/utils';
 
 const ENFORCER = {};
 const pool = new Map<string, PDFRef>();
 
-class PDFRef extends PDFObject {
+export class PDFRef extends PDFObject {
   static of = (objectNumber: number, generationNumber = 0) => {
     const tag = `${objectNumber} ${generationNumber} R`;
 
@@ -51,5 +51,3 @@ class PDFRef extends PDFObject {
     return this.tag.length;
   }
 }
-
-export default PDFRef;

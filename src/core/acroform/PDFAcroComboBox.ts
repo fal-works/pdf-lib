@@ -1,10 +1,10 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFAcroChoice from 'src/core/acroform/PDFAcroChoice';
-import PDFContext from 'src/core/PDFContext';
-import PDFRef from 'src/core/objects/PDFRef';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFAcroChoice } from 'src/core/acroform/PDFAcroChoice';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 import { AcroChoiceFlags } from 'src/core/acroform/flags';
 
-class PDFAcroComboBox extends PDFAcroChoice {
+export class PDFAcroComboBox extends PDFAcroChoice {
   static fromDict = (dict: PDFDict, ref: PDFRef) =>
     new PDFAcroComboBox(dict, ref);
 
@@ -18,5 +18,3 @@ class PDFAcroComboBox extends PDFAcroChoice {
     return new PDFAcroComboBox(dict, ref);
   };
 }
-
-export default PDFAcroComboBox;

@@ -1,14 +1,14 @@
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFDict, { DictMap } from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFContext from 'src/core/PDFContext';
-import PDFPageTree from 'src/core/structures/PDFPageTree';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFDict, DictMap } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFPageTree } from 'src/core/structures/PDFPageTree';
 
-class PDFPageLeaf extends PDFDict {
+export class PDFPageLeaf extends PDFDict {
   static readonly InheritableEntries = [
     'Resources',
     'MediaBox',
@@ -259,5 +259,3 @@ class PDFPageLeaf extends PDFDict {
     };
   }
 }
-
-export default PDFPageLeaf;

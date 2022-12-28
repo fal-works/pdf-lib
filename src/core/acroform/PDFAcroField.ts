@@ -1,11 +1,11 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFString from 'src/core/objects/PDFString';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFName from 'src/core/objects/PDFName';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFRef from 'src/core/objects/PDFRef';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFRef } from 'src/core/objects/PDFRef';
 import { findLastMatch } from 'src/utils';
 import { MissingDAEntryError, MissingTfOperatorError } from 'src/core/errors';
 
@@ -16,7 +16,7 @@ import { MissingDAEntryError, MissingTfOperatorError } from 'src/core/errors';
 const tfRegex =
   /\/([^\0\t\n\f\r\ ]+)[\0\t\n\f\r\ ]*(\d*\.\d+|\d+)?[\0\t\n\f\r\ ]+Tf/;
 
-class PDFAcroField {
+export class PDFAcroField {
   readonly dict: PDFDict;
   readonly ref: PDFRef;
 
@@ -164,5 +164,3 @@ class PDFAcroField {
     if (parent) parent.ascend(visitor);
   }
 }
-
-export default PDFAcroField;

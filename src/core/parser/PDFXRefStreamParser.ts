@@ -1,12 +1,12 @@
 import { ReparseError } from 'src/core/errors';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
-import PDFRef from 'src/core/objects/PDFRef';
-import ByteStream from 'src/core/parser/ByteStream';
-import PDFContext from 'src/core/PDFContext';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { ByteStream } from 'src/core/parser/ByteStream';
+import type { PDFContext } from 'src/core/PDFContext';
 
 export interface Entry {
   ref: PDFRef;
@@ -15,7 +15,7 @@ export interface Entry {
   inObjectStream: boolean;
 }
 
-class PDFXRefStreamParser {
+export class PDFXRefStreamParser {
   static forStream = (rawStream: PDFRawStream) =>
     new PDFXRefStreamParser(rawStream);
 
@@ -126,5 +126,3 @@ class PDFXRefStreamParser {
     return entries;
   }
 }
-
-export default PDFXRefStreamParser;

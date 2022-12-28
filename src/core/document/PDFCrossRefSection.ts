@@ -1,5 +1,5 @@
-import PDFRef from 'src/core/objects/PDFRef';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { copyStringIntoBuffer, padStart } from 'src/utils';
 
 export interface Entry {
@@ -12,7 +12,7 @@ export interface Entry {
  * Entries should be added using the [[addEntry]] and [[addDeletedEntry]]
  * methods **in order of ascending object number**.
  */
-class PDFCrossRefSection {
+export class PDFCrossRefSection {
   static create = () =>
     new PDFCrossRefSection({
       ref: PDFRef.of(0, 65535),
@@ -169,5 +169,3 @@ class PDFCrossRefSection {
     }
   }
 }
-
-export default PDFCrossRefSection;

@@ -5,9 +5,9 @@ import {
   EncodingType,
 } from '@pdf-lib/standard-fonts';
 
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFContext from 'src/core/PDFContext';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFContext } from 'src/core/PDFContext';
 import { toCodePoint, toHexString } from 'src/utils';
 
 export interface Glyph {
@@ -20,7 +20,7 @@ export interface Glyph {
  * this class borrows from:
  *   https://github.com/foliojs/pdfkit/blob/f91bdd61c164a72ea06be1a43dc0a412afc3925f/lib/font/afm.coffee
  */
-class StandardFontEmbedder {
+export class StandardFontEmbedder {
   static for = (fontName: FontNames, customName?: string) =>
     new StandardFontEmbedder(fontName, customName);
 
@@ -126,5 +126,3 @@ class StandardFontEmbedder {
     return glyphs;
   }
 }
-
-export default StandardFontEmbedder;

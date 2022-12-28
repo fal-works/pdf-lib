@@ -1,13 +1,13 @@
-import { PDFOperator, PDFWidgetAnnotation } from 'src/core';
-import PDFFont from 'src/api/PDFFont';
-import PDFButton from 'src/api/form/PDFButton';
-import PDFCheckBox from 'src/api/form/PDFCheckBox';
-import PDFDropdown from 'src/api/form/PDFDropdown';
-import PDFField from 'src/api/form/PDFField';
-import PDFOptionList from 'src/api/form/PDFOptionList';
-import PDFRadioGroup from 'src/api/form/PDFRadioGroup';
-import PDFSignature from 'src/api/form/PDFSignature';
-import PDFTextField from 'src/api/form/PDFTextField';
+import type { PDFOperator, PDFWidgetAnnotation } from 'src/core';
+import type { PDFFont } from 'src/api/PDFFont';
+import type { PDFButton } from 'src/api/form/PDFButton';
+import type { PDFCheckBox } from 'src/api/form/PDFCheckBox';
+import type { PDFDropdown } from 'src/api/form/PDFDropdown';
+import type { PDFField } from 'src/api/form/PDFField';
+import type { PDFOptionList } from 'src/api/form/PDFOptionList';
+import type { PDFRadioGroup } from 'src/api/form/PDFRadioGroup';
+import type { PDFSignature } from 'src/api/form/PDFSignature';
+import type { PDFTextField } from 'src/api/form/PDFTextField';
 import {
   drawCheckBox,
   rotateInPlace,

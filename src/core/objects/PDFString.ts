@@ -1,5 +1,5 @@
-import PDFObject from 'src/core/objects/PDFObject';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import {
   copyStringIntoBuffer,
   padStart,
@@ -11,7 +11,7 @@ import {
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
-class PDFString extends PDFObject {
+export class PDFString extends PDFObject {
   // The PDF spec allows newlines and parens to appear directly within a literal
   // string. These character _may_ be escaped. But they do not _have_ to be. So
   // for simplicity, we will not bother escaping them.
@@ -114,5 +114,3 @@ class PDFString extends PDFObject {
     return this.value.length + 2;
   }
 }
-
-export default PDFString;

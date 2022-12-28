@@ -15,8 +15,8 @@
  */
 
 /* tslint:disable  no-conditional-assignment */
-import DecodeStream from 'src/core/streams/DecodeStream';
-import { StreamType } from 'src/core/streams/Stream';
+import { DecodeStream } from 'src/core/streams/DecodeStream';
+import type { StreamType } from 'src/core/streams/Stream';
 
 // prettier-ignore
 const codeLenCodeMap = new Int32Array([
@@ -115,7 +115,7 @@ const fixedDistCodeTab = [new Int32Array([
   0x50003, 0x50013, 0x5000b, 0x5001b, 0x50007, 0x50017, 0x5000f, 0x00000
 ]), 5] as [Int32Array, number];
 
-class FlateStream extends DecodeStream {
+export class FlateStream extends DecodeStream {
   private stream: StreamType;
   private codeSize: number;
   private codeBuf: number;
@@ -403,5 +403,3 @@ class FlateStream extends DecodeStream {
     return [codes, maxLen];
   }
 }
-
-export default FlateStream;

@@ -1,6 +1,6 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFFont from 'src/api/PDFFont';
-import { AppearanceMapping } from 'src/api/form/appearances';
+import { PDFDocument } from 'src/api/PDFDocument';
+import type { PDFFont } from 'src/api/PDFFont';
+import type { AppearanceMapping } from 'src/api/form/appearances';
 import { Color, colorToComponents, setFillingColor } from 'src/api/colors';
 import {
   Rotation,
@@ -24,7 +24,7 @@ import {
 } from 'src/core';
 import { assertIs, assertMultiple, assertOrUndefined } from 'src/utils';
 import { ImageAlignment } from '../image';
-import PDFImage from '../PDFImage';
+import type { PDFImage } from '../PDFImage';
 import { drawImage, rotateInPlace } from '../operations';
 
 export interface FieldAppearanceOptions {
@@ -81,7 +81,7 @@ export const assertFieldAppearanceOptions = (
  * specification and dictates how PDF files store fields and where they are
  * to be rendered.
  */
-export default class PDFField {
+export class PDFField {
   /** The low-level PDFAcroTerminal wrapped by this field. */
   readonly acroField: PDFAcroTerminal;
 

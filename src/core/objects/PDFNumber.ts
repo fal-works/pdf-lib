@@ -1,8 +1,7 @@
 import { copyStringIntoBuffer, numberToString } from 'src/utils/index';
+import { PDFObject } from 'src/core/objects/PDFObject';
 
-import PDFObject from 'src/core/objects/PDFObject';
-
-class PDFNumber extends PDFObject {
+export class PDFNumber extends PDFObject {
   static of = (value: number) => new PDFNumber(value);
 
   private readonly numberValue: number;
@@ -40,5 +39,3 @@ class PDFNumber extends PDFObject {
     return this.stringValue.length;
   }
 }
-
-export default PDFNumber;

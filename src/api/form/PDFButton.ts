@@ -1,17 +1,14 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFImage from 'src/api/PDFImage';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFFont } from 'src/api/PDFFont';
+import type { PDFImage } from 'src/api/PDFImage';
 import { ImageAlignment } from 'src/api/image/alignment';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
   defaultButtonAppearanceProvider,
 } from 'src/api/form/appearances';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
 
@@ -32,7 +29,7 @@ import { assertIs, assertOrUndefined, assertPositive } from 'src/utils';
  * modal or resetting the form. Buttons are typically rectangular in shape and
  * have a text label describing the action that they perform when clicked.
  */
-export default class PDFButton extends PDFField {
+export class PDFButton extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getButton]] method, which will create an

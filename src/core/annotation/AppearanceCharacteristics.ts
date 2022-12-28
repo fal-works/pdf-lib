@@ -1,11 +1,11 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFString from 'src/core/objects/PDFString';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFString } from 'src/core/objects/PDFString';
 
-class AppearanceCharacteristics {
+export class AppearanceCharacteristics {
   readonly dict: PDFDict;
 
   static fromDict = (dict: PDFDict): AppearanceCharacteristics =>
@@ -129,5 +129,3 @@ class AppearanceCharacteristics {
     }
   }
 }
-
-export default AppearanceCharacteristics;

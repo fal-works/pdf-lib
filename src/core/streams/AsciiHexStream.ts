@@ -6,10 +6,10 @@
  * under the Apache 2.0 open source license.
  */
 
-import DecodeStream from 'src/core/streams/DecodeStream';
-import { StreamType } from 'src/core/streams/Stream';
+import { DecodeStream } from 'src/core/streams/DecodeStream';
+import type { StreamType } from 'src/core/streams/Stream';
 
-class AsciiHexStream extends DecodeStream {
+export class AsciiHexStream extends DecodeStream {
   private stream: StreamType;
   private firstDigit: number;
 
@@ -73,5 +73,3 @@ class AsciiHexStream extends DecodeStream {
     this.bufferLength = bufferLength;
   }
 }
-
-export default AsciiHexStream;

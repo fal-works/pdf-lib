@@ -1,5 +1,5 @@
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFContext from 'src/core/PDFContext';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFContext } from 'src/core/PDFContext';
 import { PNG } from 'src/utils/png';
 
 /**
@@ -7,7 +7,7 @@ import { PNG } from 'src/utils/png';
  * this class borrows from:
  *   https://github.com/devongovett/pdfkit/blob/e71edab0dd4657b5a767804ba86c94c58d01fbca/lib/image/png.coffee
  */
-class PngEmbedder {
+export class PngEmbedder {
   static async for(imageData: Uint8Array) {
     const png = PNG.load(imageData);
     return new PngEmbedder(png);
@@ -65,5 +65,3 @@ class PngEmbedder {
     return context.register(xObject);
   }
 }
-
-export default PngEmbedder;

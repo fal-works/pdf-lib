@@ -1,7 +1,7 @@
 import { MethodNotImplementedError } from 'src/core/errors';
-import PDFContext from 'src/core/PDFContext';
+import type { PDFContext } from 'src/core/PDFContext';
 
-class PDFObject {
+export class PDFObject {
   clone(_context?: PDFContext): PDFObject {
     throw new MethodNotImplementedError(this.constructor.name, 'clone');
   }
@@ -18,5 +18,3 @@ class PDFObject {
     throw new MethodNotImplementedError(this.constructor.name, 'copyBytesInto');
   }
 }
-
-export default PDFObject;

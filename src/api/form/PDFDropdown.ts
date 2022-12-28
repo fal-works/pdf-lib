@@ -1,10 +1,7 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFFont } from 'src/api/PDFFont';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
@@ -36,7 +33,7 @@ import { assertIs, assertOrUndefined, assertPositive } from 'src/utils';
  * directly into the box from their keyboard, rather than only being allowed to
  * choose an option from the list (see [[PDFDropdown.isEditable]]).
  */
-export default class PDFDropdown extends PDFField {
+export class PDFDropdown extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getDropdown]] method, which will create an

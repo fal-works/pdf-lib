@@ -1,11 +1,8 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFImage from 'src/api/PDFImage';
-import PDFField, {
-  FieldAppearanceOptions,
-  assertFieldAppearanceOptions,
-} from 'src/api/form/PDFField';
+import type { PDFDocument } from 'src/api/PDFDocument';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFFont } from 'src/api/PDFFont';
+import type { PDFImage } from 'src/api/PDFImage';
+import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,
@@ -46,7 +43,7 @@ import {
  * input text via their keyboard. Some text fields allow multiple lines of text
  * to be entered (see [[PDFTextField.isMultiline]]).
  */
-export default class PDFTextField extends PDFField {
+export class PDFTextField extends PDFField {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFForm.getTextField]] method, which will create an
@@ -297,7 +294,7 @@ export default class PDFTextField extends PDFField {
     const fieldAlignment = this.getAlignment();
 
     // prettier-ignore
-    const alignment = 
+    const alignment =
         fieldAlignment === TextAlignment.Center ? ImageAlignment.Center
       : fieldAlignment === TextAlignment.Right ? ImageAlignment.Right
       : ImageAlignment.Left;

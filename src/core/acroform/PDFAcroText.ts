@@ -1,13 +1,13 @@
-import PDFContext from 'src/core/PDFContext';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFString from 'src/core/objects/PDFString';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFAcroTerminal from 'src/core/acroform/PDFAcroTerminal';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFAcroTerminal } from 'src/core/acroform/PDFAcroTerminal';
 
-class PDFAcroText extends PDFAcroTerminal {
+export class PDFAcroText extends PDFAcroTerminal {
   static fromDict = (dict: PDFDict, ref: PDFRef) => new PDFAcroText(dict, ref);
 
   static create = (context: PDFContext) => {
@@ -72,5 +72,3 @@ class PDFAcroText extends PDFAcroTerminal {
     return undefined;
   }
 }
-
-export default PDFAcroText;

@@ -1,7 +1,7 @@
-import PDFString from 'src/core/objects/PDFString';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFContext from 'src/core/PDFContext';
-import PDFRef from 'src/core/objects/PDFRef';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFContext } from 'src/core/PDFContext';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 
 /**
  * From the PDF-A3 specification, section **3.1. Requirements - General**.
@@ -27,7 +27,7 @@ export interface EmbeddedFileOptions {
   afRelationship?: AFRelationship;
 }
 
-class FileEmbedder {
+export class FileEmbedder {
   static for(
     bytes: Uint8Array,
     fileName: string,
@@ -91,5 +91,3 @@ class FileEmbedder {
     }
   }
 }
-
-export default FileEmbedder;

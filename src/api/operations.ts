@@ -34,7 +34,7 @@ import {
 } from 'src/api/operators';
 import { Rotation, degrees, toRadians } from 'src/api/rotations';
 import { svgPathToOperators } from 'src/api/svgPath';
-import { PDFHexString, PDFName, PDFNumber, PDFOperator } from 'src/core';
+import type { PDFHexString, PDFName, PDFNumber, PDFOperator } from 'src/core';
 import { asNumber } from 'src/api/objects';
 
 export interface DrawTextOptions {

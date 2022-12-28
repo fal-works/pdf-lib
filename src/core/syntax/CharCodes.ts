@@ -1,4 +1,4 @@
-enum CharCodes {
+export enum CharCodes {
   Null = 0,
   Backspace = 8,
   Tab = 9,
@@ -58,5 +58,3 @@ enum CharCodes {
   RightCurly = 125,
   Tilde = 126,
 }
-
-export default CharCodes;

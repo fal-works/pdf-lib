@@ -1,12 +1,12 @@
-import { Font, Glyph, TypeFeatures } from 'fontkit';
-import { Fontkit } from 'src/types/fontkit';
+import type { Font, Glyph, TypeFeatures } from 'fontkit';
+import type { Fontkit } from 'src/types/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
 import { deriveFontFlags } from 'src/core/embedders/FontFlags';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFString from 'src/core/objects/PDFString';
-import PDFContext from 'src/core/PDFContext';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFString } from 'src/core/objects/PDFString';
+import type { PDFContext } from 'src/core/PDFContext';
 import {
   byAscendingId,
   Cache,
@@ -19,7 +19,7 @@ import {
  * this class borrows from:
  *   https://github.com/devongovett/pdfkit/blob/e71edab0dd4657b5a767804ba86c94c58d01fbca/lib/image/jpeg.coffee
  */
-class CustomFontEmbedder {
+export class CustomFontEmbedder {
   static for(
     fontkit: Fontkit,
     fontData: Uint8Array,
@@ -253,5 +253,3 @@ class CustomFontEmbedder {
     return sortedUniq(glyphs.sort(byAscendingId), (g) => g.id);
   };
 }
-
-export default CustomFontEmbedder;

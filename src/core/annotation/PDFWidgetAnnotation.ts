@@ -1,14 +1,14 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFString from 'src/core/objects/PDFString';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFContext from 'src/core/PDFContext';
-import BorderStyle from 'src/core/annotation/BorderStyle';
-import PDFAnnotation from 'src/core/annotation/PDFAnnotation';
-import AppearanceCharacteristics from 'src/core/annotation/AppearanceCharacteristics';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFContext } from 'src/core/PDFContext';
+import { BorderStyle } from 'src/core/annotation/BorderStyle';
+import { PDFAnnotation } from 'src/core/annotation/PDFAnnotation';
+import { AppearanceCharacteristics } from 'src/core/annotation/AppearanceCharacteristics';
 
-class PDFWidgetAnnotation extends PDFAnnotation {
+export class PDFWidgetAnnotation extends PDFAnnotation {
   static fromDict = (dict: PDFDict): PDFWidgetAnnotation =>
     new PDFWidgetAnnotation(dict);
 
@@ -108,5 +108,3 @@ class PDFWidgetAnnotation extends PDFAnnotation {
     return undefined;
   }
 }
-
-export default PDFWidgetAnnotation;

@@ -1,19 +1,19 @@
-import PDFBool from 'src/core/objects/PDFBool';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNull from 'src/core/objects/PDFNull';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFString from 'src/core/objects/PDFString';
-import PDFContext from 'src/core/PDFContext';
-import CharCodes from 'src/core/syntax/CharCodes';
+import type { PDFBool } from 'src/core/objects/PDFBool';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import type { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFName } from 'src/core/objects/PDFName';
+import type { PDFNull } from 'src/core/objects/PDFNull';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFString } from 'src/core/objects/PDFString';
+import type { PDFContext } from 'src/core/PDFContext';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { PDFArrayIsNotRectangleError } from 'src/core/errors';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
+import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
 
-class PDFArray extends PDFObject {
+export class PDFArray extends PDFObject {
   static withContext = (context: PDFContext) => new PDFArray(context);
 
   private readonly array: PDFObject[];
@@ -181,5 +181,3 @@ class PDFArray extends PDFObject {
     }
   }
 }
-
-export default PDFArray;

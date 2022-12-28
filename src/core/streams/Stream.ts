@@ -26,7 +26,7 @@ export interface StreamType {
   decode(): Uint8Array;
 }
 
-class Stream implements StreamType {
+export class Stream implements StreamType {
   private bytes: Uint8Array;
   private start: number;
   private pos: number;
@@ -128,5 +128,3 @@ class Stream implements StreamType {
     return this.bytes;
   }
 }
-
-export default Stream;

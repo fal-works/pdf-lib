@@ -1,12 +1,12 @@
 import pako from 'pako';
 
 import { MethodNotImplementedError } from 'src/core/errors';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFStream from 'src/core/objects/PDFStream';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFStream } from 'src/core/objects/PDFStream';
 import { Cache } from 'src/utils';
 
-class PDFFlateStream extends PDFStream {
+export class PDFFlateStream extends PDFStream {
   protected readonly contentsCache: Cache<Uint8Array>;
   protected readonly encode: boolean;
 
@@ -39,5 +39,3 @@ class PDFFlateStream extends PDFStream {
     );
   }
 }
-
-export default PDFFlateStream;

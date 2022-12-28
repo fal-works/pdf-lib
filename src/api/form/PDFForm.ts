@@ -1,20 +1,20 @@
-import PDFDocument from 'src/api/PDFDocument';
-import PDFPage from 'src/api/PDFPage';
-import PDFField from 'src/api/form/PDFField';
-import PDFButton from 'src/api/form/PDFButton';
-import PDFCheckBox from 'src/api/form/PDFCheckBox';
-import PDFDropdown from 'src/api/form/PDFDropdown';
-import PDFOptionList from 'src/api/form/PDFOptionList';
-import PDFRadioGroup from 'src/api/form/PDFRadioGroup';
-import PDFSignature from 'src/api/form/PDFSignature';
-import PDFTextField from 'src/api/form/PDFTextField';
+import { PDFDocument } from 'src/api/PDFDocument';
+import type { PDFPage } from 'src/api/PDFPage';
+import type { PDFField } from 'src/api/form/PDFField';
+import { PDFButton } from 'src/api/form/PDFButton';
+import { PDFCheckBox } from 'src/api/form/PDFCheckBox';
+import { PDFDropdown } from 'src/api/form/PDFDropdown';
+import { PDFOptionList } from 'src/api/form/PDFOptionList';
+import { PDFRadioGroup } from 'src/api/form/PDFRadioGroup';
+import { PDFSignature } from 'src/api/form/PDFSignature';
+import { PDFTextField } from 'src/api/form/PDFTextField';
 import {
   NoSuchFieldError,
   UnexpectedFieldTypeError,
   FieldAlreadyExistsError,
   InvalidFieldNamePartError,
 } from 'src/api/errors';
-import PDFFont from 'src/api/PDFFont';
+import { PDFFont } from 'src/api/PDFFont';
 import { StandardFonts } from 'src/api/StandardFonts';
 import { rotateInPlace } from 'src/api/operations';
 import {
@@ -58,7 +58,7 @@ export interface FlattenOptions {
  *
  * The fields of an interactive form are represented by [[PDFField]] instances.
  */
-export default class PDFForm {
+export class PDFForm {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFDocument.getForm]] method, which will create an

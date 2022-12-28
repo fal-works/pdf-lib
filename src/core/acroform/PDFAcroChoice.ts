@@ -1,15 +1,15 @@
-import PDFAcroTerminal from 'src/core/acroform/PDFAcroTerminal';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFString from 'src/core/objects/PDFString';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFName from 'src/core/objects/PDFName';
+import { PDFAcroTerminal } from 'src/core/acroform/PDFAcroTerminal';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFString } from 'src/core/objects/PDFString';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFName } from 'src/core/objects/PDFName';
 import { AcroChoiceFlags } from 'src/core/acroform/flags';
 import {
   InvalidAcroFieldValueError,
   MultiSelectValueError,
 } from 'src/core/errors';
 
-class PDFAcroChoice extends PDFAcroTerminal {
+export class PDFAcroChoice extends PDFAcroTerminal {
   setValues(values: (PDFString | PDFHexString)[]) {
     if (
       this.hasFlag(AcroChoiceFlags.Combo) &&
@@ -149,5 +149,3 @@ class PDFAcroChoice extends PDFAcroTerminal {
     return [];
   }
 }
-
-export default PDFAcroChoice;

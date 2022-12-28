@@ -1,13 +1,13 @@
-import PDFCrossRefSection from 'src/core/document/PDFCrossRefSection';
-import PDFHeader from 'src/core/document/PDFHeader';
-import PDFTrailer from 'src/core/document/PDFTrailer';
-import PDFTrailerDict from 'src/core/document/PDFTrailerDict';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFContext from 'src/core/PDFContext';
-import PDFObjectStream from 'src/core/structures/PDFObjectStream';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFCrossRefSection } from 'src/core/document/PDFCrossRefSection';
+import { PDFHeader } from 'src/core/document/PDFHeader';
+import { PDFTrailer } from 'src/core/document/PDFTrailer';
+import { PDFTrailerDict } from 'src/core/document/PDFTrailerDict';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFObjectStream } from 'src/core/structures/PDFObjectStream';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { copyStringIntoBuffer, waitForTick } from 'src/utils';
 
 export interface SerializationInfo {
@@ -19,7 +19,7 @@ export interface SerializationInfo {
   trailer: PDFTrailer;
 }
 
-class PDFWriter {
+export class PDFWriter {
   static forContext = (context: PDFContext, objectsPerTick: number) =>
     new PDFWriter(context, objectsPerTick);
 
@@ -146,5 +146,3 @@ class PDFWriter {
     return this.parsedObjects % this.objectsPerTick === 0;
   };
 }
-
-export default PDFWriter;

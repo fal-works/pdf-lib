@@ -1,12 +1,12 @@
-import Embeddable from 'src/api/Embeddable';
-import PDFDocument from 'src/api/PDFDocument';
+import type { Embeddable } from 'src/api/Embeddable';
+import { PDFDocument } from 'src/api/PDFDocument';
 import { PDFPageEmbedder, PDFRef } from 'src/core';
 import { assertIs } from 'src/utils';
 
 /**
  * Represents a PDF page that has been embedded in a [[PDFDocument]].
  */
-export default class PDFEmbeddedPage implements Embeddable {
+export class PDFEmbeddedPage implements Embeddable {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFDocument.embedPdf]] and

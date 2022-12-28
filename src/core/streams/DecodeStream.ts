@@ -1,5 +1,5 @@
 import { MethodNotImplementedError } from 'src/core/errors';
-import Stream, { StreamType } from 'src/core/streams/Stream';
+import { Stream, StreamType } from 'src/core/streams/Stream';
 
 /*
  * Copyright 2012 Mozilla Foundation
@@ -18,7 +18,7 @@ const emptyBuffer = new Uint8Array(0);
 /**
  * Super class for the decoding streams
  */
-class DecodeStream implements StreamType {
+export class DecodeStream implements StreamType {
   protected bufferLength: number;
   protected buffer: Uint8Array;
   protected eof: boolean;
@@ -166,5 +166,3 @@ class DecodeStream implements StreamType {
   //   return [];
   // }
 }
-
-export default DecodeStream;

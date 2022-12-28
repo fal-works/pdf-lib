@@ -1,12 +1,12 @@
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFString from 'src/core/objects/PDFString';
-import PDFOperatorNames from 'src/core/operators/PDFOperatorNames';
-import PDFContext from 'src/core/PDFContext';
-import CharCodes from 'src/core/syntax/CharCodes';
+import type { PDFArray } from 'src/core/objects/PDFArray';
+import type { PDFHexString } from 'src/core/objects/PDFHexString';
+import type { PDFName } from 'src/core/objects/PDFName';
+import type { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFString } from 'src/core/objects/PDFString';
+import type { PDFOperatorNames } from 'src/core/operators/PDFOperatorNames';
+import type { PDFContext } from 'src/core/PDFContext';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 import { copyStringIntoBuffer } from 'src/utils';
 
 export type PDFOperatorArg =
@@ -17,7 +17,7 @@ export type PDFOperatorArg =
   | PDFString
   | PDFHexString;
 
-class PDFOperator {
+export class PDFOperator {
   static of = (name: PDFOperatorNames, args?: PDFOperatorArg[]) =>
     new PDFOperator(name, args);
 
@@ -75,5 +75,3 @@ class PDFOperator {
     return offset - initialOffset;
   }
 }
-
-export default PDFOperator;

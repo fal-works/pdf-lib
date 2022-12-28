@@ -1,9 +1,9 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFContext from 'src/core/PDFContext';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFContext } from 'src/core/PDFContext';
 import { arrayAsString } from 'src/utils';
 
-class PDFRawStream extends PDFStream {
+export class PDFRawStream extends PDFStream {
   static of = (dict: PDFDict, contents: Uint8Array) =>
     new PDFRawStream(dict, contents);
 
@@ -34,5 +34,3 @@ class PDFRawStream extends PDFStream {
     return this.contents.length;
   }
 }
-
-export default PDFRawStream;

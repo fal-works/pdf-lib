@@ -1,17 +1,17 @@
-import Embeddable from 'src/api/Embeddable';
+import type { Embeddable } from 'src/api/Embeddable';
 import {
   EncryptedPDFError,
   FontkitNotRegisteredError,
   ForeignPageError,
   RemovePageFromEmptyDocumentError,
 } from 'src/api/errors';
-import PDFEmbeddedPage from 'src/api/PDFEmbeddedPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFImage from 'src/api/PDFImage';
-import PDFPage from 'src/api/PDFPage';
-import PDFForm from 'src/api/form/PDFForm';
+import { PDFEmbeddedPage } from 'src/api/PDFEmbeddedPage';
+import { PDFFont } from 'src/api/PDFFont';
+import { PDFImage } from 'src/api/PDFImage';
+import { PDFPage } from 'src/api/PDFPage';
+import { PDFForm } from 'src/api/form/PDFForm';
 import { PageSizes } from 'src/api/sizes';
-import { StandardFonts } from 'src/api/StandardFonts';
+import type { StandardFonts } from 'src/api/StandardFonts';
 import {
   CustomFontEmbedder,
   CustomFontSubsetEmbedder,
@@ -45,10 +45,10 @@ import {
   EmbedFontOptions,
   SetTitleOptions,
 } from 'src/api/PDFDocumentOptions';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRef from 'src/core/objects/PDFRef';
-import { Fontkit } from 'src/types/fontkit';
-import { TransformationMatrix } from 'src/types/matrix';
+import type { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
+import type { Fontkit } from 'src/types/fontkit';
+import type { TransformationMatrix } from 'src/types/matrix';
 import {
   assertIs,
   assertIsOneOfOrUndefined,
@@ -62,15 +62,15 @@ import {
   range,
   toUint8Array,
 } from 'src/utils';
-import FileEmbedder, { AFRelationship } from 'src/core/embedders/FileEmbedder';
-import PDFEmbeddedFile from 'src/api/PDFEmbeddedFile';
-import PDFJavaScript from 'src/api/PDFJavaScript';
-import JavaScriptEmbedder from 'src/core/embedders/JavaScriptEmbedder';
+import { FileEmbedder, AFRelationship } from 'src/core/embedders/FileEmbedder';
+import { PDFEmbeddedFile } from 'src/api/PDFEmbeddedFile';
+import { PDFJavaScript } from 'src/api/PDFJavaScript';
+import { JavaScriptEmbedder } from 'src/core/embedders/JavaScriptEmbedder';
 
 /**
  * Represents a PDF document.
  */
-export default class PDFDocument {
+export class PDFDocument {
   /**
    * Load an existing [[PDFDocument]]. The input data can be provided in
    * multiple formats:

@@ -1,12 +1,12 @@
 import { MethodNotImplementedError } from 'src/core/errors';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFContext from 'src/core/PDFContext';
-import CharCodes from 'src/core/syntax/CharCodes';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFContext } from 'src/core/PDFContext';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 
-class PDFStream extends PDFObject {
+export class PDFStream extends PDFObject {
   readonly dict: PDFDict;
 
   constructor(dict: PDFDict) {
@@ -89,5 +89,3 @@ class PDFStream extends PDFObject {
     return offset - initialOffset;
   }
 }
-
-export default PDFStream;

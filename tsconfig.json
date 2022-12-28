@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",
+    "target": "es2020",
     "module": "commonjs",
     "allowJs": false,
     "checkJs": false,
@@ -27,6 +27,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "importsNotUsedAsValues": "error",
 
     /* Module Resolution Options */
     "baseUrl": "./src",
@@ -41,5 +42,5 @@
     /* Plugins */
     "plugins": [{ "transform": "typescript-transform-paths" }]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts"]
 }

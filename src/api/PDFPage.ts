@@ -15,10 +15,10 @@ import {
   LineCapStyle,
   scale,
 } from 'src/api/operators';
-import PDFDocument from 'src/api/PDFDocument';
-import PDFEmbeddedPage from 'src/api/PDFEmbeddedPage';
-import PDFFont from 'src/api/PDFFont';
-import PDFImage from 'src/api/PDFImage';
+import { PDFDocument } from 'src/api/PDFDocument';
+import { PDFEmbeddedPage } from 'src/api/PDFEmbeddedPage';
+import { PDFFont } from 'src/api/PDFFont';
+import { PDFImage } from 'src/api/PDFImage';
 import {
   PDFPageDrawCircleOptions,
   PDFPageDrawEllipseOptions,
@@ -59,7 +59,7 @@ import {
 /**
  * Represents a single page of a [[PDFDocument]].
  */
-export default class PDFPage {
+export class PDFPage {
   /**
    * > **NOTE:** You probably don't want to call this method directly. Instead,
    * > consider using the [[PDFDocument.addPage]] and [[PDFDocument.insertPage]]

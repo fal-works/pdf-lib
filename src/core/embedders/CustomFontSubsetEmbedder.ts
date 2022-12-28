@@ -1,8 +1,8 @@
-import { Font, Glyph, Subset, TypeFeatures } from 'fontkit';
-import { Fontkit } from 'src/types/fontkit';
+import type { Font, Glyph, Subset, TypeFeatures } from 'fontkit';
+import type { Fontkit } from 'src/types/fontkit';
 
-import CustomFontEmbedder from 'src/core/embedders/CustomFontEmbedder';
-import PDFHexString from 'src/core/objects/PDFHexString';
+import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { Cache, toHexStringOfMinLength } from 'src/utils';
 
 /**
@@ -10,7 +10,7 @@ import { Cache, toHexStringOfMinLength } from 'src/utils';
  * this class borrows from:
  *   https://github.com/devongovett/pdfkit/blob/e71edab0dd4657b5a767804ba86c94c58d01fbca/lib/image/jpeg.coffee
  */
-class CustomFontSubsetEmbedder extends CustomFontEmbedder {
+export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   static for(
     fontkit: Fontkit,
     fontData: Uint8Array,
@@ -77,5 +77,3 @@ class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     return this.subset.encode();
   }
 }
-
-export default CustomFontSubsetEmbedder;

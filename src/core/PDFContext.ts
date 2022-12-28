@@ -1,22 +1,22 @@
 import pako from 'pako';
 
-import PDFHeader from 'src/core/document/PDFHeader';
+import { PDFHeader } from 'src/core/document/PDFHeader';
 import { UnexpectedObjectTypeError } from 'src/core/errors';
-import PDFArray from 'src/core/objects/PDFArray';
-import PDFBool from 'src/core/objects/PDFBool';
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFHexString from 'src/core/objects/PDFHexString';
-import PDFName from 'src/core/objects/PDFName';
-import PDFNull from 'src/core/objects/PDFNull';
-import PDFNumber from 'src/core/objects/PDFNumber';
-import PDFObject from 'src/core/objects/PDFObject';
-import PDFRawStream from 'src/core/objects/PDFRawStream';
-import PDFRef from 'src/core/objects/PDFRef';
-import PDFStream from 'src/core/objects/PDFStream';
-import PDFString from 'src/core/objects/PDFString';
-import PDFOperator from 'src/core/operators/PDFOperator';
-import Ops from 'src/core/operators/PDFOperatorNames';
-import PDFContentStream from 'src/core/structures/PDFContentStream';
+import { PDFArray } from 'src/core/objects/PDFArray';
+import { PDFBool } from 'src/core/objects/PDFBool';
+import { PDFDict } from 'src/core/objects/PDFDict';
+import type { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFName } from 'src/core/objects/PDFName';
+import { PDFNull } from 'src/core/objects/PDFNull';
+import { PDFNumber } from 'src/core/objects/PDFNumber';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import { PDFRawStream } from 'src/core/objects/PDFRawStream';
+import { PDFRef } from 'src/core/objects/PDFRef';
+import type { PDFStream } from 'src/core/objects/PDFStream';
+import type { PDFString } from 'src/core/objects/PDFString';
+import { PDFOperator } from 'src/core/operators/PDFOperator';
+import { PDFOperatorNames as Ops } from 'src/core/operators/PDFOperatorNames';
+import { PDFContentStream } from 'src/core/structures/PDFContentStream';
 import { typedArrayFor } from 'src/utils';
 import { SimpleRNG } from 'src/utils/rng';
 
@@ -44,7 +44,7 @@ const byAscendingObjectNumber = (
   [b]: [PDFRef, PDFObject],
 ) => a.objectNumber - b.objectNumber;
 
-class PDFContext {
+export class PDFContext {
   static create = () => new PDFContext();
 
   largestObjectNumber: number;
@@ -295,5 +295,3 @@ class PDFContext {
     return `${prefix}-${Math.floor(this.rng.nextInt() * 10 ** suffixLength)}`;
   }
 }
-
-export default PDFContext;

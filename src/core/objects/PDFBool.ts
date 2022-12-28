@@ -1,10 +1,10 @@
 import { PrivateConstructorError } from 'src/core/errors';
-import PDFObject from 'src/core/objects/PDFObject';
-import CharCodes from 'src/core/syntax/CharCodes';
+import { PDFObject } from 'src/core/objects/PDFObject';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 
 const ENFORCER = {};
 
-class PDFBool extends PDFObject {
+export class PDFBool extends PDFObject {
   static readonly True = new PDFBool(ENFORCER, true);
   static readonly False = new PDFBool(ENFORCER, false);
 
@@ -49,5 +49,3 @@ class PDFBool extends PDFObject {
     }
   }
 }
-
-export default PDFBool;

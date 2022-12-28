@@ -1,10 +1,10 @@
-import PDFDict from 'src/core/objects/PDFDict';
-import PDFOperator from 'src/core/operators/PDFOperator';
-import PDFContext from 'src/core/PDFContext';
-import PDFFlateStream from 'src/core/structures/PDFFlateStream';
-import CharCodes from 'src/core/syntax/CharCodes';
+import type { PDFDict } from 'src/core/objects/PDFDict';
+import type { PDFOperator } from 'src/core/operators/PDFOperator';
+import type { PDFContext } from 'src/core/PDFContext';
+import { PDFFlateStream } from 'src/core/structures/PDFFlateStream';
+import { CharCodes } from 'src/core/syntax/CharCodes';
 
-class PDFContentStream extends PDFFlateStream {
+export class PDFContentStream extends PDFFlateStream {
   static of = (dict: PDFDict, operators: PDFOperator[], encode = true) =>
     new PDFContentStream(dict, operators, encode);
 
@@ -54,5 +54,3 @@ class PDFContentStream extends PDFFlateStream {
     return size;
   }
 }
-
-export default PDFContentStream;

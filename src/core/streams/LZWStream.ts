@@ -6,10 +6,10 @@
  * under the Apache 2.0 open source license.
  */
 
-import DecodeStream from 'src/core/streams/DecodeStream';
-import { StreamType } from 'src/core/streams/Stream';
+import { DecodeStream } from 'src/core/streams/DecodeStream';
+import type { StreamType } from 'src/core/streams/Stream';
 
-class LZWStream extends DecodeStream {
+export class LZWStream extends DecodeStream {
   private stream: StreamType;
   private cachedData: number;
   private bitsCached: number;
@@ -160,5 +160,3 @@ class LZWStream extends DecodeStream {
     return (cachedData >>> bitsCached) & ((1 << n) - 1);
   }
 }
-
-export default LZWStream;

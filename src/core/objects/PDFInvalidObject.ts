@@ -1,6 +1,6 @@
-import PDFObject from 'src/core/objects/PDFObject';
+import { PDFObject } from 'src/core/objects/PDFObject';
 
-class PDFInvalidObject extends PDFObject {
+export class PDFInvalidObject extends PDFObject {
   static of = (data: Uint8Array) => new PDFInvalidObject(data);
 
   private readonly data: Uint8Array;
@@ -30,5 +30,3 @@ class PDFInvalidObject extends PDFObject {
     return length;
   }
 }
-
-export default PDFInvalidObject;

@@ -1,4 +1,4 @@
-enum PDFOperatorNames {
+export enum PDFOperatorNames {
   // Non Stroking Color Operators
   NonStrokingColor = 'sc',
   NonStrokingColorN = 'scn',
@@ -88,5 +88,3 @@ enum PDFOperatorNames {
   BeginCompatibilitySection = 'BX',
   EndCompatibilitySection = 'EX',
 }
-
-export default PDFOperatorNames;
