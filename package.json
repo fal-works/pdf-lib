@@ -1,8 +1,8 @@
 {
-  "name": "pdf-lib",
+  "name": "@denkiyagi/pdf-lib",
   "version": "1.17.1",
-  "description": "Create and modify PDF files with JavaScript",
-  "author": "Andrew Dillon <andrew.dillon.j@gmail.com>",
+  "description": "A modified version of pdf-lib. Create and modify PDF files with JavaScript",
+  "author": "Andrew Dillon <andrew.dillon.j@gmail.com>, DenkiYagi Inc.",
   "contributors": [
     "jerp (https://github.com/jerp)",
     "Greg Bacchus (https://github.com/gregbacchus)",
@@ -38,7 +38,7 @@
     "release:prep": "yarn clean && yarn lint && yarn typecheck && yarn test && yarn build",
     "release:tag": "TAG=\"v$(yarn --silent get:version)\" && git tag $TAG && git push origin $TAG",
     "get:version": "node --eval 'console.log(require(`./package.json`).version)'",
-    "clean": "rimraf ts3.4 build cjs dist es scratchpad/build coverage tsBuildInfo.json apps/node-build apps/node/tsBuildInfo.json isolate*.log flamegraph.html out.pdf",
+    "clean": "rimraf ts3.4 build cjs es scratchpad/build coverage tsBuildInfo.json apps/node-build apps/node/tsBuildInfo.json isolate*.log flamegraph.html out.pdf",
     "typecheck": "tsc --noEmit --incremental false --tsBuildInfoFile null",
     "test": "jest --config jest.json --runInBand",
     "testw": "jest --config jest.json --watch",
