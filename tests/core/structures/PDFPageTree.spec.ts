@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { TreeNode } from 'src/core/structures/PDFPageTree';
+import type { TreeNode } from 'src/core/structures/PDFPageTree';
 import {
   PDFArray,
   PDFContext,

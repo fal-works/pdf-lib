@@ -4,6 +4,7 @@
 * Added vertical text option.
 * Removed support for deno, umd and react-native.
 * Upgraded TypeScript version to 4.9.
+  * Used `import type` and removed `export default` from any internal packages.
 
 <hr>
 

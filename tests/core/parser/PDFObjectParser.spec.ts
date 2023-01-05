@@ -1,4 +1,4 @@
-import PDFPageLeaf from 'src/core/structures/PDFPageLeaf';
+import { PDFPageLeaf } from 'src/core/structures/PDFPageLeaf';
 import {
   mergeIntoTypedArray,
   PDFArray,
