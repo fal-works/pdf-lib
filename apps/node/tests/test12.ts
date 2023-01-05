@@ -7,8 +7,8 @@ import {
   cmyk,
   degrees,
   rgb,
-  values,
 } from '../../..';
+import { values } from '../../../cjs/utils';
 
 const inchToPt = (inches: number) => Math.round(inches * 72);
 

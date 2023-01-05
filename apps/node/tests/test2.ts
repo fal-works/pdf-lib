@@ -1,4 +1,3 @@
-import fontkit from '@pdf-lib/fontkit';
 import { Assets } from '..';
 import { ParseSpeeds, PDFDocument, rgb } from '../../..';
 
@@ -12,8 +11,6 @@ export default async (assets: Assets) => {
     parseSpeed: ParseSpeeds.Fastest,
     updateMetadata: false,
   });
-
-  pdfDoc.registerFontkit(fontkit);
 
   const ubuntuFont = await pdfDoc.embedFont(fonts.ttf.ubuntu_r, {
     subset: true,

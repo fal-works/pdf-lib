@@ -1,12 +1,10 @@
-import fontkit from '@pdf-lib/fontkit';
 import { Assets } from '..';
 import {
-  last,
   PDFDocument,
   PDFFont,
   StandardFonts,
-  charAtIndex,
 } from '../../..';
+import { charAtIndex, last } from '../../../cjs/utils';
 
 const breakTextIntoLines = (
   text: string,
@@ -58,8 +56,6 @@ export default async (assets: Assets) => {
 
   const pdfDoc = await PDFDocument.create();
 
-  pdfDoc.registerFontkit(fontkit);
-
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const helveticaBoldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
@@ -69,7 +65,7 @@ export default async (assets: Assets) => {
     specification allows PDF documents to embed their own fonts. The standard
     14 fonts only support a very limited latin and symbolic character set, but
     embedded fonts can support arbitrary character sets and glyphs.
-    
+
     This document is a demonstration of an embedded font. Specifically, the
     Source Han Serif Japanese Regular font. The following pages render all
     characters supported by this font.

@@ -30,7 +30,9 @@ const cli = readline.createInterface({
 
 const prompt = `Press <enter> to run the next test...`;
 const promptToContinue = () =>
-  new Promise((resolve) => cli.question(prompt, (_answer) => resolve()));
+  new Promise((resolve) =>
+    cli.question(prompt, (_answer) => resolve(undefined)),
+  );
 
 // This needs to be more sophisticated to work on Linux as well.
 const openPdf = (path: string, _reader?: string) => {
@@ -163,7 +165,7 @@ const main = async () => {
     // prettier-ignore
     const allTests = [
       test1, test2, test3, test4, test5, test6, test7, test8, test9, test10,
-      test11, test12, test13, test14, test15, test16, test17, test18, 
+      test11, test12, test13, test14, test15, test16, test17, test18,
     ];
 
     const tests = testIdx ? [allTests[testIdx - 1]] : allTests;
