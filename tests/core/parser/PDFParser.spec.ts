@@ -2,7 +2,6 @@ import fs from 'fs';
 
 import {
   CharCodes,
-  mergeIntoTypedArray,
   PDFDict,
   PDFHeader,
   PDFInvalidObject,
@@ -11,8 +10,8 @@ import {
   PDFRef,
   PDFString,
   ReparseError,
-  typedArrayFor,
 } from 'src/index';
+import { mergeIntoTypedArray, typedArrayFor } from 'src/utils';
 
 describe(`PDFParser`, () => {
   const origConsoleWarn = console.warn;

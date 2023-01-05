@@ -1,12 +1,11 @@
 import pako from 'pako';
 
 import {
-  mergeIntoTypedArray,
   PDFContext,
   PDFCrossRefStream,
   PDFRef,
-  toCharCode,
 } from 'src/index';
+import { mergeIntoTypedArray, toCharCode } from 'src/utils';
 
 describe(`PDFCrossRefStream`, () => {
   const context = PDFContext.create();

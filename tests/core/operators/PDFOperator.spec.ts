@@ -2,10 +2,9 @@ import {
   PDFNumber,
   PDFOperator,
   PDFOperatorNames as Ops,
-  PDFString,
-  toCharCode,
-  typedArrayFor,
+  PDFString
 } from 'src/index';
+import { toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFOperator`, () => {
   it(`can be constructed with args`, () => {

@@ -1,7 +1,6 @@
 import pako from 'pako';
 
 import {
-  mergeIntoTypedArray,
   moveText,
   PDFContentStream,
   PDFContext,
@@ -13,9 +12,8 @@ import {
   PDFString,
   popGraphicsState,
   pushGraphicsState,
-  toCharCode,
-  typedArrayFor,
 } from 'src/index';
+import { mergeIntoTypedArray, toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFContentStream`, () => {
   const context = PDFContext.create();

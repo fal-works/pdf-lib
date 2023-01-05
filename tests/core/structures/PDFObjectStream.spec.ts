@@ -1,16 +1,14 @@
 import pako from 'pako';
 
 import {
-  mergeIntoTypedArray,
   PDFContext,
   PDFHexString,
   PDFObject,
   PDFObjectStream,
   PDFRef,
   PDFString,
-  toCharCode,
-  typedArrayFor,
 } from 'src/index';
+import { mergeIntoTypedArray, toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFObjectStream`, () => {
   const context = PDFContext.create();

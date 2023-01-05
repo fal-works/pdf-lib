@@ -1,6 +1,5 @@
 import { PDFPageLeaf } from 'src/core/structures/PDFPageLeaf';
 import {
-  mergeIntoTypedArray,
   PDFArray,
   PDFBool,
   PDFCatalog,
@@ -15,9 +14,8 @@ import {
   PDFRawStream,
   PDFRef,
   PDFString,
-  typedArrayFor,
-  numberToString,
 } from 'src/index';
+import { mergeIntoTypedArray, numberToString, typedArrayFor } from 'src/utils';
 
 type ParseOptions = { capNumbers?: boolean };
 
