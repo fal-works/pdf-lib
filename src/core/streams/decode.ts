@@ -1,4 +1,7 @@
-import { UnexpectedObjectTypeError, UnsupportedEncodingError } from 'src/core/errors';
+import {
+  UnexpectedObjectTypeError,
+  UnsupportedEncodingError,
+} from 'src/core/errors';
 import { PDFArray } from 'src/core/objects/PDFArray';
 import { PDFDict } from 'src/core/objects/PDFDict';
 import { PDFName } from 'src/core/objects/PDFName';

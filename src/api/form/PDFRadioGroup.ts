@@ -1,6 +1,10 @@
 import type { PDFDocument } from 'src/api/PDFDocument';
 import { PDFPage } from 'src/api/PDFPage';
-import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
+import {
+  PDFField,
+  FieldAppearanceOptions,
+  assertFieldAppearanceOptions,
+} from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,

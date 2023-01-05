@@ -628,9 +628,9 @@ export default async (assets: Assets) => {
     font: indieFlowerFont,
     lineHeight: 18,
   });
-  const textField = form.createTextField('a.new.text.field');
-  textField.setText('This Should Not Be Visible');
-  textField.addToPage(page5, {
+  const notVisibleTf = form.createTextField('a.new.text.field');
+  notVisibleTf.setText('This Should Not Be Visible');
+  notVisibleTf.addToPage(page5, {
     x: fPadding,
     y: size - fMax * 5 - fPadding * 3.5 - fHeight * 3,
     width: fWidth * 2.5,
@@ -642,7 +642,7 @@ export default async (assets: Assets) => {
     font: ubuntuFont,
   });
 
-  form.removeField(textField);
+  form.removeField(notVisibleTf);
 
   /********************** Print Metadata **********************/
 

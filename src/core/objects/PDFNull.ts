@@ -1,12 +1,12 @@
 import { PDFObject } from 'src/core/objects/PDFObject';
 import { CharCodes } from 'src/core/syntax/CharCodes';
 
-class _PDFNull extends PDFObject {
+class PDFNullObject extends PDFObject {
   asNull(): null {
     return null;
   }
 
-  clone(): _PDFNull {
+  clone(): PDFNullObject {
     return this;
   }
 
@@ -27,4 +27,4 @@ class _PDFNull extends PDFObject {
   }
 }
 
-export const PDFNull = new _PDFNull();
+export const PDFNull = new PDFNullObject();

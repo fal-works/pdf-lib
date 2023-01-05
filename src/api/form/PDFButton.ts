@@ -8,7 +8,11 @@ import {
   normalizeAppearance,
   defaultButtonAppearanceProvider,
 } from 'src/api/form/appearances';
-import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
+import {
+  PDFField,
+  FieldAppearanceOptions,
+  assertFieldAppearanceOptions,
+} from 'src/api/form/PDFField';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
 

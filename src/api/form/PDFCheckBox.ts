@@ -7,7 +7,11 @@ import {
 } from 'src/api/form/appearances';
 import { rgb } from 'src/api/colors';
 import { degrees } from 'src/api/rotations';
-import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
+import {
+  PDFField,
+  FieldAppearanceOptions,
+  assertFieldAppearanceOptions,
+} from 'src/api/form/PDFField';
 
 import {
   PDFName,

@@ -2,7 +2,11 @@ import type { PDFDocument } from 'src/api/PDFDocument';
 import { PDFPage } from 'src/api/PDFPage';
 import { PDFFont } from 'src/api/PDFFont';
 import type { PDFImage } from 'src/api/PDFImage';
-import { PDFField, FieldAppearanceOptions, assertFieldAppearanceOptions } from 'src/api/form/PDFField';
+import {
+  PDFField,
+  FieldAppearanceOptions,
+  assertFieldAppearanceOptions,
+} from 'src/api/form/PDFField';
 import {
   AppearanceProviderFor,
   normalizeAppearance,

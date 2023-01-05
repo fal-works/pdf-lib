@@ -17,7 +17,10 @@ export { CustomFontSubsetEmbedder } from 'src/core/embedders/CustomFontSubsetEmb
 export { FileEmbedder, AFRelationship } from 'src/core/embedders/FileEmbedder';
 export { JpegEmbedder } from 'src/core/embedders/JpegEmbedder';
 export { PngEmbedder } from 'src/core/embedders/PngEmbedder';
-export { PDFPageEmbedder, PageBoundingBox } from 'src/core/embedders/PDFPageEmbedder';
+export {
+  PDFPageEmbedder,
+  PageBoundingBox,
+} from 'src/core/embedders/PDFPageEmbedder';
 
 export {
   ViewerPreferences,
