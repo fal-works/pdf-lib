@@ -1,5 +1,5 @@
-import type { Font, Glyph, Subset, TypeFeatures } from 'fontkit';
-import type { Fontkit } from 'src/types/fontkit';
+import { create as createFont } from 'fontkit';
+import type { Font, Glyph, TypeFeatures, Subset } from 'fontkit';
 
 import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
 import { PDFHexString } from 'src/core/objects/PDFHexString';
@@ -12,13 +12,12 @@ import { Cache, toHexStringOfMinLength } from 'src/utils';
  */
 export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   static for(
-    fontkit: Fontkit,
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    const font = fontkit.create(Buffer.from(fontData));
+    const font = createFont(Buffer.from(fontData));
     return new CustomFontSubsetEmbedder(
       font,
       fontData,

@@ -1,4 +1,3 @@
-import * as fontkit from 'fontkit';
 import { FontNames } from '@pdf-lib/standard-fonts';
 import fs from 'fs';
 
@@ -74,10 +73,7 @@ describe(`breakTextIntoLines`, () => {
     const sourceHansBytes = fs.readFileSync(
       'assets/fonts/source_hans_jp/SourceHanSerifJP-Regular.otf',
     );
-    const sourceHansFont = await CustomFontEmbedder.for(
-      fontkit,
-      sourceHansBytes,
-    );
+    const sourceHansFont = await CustomFontEmbedder.for(sourceHansBytes);
 
     const input =
       '遅未亮惑職界転藤柔索名午納，問通桑転加料演載満経信回込町者訟窃。';

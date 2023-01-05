@@ -10,15 +10,6 @@ export class EncryptedPDFError extends Error {
 }
 
 // TODO: Include link to documentation with example
-export class FontkitNotRegisteredError extends Error {
-  constructor() {
-    const msg =
-      'Input to `PDFDocument.embedFont` was a custom font, but no `fontkit` instance was found. You must register a `fontkit` instance with `PDFDocument.registerFontkit(...)` before embedding custom fonts.';
-    super(msg);
-  }
-}
-
-// TODO: Include link to documentation with example
 export class ForeignPageError extends Error {
   constructor() {
     const msg =

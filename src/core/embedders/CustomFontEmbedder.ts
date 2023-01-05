@@ -1,5 +1,5 @@
+import { create as createFont } from 'fontkit';
 import type { Font, Glyph, TypeFeatures } from 'fontkit';
-import type { Fontkit } from 'src/types/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
 import { deriveFontFlags } from 'src/core/embedders/FontFlags';
@@ -21,13 +21,12 @@ import {
  */
 export class CustomFontEmbedder {
   static for(
-    fontkit: Fontkit,
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    const font = fontkit.create(Buffer.from(fontData));
+    const font = createFont(Buffer.from(fontData));
     return new CustomFontEmbedder(
       font,
       fontData,

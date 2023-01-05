@@ -1,7 +1,6 @@
 import type { Embeddable } from 'src/api/Embeddable';
 import {
   EncryptedPDFError,
-  FontkitNotRegisteredError,
   ForeignPageError,
   RemovePageFromEmptyDocumentError,
 } from 'src/api/errors';
@@ -47,7 +46,6 @@ import {
 } from 'src/api/PDFDocumentOptions';
 import type { PDFObject } from 'src/core/objects/PDFObject';
 import type { PDFRef } from 'src/core/objects/PDFRef';
-import type { Fontkit } from 'src/types/fontkit';
 import type { TransformationMatrix } from 'src/types/matrix';
 import {
   assertIs,
@@ -178,7 +176,6 @@ export class PDFDocument {
   /** The default word breaks used in PDFPage.drawText */
   defaultWordBreaks: string[] = [' '];
 
-  private fontkit?: Fontkit;
   private pageCount: number | undefined;
   private readonly pageCache: Cache<PDFPage[]>;
   private readonly pageMap: Map<PDFPageLeaf, PDFPage>;
@@ -213,28 +210,6 @@ export class PDFDocument {
     if (!ignoreEncryption && this.isEncrypted) throw new EncryptedPDFError();
 
     if (updateMetadata) this.updateInfoDict();
-  }
-
-  /**
-   * Register a fontkit instance. This must be done before custom fonts can
-   * be embedded. See [here](https://github.com/Hopding/pdf-lib/tree/master#fontkit-installation)
-   * for instructions on how to install and register a fontkit instance.
-   *
-   * > You do **not** need to call this method to embed standard fonts.
-   *
-   * For example:
-   * ```js
-   * import { PDFDocument } from 'pdf-lib'
-   * import fontkit from '@pdf-lib/fontkit'
-   *
-   * const pdfDoc = await PDFDocument.create()
-   * pdfDoc.registerFontkit(fontkit)
-   * ```
-   *
-   * @param fontkit The fontkit instance to be registered.
-   */
-  registerFontkit(fontkit: Fontkit): void {
-    this.fontkit = fontkit;
   }
 
   /**
@@ -930,7 +905,6 @@ export class PDFDocument {
    * const ubuntuBytes = await fetch(url).then(res => res.arrayBuffer())
    * const font5 = await pdfDoc.embedFont(ubuntuBytes)
    * ```
-   * See also: [[registerFontkit]]
    * @param font The input data for a font.
    * @param options The options to be used when embedding the font.
    * @returns Resolves with the embedded font.
@@ -949,22 +923,9 @@ export class PDFDocument {
       embedder = StandardFontEmbedder.for(font, customName);
     } else if (canBeConvertedToUint8Array(font)) {
       const bytes = toUint8Array(font);
-      const fontkit = this.assertFontkit();
       embedder = subset
-        ? CustomFontSubsetEmbedder.for(
-            fontkit,
-            bytes,
-            customName,
-            vertical,
-            features,
-          )
-        : CustomFontEmbedder.for(
-            fontkit,
-            bytes,
-            customName,
-            vertical,
-            features,
-          );
+        ? CustomFontSubsetEmbedder.for(bytes, customName, vertical, features)
+        : CustomFontEmbedder.for(bytes, customName, vertical, features);
     } else {
       throw new TypeError(
         '`font` must be one of `StandardFonts | string | Uint8Array | ArrayBuffer`',
@@ -1361,11 +1322,6 @@ export class PDFDocument {
     this.context.trailerInfo.Info = this.context.register(newInfo);
 
     return newInfo;
-  }
-
-  private assertFontkit(): Fontkit {
-    if (!this.fontkit) throw new FontkitNotRegisteredError();
-    return this.fontkit;
   }
 
   private computePages = (): PDFPage[] => {
