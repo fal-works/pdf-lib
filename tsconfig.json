@@ -40,7 +40,7 @@
     "moduleResolution": "node",
 
     /* Plugins */
-    "plugins": [{ "transform": "typescript-transform-paths" }]
+    "plugins": [{ "transform": "typescript-transform-paths", "afterDeclarations": true }]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*"]
 }
