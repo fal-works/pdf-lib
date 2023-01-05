@@ -1,11 +1,6 @@
 import fs from 'fs';
-import {
-  PDFDocument,
-  PDFName,
-  PDFArray,
-  PDFHexString,
-  AnnotationFlags,
-} from 'src/index';
+import { AnnotationFlags, PDFArray, PDFHexString, PDFName } from 'src/core';
+import { PDFDocument } from 'src/api';
 
 const fancyFieldsPdfBytes = fs.readFileSync('assets/pdfs/fancy_fields.pdf');
 

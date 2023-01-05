@@ -10,7 +10,7 @@ import {
   PDFRef,
   PDFString,
   ReparseError,
-} from 'src/index';
+} from 'src/core';
 import { mergeIntoTypedArray, typedArrayFor } from 'src/utils';
 
 describe(`PDFParser`, () => {

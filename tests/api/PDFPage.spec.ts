@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { PDFArray, PDFDocument, PDFName, StandardFonts } from 'src/index';
+import { PDFArray, PDFName } from 'src/core';
+import { PDFDocument, StandardFonts } from 'src/api';
 
 const birdPng = fs.readFileSync('assets/images/greyscale_bird.png');
 

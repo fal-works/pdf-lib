@@ -13,7 +13,7 @@ import {
   PDFRef,
   PDFString,
   ReparseError,
-} from 'src/index';
+} from 'src/core';
 
 const readData = (file: string) =>
   new Uint8Array(fs.readFileSync(`./tests/core/parser/data/${file}`));

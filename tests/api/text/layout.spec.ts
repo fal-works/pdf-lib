@@ -1,5 +1,4 @@
-import { PDFDocument, StandardFonts, TextAlignment } from 'src/index';
-
+import { PDFDocument, StandardFonts, TextAlignment } from 'src/api';
 import { layoutMultilineText } from 'src/api/text/layout';
 
 const MIN_FONT_SIZE = 4;

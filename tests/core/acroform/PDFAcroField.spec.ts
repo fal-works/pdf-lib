@@ -1,9 +1,4 @@
-import {
-  PDFAcroTerminal,
-  PDFContext,
-  PDFString,
-  PDFHexString,
-} from 'src/index';
+import { PDFAcroTerminal, PDFContext, PDFString, PDFHexString } from 'src/core';
 
 describe(`PDFAcroField`, () => {
   it(`returns undefined for missing (DAs)`, () => {

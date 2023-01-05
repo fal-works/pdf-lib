@@ -8,8 +8,8 @@ import {
   PDFPageLeaf,
   PDFPageTree,
   PDFRef,
-  PDFDocument,
-} from 'src/index';
+} from 'src/core';
+import { PDFDocument } from 'src/api';
 
 const withNullEntryPdfBytes = fs.readFileSync(
   'assets/pdfs/with_null_parent_entry.pdf',

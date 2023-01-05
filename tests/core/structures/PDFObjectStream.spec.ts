@@ -7,7 +7,7 @@ import {
   PDFObjectStream,
   PDFRef,
   PDFString,
-} from 'src/index';
+} from 'src/core';
 import { mergeIntoTypedArray, toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFObjectStream`, () => {

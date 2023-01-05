@@ -1,7 +1,7 @@
 import pako from 'pako';
+import { moveText, popGraphicsState, pushGraphicsState } from 'src/api';
 
 import {
-  moveText,
   PDFContentStream,
   PDFContext,
   PDFDict,
@@ -10,9 +10,7 @@ import {
   PDFOperator,
   PDFOperatorNames as Ops,
   PDFString,
-  popGraphicsState,
-  pushGraphicsState,
-} from 'src/index';
+} from 'src/core';
 import { mergeIntoTypedArray, toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFContentStream`, () => {

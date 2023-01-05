@@ -6,7 +6,7 @@ import {
   PDFPageLeaf,
   PDFPageTree,
   PDFRef,
-} from 'src/index';
+} from 'src/core';
 
 describe(`PDFPageLeaf`, () => {
   it(`can be constructed directly from a Map and PDFContext`, () => {

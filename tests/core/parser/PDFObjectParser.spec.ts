@@ -14,7 +14,7 @@ import {
   PDFRawStream,
   PDFRef,
   PDFString,
-} from 'src/index';
+} from 'src/core';
 import { mergeIntoTypedArray, numberToString, typedArrayFor } from 'src/utils';
 
 type ParseOptions = { capNumbers?: boolean };

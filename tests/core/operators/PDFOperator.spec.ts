@@ -2,8 +2,8 @@ import {
   PDFNumber,
   PDFOperator,
   PDFOperatorNames as Ops,
-  PDFString
-} from 'src/index';
+  PDFString,
+} from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
 
 describe(`PDFOperator`, () => {

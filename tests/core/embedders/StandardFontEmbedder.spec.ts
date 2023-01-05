@@ -5,7 +5,7 @@ import {
   PDFHexString,
   PDFRef,
   StandardFontEmbedder,
-} from 'src/index';
+} from 'src/core';
 
 describe(`StandardFontEmbedder`, () => {
   it(`can be constructed with StandardFontEmbedder.for(...)`, () => {

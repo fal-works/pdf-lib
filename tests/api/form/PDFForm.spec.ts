@@ -1,5 +1,12 @@
 import fs from 'fs';
 import {
+  PDFAcroForm,
+  PDFDict,
+  PDFRef,
+  PDFName,
+  PDFWidgetAnnotation,
+} from 'src/core';
+import {
   PDFDocument,
   PDFTextField,
   PDFCheckBox,
@@ -7,13 +14,8 @@ import {
   PDFRadioGroup,
   PDFOptionList,
   PDFDropdown,
-  PDFWidgetAnnotation,
-  PDFDict,
-  PDFName,
   PDFForm,
-  PDFAcroForm,
-  PDFRef,
-} from 'src/index';
+} from 'src/api';
 
 const getWidgets = (pdfDoc: PDFDocument) =>
   pdfDoc.context

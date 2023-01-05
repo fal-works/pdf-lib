@@ -1,10 +1,6 @@
 import pako from 'pako';
 
-import {
-  PDFContext,
-  PDFCrossRefStream,
-  PDFRef,
-} from 'src/index';
+import { PDFContext, PDFCrossRefStream, PDFRef } from 'src/core';
 import { mergeIntoTypedArray, toCharCode } from 'src/utils';
 
 describe(`PDFCrossRefStream`, () => {

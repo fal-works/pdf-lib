@@ -1,10 +1,5 @@
 import pako from 'pako';
-import {
-  PDFContext,
-  PDFName,
-  PDFRef,
-  PDFWriter,
-} from 'src/index';
+import { PDFContext, PDFName, PDFRef, PDFWriter } from 'src/core';
 import { mergeIntoTypedArray, typedArrayFor } from 'src/utils';
 
 const contentStreamText = `
