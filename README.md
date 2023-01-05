@@ -1,3 +1,12 @@
+**A modified version of [pdf-lib](https://pdf-lib.js.org) for [yagisan-reports](https://denkiyagi.jp/yagisan-reports/).**
+
+* Used `fontkit 2` instead of `@pdf-lib/fontkit`.
+* Added vertical text option.
+* Removed support for deno, umd and react-native.
+* Upgraded TypeScript version to 4.9.
+
+<hr>
+
 <a href="https://pdf-lib.js.org">
 <h1 align="center">
 <img alt="pdf-lib" height="300" src="https://raw.githubusercontent.com/Hopding/pdf-lib-docs/master/assets/logo-full.svg?sanitize=true">
@@ -50,6 +59,7 @@
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Features](#features)
 - [Motivation](#motivation)
 - [Usage Examples](#usage-examples)
@@ -69,20 +79,30 @@
   - [Read Viewer Preferences](#read-viewer-preferences)
   - [Draw SVG Paths](#draw-svg-paths)
 - [Deno Usage](#deno-usage)
+  - [Creating a Document with Deno](#creating-a-document-with-deno)
+  - [Embedding a Font with Deno](#embedding-a-font-with-deno)
 - [Complete Examples](#complete-examples)
 - [Installation](#installation)
+  - [NPM Module](#npm-module)
+  - [UMD Module](#umd-module)
+- [Fontkit Installation](#fontkit-installation)
+  - [Fontkit NPM Module](#fontkit-npm-module)
+  - [Fontkit UMD Module](#fontkit-umd-module)
 - [Documentation](#documentation)
 - [Fonts and Unicode](#fonts-and-unicode)
+  - [Font Subsetting](#font-subsetting)
 - [Creating and Filling Forms](#creating-and-filling-forms)
+  - [Handy Methods for Filling, Creating, and Reading Form Fields](#handy-methods-for-filling-creating-and-reading-form-fields)
 - [Limitations](#limitations)
 - [Help and Discussion](#help-and-discussion)
 - [Encryption Handling](#encryption-handling)
-- [Migrating to v1.0.0](docs/MIGRATION.md)
 - [Contributing](#contributing)
 - [Maintainership](#maintainership)
 - [Tutorials and Cool Stuff](#tutorials-and-cool-stuff)
 - [Prior Art](#prior-art)
 - [Git History Rewrite](#git-history-rewrite)
+  - [Steps We Took](#steps-we-took)
+  - [Why Should I Care?](#why-should-i-care)
 - [License](#license)
 
 ## Features
