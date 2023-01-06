@@ -1,4 +1,6 @@
+/* tslint:disable */
 /// <reference path="../@types/fontkit/index.ts"/>
+/* tslint:enable */
 import type { TypeFeatures } from 'fontkit';
 import type { EmbeddedFileOptions } from 'src/core/embedders/FileEmbedder';
 

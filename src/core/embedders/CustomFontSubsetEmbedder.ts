@@ -1,4 +1,6 @@
+/* tslint:disable */
 /// <reference path="../../@types/fontkit/index.ts"/>
+/* tslint:enable */
 import { create as createFont } from 'fontkit';
 import type { Font, Glyph, TypeFeatures, Subset } from 'fontkit';
 
