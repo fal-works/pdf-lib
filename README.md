@@ -80,23 +80,13 @@
   - [Set Viewer Preferences](#set-viewer-preferences)
   - [Read Viewer Preferences](#read-viewer-preferences)
   - [Draw SVG Paths](#draw-svg-paths)
-- [Deno Usage](#deno-usage)
-  - [Creating a Document with Deno](#creating-a-document-with-deno)
-  - [Embedding a Font with Deno](#embedding-a-font-with-deno)
 - [Complete Examples](#complete-examples)
-- [Installation](#installation)
-  - [NPM Module](#npm-module)
-  - [UMD Module](#umd-module)
-- [Fontkit Installation](#fontkit-installation)
-  - [Fontkit NPM Module](#fontkit-npm-module)
-  - [Fontkit UMD Module](#fontkit-umd-module)
 - [Documentation](#documentation)
 - [Fonts and Unicode](#fonts-and-unicode)
   - [Font Subsetting](#font-subsetting)
 - [Creating and Filling Forms](#creating-and-filling-forms)
   - [Handy Methods for Filling, Creating, and Reading Form Fields](#handy-methods-for-filling-creating-and-reading-form-fields)
 - [Limitations](#limitations)
-- [Help and Discussion](#help-and-discussion)
 - [Encryption Handling](#encryption-handling)
 - [Contributing](#contributing)
 - [Maintainership](#maintainership)
@@ -148,8 +138,6 @@ There are [other](#prior-art) good open source JavaScript PDF libraries availabl
 
 _This example produces [this PDF](assets/pdfs/examples/create_document.pdf)._
 
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/rxwsc8f5/13/)
-
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
@@ -188,8 +176,6 @@ const pdfBytes = await pdfDoc.save()
 ### Modify Document
 
 _This example produces [this PDF](assets/pdfs/examples/modify_document.pdf)_ (when [this PDF](assets/pdfs/with_update_sections.pdf) is used for the `existingPdfBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/64zajhge/1/)
 
 <!-- prettier-ignore -->
 ```js
@@ -237,8 +223,6 @@ const pdfBytes = await pdfDoc.save()
 ### Create Form
 
 _This example produces [this PDF](assets/pdfs/examples/create_form.pdf)._
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/bct7vngL/4/)
 
 > See also [Creating and Filling Forms](#creating-and-filling-forms)
 
@@ -335,8 +319,6 @@ const pdfBytes = await pdfDoc.save()
 ### Fill Form
 
 _This example produces [this PDF](assets/pdfs/examples/fill_form.pdf)_ (when [this PDF](assets/pdfs/dod_character.pdf) is used for the `formPdfBytes` variable, [this image](assets/images/small_mario.png) is used for the `marioImageBytes` variable, and [this image](assets/images/mario_emblem.png) is used for the `emblemImageBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/0mwfqkv6/3/)
 
 > See also [Creating and Filling Forms](#creating-and-filling-forms)
 
@@ -447,8 +429,6 @@ const pdfBytes = await pdfDoc.save()
 
 _This example produces [this PDF](assets/pdfs/examples/flatten_form.pdf)_ (when [this PDF](assets/pdfs/form_to_flatten.pdf) is used for the `formPdfBytes` variable).
 
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/skevywdz/2/)
-
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument } from 'pdf-lib'
@@ -495,8 +475,6 @@ const pdfBytes = await pdfDoc.save()
 
 _This example produces [this PDF](assets/pdfs/examples/copy_pages.pdf)_ (when [this PDF](assets/pdfs/with_update_sections.pdf) is used for the `firstDonorPdfBytes` variable and [this PDF](assets/pdfs/with_large_page_count.pdf) is used for the `secondDonorPdfBytes` variable).
 
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/ybank8s9/2/)
-
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument } from 'pdf-lib'
@@ -539,8 +517,6 @@ const pdfBytes = await pdfDoc.save()
 ### Embed PNG and JPEG Images
 
 _This example produces [this PDF](assets/pdfs/examples/embed_png_and_jpeg_images.pdf)_ (when [this image](assets/images/cat_riding_unicorn.jpg) is used for the `jpgImageBytes` variable and [this image](assets/images/minions_banana_alpha.png) is used for the `pngImageBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/bcya43ju/5/)
 
 <!-- prettier-ignore -->
 ```js
@@ -597,8 +573,6 @@ const pdfBytes = await pdfDoc.save()
 ### Embed PDF Pages
 
 _This example produces [this PDF](assets/pdfs/examples/embed_pdf_pages.pdf)_ (when [this PDF](assets/pdfs/american_flag.pdf) is used for the `americanFlagPdfBytes` variable and [this PDF](assets/pdfs/us_constitution.pdf) is used for the `usConstitutionPdfBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/Lyb16ocj/13/)
 
 <!-- prettier-ignore -->
 ```js
@@ -664,18 +638,11 @@ const pdfBytes = await pdfDoc.save()
 
 ### Embed Font and Measure Text
 
-`pdf-lib` relies on a sister module to support embedding custom fonts: [`@pdf-lib/fontkit`](https://www.npmjs.com/package/@pdf-lib/fontkit). You must add the `@pdf-lib/fontkit` module to your project and register it using `pdfDoc.registerFontkit(...)` before embedding custom fonts.
-
-> **[See below for detailed installation instructions on installing `@pdf-lib/fontkit` as a UMD or NPM module.](#fontkit-installation)**
-
 _This example produces [this PDF](assets/pdfs/examples/embed_font_and_measure_text.pdf)_ (when [this font](assets/fonts/ubuntu/Ubuntu-R.ttf) is used for the `fontBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/rgu6ca59/2/)
 
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument, rgb } from 'pdf-lib'
-import fontkit from '@pdf-lib/fontkit'
 
 // This should be a Uint8Array or ArrayBuffer
 // This data can be obtained in a number of different ways
@@ -685,9 +652,6 @@ const fontBytes = ...
 
 // Create a new PDFDocument
 const pdfDoc = await PDFDocument.create()
-
-// Register the `fontkit` instance
-pdfDoc.registerFontkit(fontkit)
 
 // Embed our custom font in the document
 const customFont = await pdfDoc.embedFont(fontBytes)
@@ -732,8 +696,6 @@ const pdfBytes = await pdfDoc.save()
 ### Add Attachments
 
 _This example produces [this PDF](assets/pdfs/examples/add_attachments.pdf)_ (when [this image](assets/images/cat_riding_unicorn.jpg) is used for the `jpgAttachmentBytes` variable and [this PDF](assets/pdfs/us_constitution.pdf) is used for the `pdfAttachmentBytes` variable).
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/9snL63wj/5/)
 
 <!-- prettier-ignore -->
 ```js
@@ -782,8 +744,6 @@ const pdfBytes = await pdfDoc.save()
 
 _This example produces [this PDF](assets/pdfs/examples/set_document_metadata.pdf)_.
 
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/vcwmfnbe/2/)
-
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument, StandardFonts } from 'pdf-lib'
@@ -821,8 +781,6 @@ const pdfBytes = await pdfDoc.save()
 ```
 
 ### Read Document Metadata
-
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/eg8rfz3k/16/)
 
 <!-- prettier-ignore -->
 ```js
@@ -984,8 +942,6 @@ NumCopies: 2
 
 _This example produces [this PDF](assets/pdfs/examples/draw_svg_paths.pdf)_.
 
-[Try the JSFiddle demo](https://jsfiddle.net/Hopding/bwaomr9h/2/)
-
 <!-- prettier-ignore -->
 ```js
 import { PDFDocument, rgb } from 'pdf-lib'
@@ -1026,107 +982,6 @@ const pdfBytes = await pdfDoc.save()
 //   • Rendered in an <iframe>
 ```
 
-## Deno Usage
-
-`pdf-lib` fully supports the exciting new [Deno](https://deno.land/) runtime! All of the [usage examples](#usage-examples) work in Deno. The only thing you need to do is change the imports for `pdf-lib` and `@pdf-lib/fontkit` to use the [Skypack](https://www.skypack.dev/) CDN, because Deno requires all modules to be referenced via URLs.
-
-> **See also [How to Create and Modify PDF Files in Deno With pdf-lib](https://medium.com/swlh/how-to-create-and-modify-pdf-files-in-deno-ffaad7099b0?source=friends_link&sk=3da183bb776d059df428eaea52102f19)**
-
-### Creating a Document with Deno
-
-Below is the [**create document**](#create-document) example modified for Deno:
-
-```js
-import {
-  PDFDocument,
-  StandardFonts,
-  rgb,
-} from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?dts';
-
-const pdfDoc = await PDFDocument.create();
-const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-const page = pdfDoc.addPage();
-const { width, height } = page.getSize();
-const fontSize = 30;
-page.drawText('Creating PDFs in JavaScript is awesome!', {
-  x: 50,
-  y: height - 4 * fontSize,
-  size: fontSize,
-  font: timesRomanFont,
-  color: rgb(0, 0.53, 0.71),
-});
-
-const pdfBytes = await pdfDoc.save();
-
-await Deno.writeFile('out.pdf', pdfBytes);
-```
-
-If you save this script as `create-document.ts`, you can execute it using Deno with the following command:
-
-```
-deno run --allow-write create-document.ts
-```
-
-The resulting `out.pdf` file will look like [this PDF](assets/pdfs/examples/create_document.pdf).
-
-### Embedding a Font with Deno
-
-Here's a slightly more complicated example demonstrating how to embed a font and measure text in Deno:
-
-```js
-import {
-  degrees,
-  PDFDocument,
-  rgb,
-  StandardFonts,
-} from 'https://cdn.skypack.dev/pdf-lib@^1.11.1?dts';
-import fontkit from 'https://cdn.skypack.dev/@pdf-lib/fontkit@^1.0.0?dts';
-
-const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf';
-const fontBytes = await fetch(url).then((res) => res.arrayBuffer());
-
-const pdfDoc = await PDFDocument.create();
-
-pdfDoc.registerFontkit(fontkit);
-const customFont = await pdfDoc.embedFont(fontBytes);
-
-const page = pdfDoc.addPage();
-
-const text = 'This is text in an embedded font!';
-const textSize = 35;
-const textWidth = customFont.widthOfTextAtSize(text, textSize);
-const textHeight = customFont.heightAtSize(textSize);
-
-page.drawText(text, {
-  x: 40,
-  y: 450,
-  size: textSize,
-  font: customFont,
-  color: rgb(0, 0.53, 0.71),
-});
-page.drawRectangle({
-  x: 40,
-  y: 450,
-  width: textWidth,
-  height: textHeight,
-  borderColor: rgb(1, 0, 0),
-  borderWidth: 1.5,
-});
-
-const pdfBytes = await pdfDoc.save();
-
-await Deno.writeFile('out.pdf', pdfBytes);
-```
-
-If you save this script as `custom-font.ts`, you can execute it with the following command:
-
-```
-deno run --allow-write --allow-net custom-font.ts
-```
-
-The resulting `out.pdf` file will look like [this PDF](assets/pdfs/examples/embed_font_and_measure_text.pdf).
-
 ## Complete Examples
 
 The [usage examples](#usage-examples) provide code that is brief and to the point, demonstrating the different features of `pdf-lib`. You can find complete working examples in the [`apps/`](apps/) directory. These apps are used to do manual testing of `pdf-lib` before every release (in addition to the [automated tests](tests/)).
@@ -1135,104 +990,10 @@ There are currently four apps:
 
 - [**`node`**](apps/node/) - contains [tests](apps/node/tests/) for `pdf-lib` in Node environments. These tests are a handy reference when trying to save/load PDFs, fonts, or images with `pdf-lib` from the filesystem. They also allow you to quickly open your PDFs in different viewers (Acrobat, Preview, Foxit, Chrome, Firefox, etc...) to ensure compatibility.
 - [**`web`**](apps/web/) - contains [tests](apps/web/) for `pdf-lib` in browser environments. These tests are a handy reference when trying to save/load PDFs, fonts, or images with `pdf-lib` in a browser environment.
-- [**`rn`**](apps/rn) - contains [tests](apps/rn/src/tests/) for `pdf-lib` in React Native environments. These tests are a handy reference when trying to save/load PDFs, fonts, or images with `pdf-lib` in a React Native environment.
-- [**`deno`**](apps/deno) - contains [tests](apps/deno/tests/) for `pdf-lib` in Deno environments. These tests are a handy reference when trying to save/load PDFs, fonts, or images with `pdf-lib` from the filesystem.
-
-## Installation
-
-### NPM Module
-
-To install the latest stable version:
-
-```bash
-# With npm
-npm install --save pdf-lib
-
-# With yarn
-yarn add pdf-lib
-```
-
-This assumes you're using [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/lang/en/) as your package manager.
-
-### UMD Module
-
-You can also download `pdf-lib` as a UMD module from [unpkg](https://unpkg.com/#/) or [jsDelivr](https://www.jsdelivr.com/). The UMD builds have been compiled to ES5, so they should work [in any modern browser](https://caniuse.com/#feat=es5). UMD builds are useful if you aren't using a package manager or module bundler. For example, you can use them directly in the `<script>` tag of an HTML page.
-
-The following builds are available:
-
-- https://unpkg.com/pdf-lib/dist/pdf-lib.js
-- https://unpkg.com/pdf-lib/dist/pdf-lib.min.js
-- https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js
-- https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js
-
-> **NOTE:** if you are using the CDN scripts in production, you should include a specific version number in the URL, for example:
->
-> - https://unpkg.com/pdf-lib@1.4.0/dist/pdf-lib.min.js
-> - https://cdn.jsdelivr.net/npm/pdf-lib@1.4.0/dist/pdf-lib.min.js
-
-When using a UMD build, you will have access to a global `window.PDFLib` variable. This variable contains all of the classes and functions exported by `pdf-lib`. For example:
-
-```javascript
-// NPM module
-import { PDFDocument, rgb } from 'pdf-lib';
-
-// UMD module
-var PDFDocument = PDFLib.PDFDocument;
-var rgb = PDFLib.rgb;
-```
-
-## Fontkit Installation
-
-`pdf-lib` relies upon a sister module to support embedding custom fonts: [`@pdf-lib/fontkit`](https://www.npmjs.com/package/@pdf-lib/fontkit). You must add the `@pdf-lib/fontkit` module to your project and register it using `pdfDoc.registerFontkit(...)` before embedding custom fonts (see the [font embedding example](#embed-font-and-measure-text)). This module is not included by default because not all users need it, and it increases bundle size.
-
-Installing this module is easy. Just like `pdf-lib` itself, `@pdf-lib/fontkit` can be installed with `npm`/`yarn` or as a UMD module.
-
-### Fontkit NPM Module
-
-```bash
-# With npm
-npm install --save @pdf-lib/fontkit
-
-# With yarn
-yarn add @pdf-lib/fontkit
-```
-
-To register the `fontkit` instance:
-
-<!-- prettier-ignore -->
-```js
-import { PDFDocument } from 'pdf-lib'
-import fontkit from '@pdf-lib/fontkit'
-
-const pdfDoc = await PDFDocument.create()
-pdfDoc.registerFontkit(fontkit)
-```
-
-### Fontkit UMD Module
-
-The following builds are available:
-
-- https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js
-- https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.min.js
-- https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit/dist/fontkit.umd.js
-- https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit/dist/fontkit.umd.min.js
-
-> **NOTE:** if you are using the CDN scripts in production, you should include a specific version number in the URL, for example:
->
-> - https://unpkg.com/@pdf-lib/fontkit@0.0.4/dist/fontkit.umd.min.js
-> - https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@0.0.4/dist/fontkit.umd.min.js
-
-When using a UMD build, you will have access to a global `window.fontkit` variable. To register the `fontkit` instance:
-
-<!-- prettier-ignore -->
-```js
-var pdfDoc = await PDFLib.PDFDocument.create()
-pdfDoc.registerFontkit(fontkit)
-```
 
 ## Documentation
 
-API documentation is available on the project site at https://pdf-lib.js.org/docs/api/.
+Orignal version's API documentation is available on the project site at https://pdf-lib.js.org/docs/api/.
 
 The repo for the project site (and generated documentation files) is
 located here: https://github.com/Hopding/pdf-lib-docs.
@@ -1259,14 +1020,12 @@ When working with PDFs, you will frequently come across the terms "character enc
   <!-- prettier-ignore -->
   ```js
   import { PDFDocument } from 'pdf-lib'
-  import fontkit from '@pdf-lib/fontkit'
 
   const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf'
   const fontBytes = await fetch(url).then((res) => res.arrayBuffer())
 
   const pdfDoc = await PDFDocument.create()
 
-  pdfDoc.registerFontkit(fontkit)
   const ubuntuFont = await pdfDoc.embedFont(fontBytes)
 
   const page = pdfDoc.addPage()
@@ -1311,7 +1070,6 @@ You can use an embedded font when filling form fields as follows:
 
 ```js
 import { PDFDocument } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
 
 // Fetch the PDF with form fields
 const formUrl = 'https://pdf-lib.js.org/assets/dod_character.pdf';
@@ -1325,7 +1083,6 @@ const fontBytes = await fetch(fontUrl).then((res) => res.arrayBuffer());
 const pdfDoc = await PDFDocument.load(formBytes);
 
 // Embed the Ubuntu font
-pdfDoc.registerFontkit(fontkit);
 const ubuntuFont = await pdfDoc.embedFont(fontBytes);
 
 // Get two text fields from the form
@@ -1418,12 +1175,6 @@ Below are some of the most commonly used methods for reading and filling the afo
   [#329](https://github.com/Hopding/pdf-lib/issues/329), and
   [#380](https://github.com/Hopding/pdf-lib/issues/380).
 - `pdf-lib` does **not** support the use of HTML or CSS when adding content to a PDF. Similarly, `pdf-lib` **cannot** embed HTML/CSS content into PDFs. As convenient as such a feature might be, it would be extremely difficult to implement and is far beyond the scope of this library. If this capability is something you need, consider using [Puppeteer](https://github.com/puppeteer/puppeteer).
-
-## Help and Discussion
-
-[Discussions](https://github.com/Hopding/pdf-lib/discussions) is the best place to chat with us, ask questions, and learn more about pdf-lib!
-
-See also [MAINTAINERSHIP.md#communication](docs/MAINTAINERSHIP.md#communication) and [MAINTAINERSHIP.md#discord](docs/MAINTAINERSHIP.md#discord).
 
 ## Encryption Handling
 
