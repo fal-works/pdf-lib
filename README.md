@@ -26,10 +26,10 @@
 
 <div align="center">
   <!-- Build Status -->
-  <a href="https://circleci.com/gh/Hopding/pdf-lib">
+  <a href="https://github.com/DenkiYagi/pdf-lib/actions/workflows/test.yml">
     <img
-      src="https://img.shields.io/circleci/project/github/Hopding/pdf-lib/master.svg?style=flat-square&label=CircleCI"
-      alt="CircleCI Build Status"
+      src="https://github.com/denkiyagi/pdf-lib/actions/workflows/test.yml/badge.svg"
+      alt="Build Status"
     />
   </a>
   <!-- Prettier Badge -->
