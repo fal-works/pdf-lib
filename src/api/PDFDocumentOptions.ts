@@ -1,5 +1,6 @@
-import type { EmbeddedFileOptions } from 'src/core/embedders/FileEmbedder';
+/// <reference path="../@types/fontkit/index.ts"/>
 import type { TypeFeatures } from 'fontkit';
+import type { EmbeddedFileOptions } from 'src/core/embedders/FileEmbedder';
 
 export enum ParseSpeeds {
   Fastest = Infinity,
