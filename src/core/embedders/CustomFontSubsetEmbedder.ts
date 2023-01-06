@@ -1,3 +1,4 @@
+/// <reference path="../../@types/fontkit/index.ts"/>
 import { create as createFont } from 'fontkit';
 import type { Font, Glyph, TypeFeatures, Subset } from 'fontkit';
 
