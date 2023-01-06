@@ -25,13 +25,6 @@
 <br />
 
 <div align="center">
-  <!-- NPM Version -->
-  <a href="https://www.npmjs.com/package/pdf-lib">
-    <img
-      src="https://img.shields.io/npm/v/pdf-lib.svg?style=flat-square"
-      alt="NPM Version"
-    />
-  </a>
   <!-- Build Status -->
   <a href="https://circleci.com/gh/Hopding/pdf-lib">
     <img
@@ -44,13 +37,6 @@
     <img
       src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       alt="Prettier Badge"
-    />
-  </a>
-  <!-- Discord Badge -->
-  <a href="https://discord.gg/Y7uuVMc">
-    <img
-      src="https://img.shields.io/static/v1?label=discord&message=pdf-lib&color=566fbb&style=flat-square"
-      alt="Discord Badge"
     />
   </a>
 </div>
