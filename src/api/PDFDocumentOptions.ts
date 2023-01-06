@@ -12,6 +12,7 @@ export enum ParseSpeeds {
 }
 
 export interface AttachmentOptions extends EmbeddedFileOptions {}
+export { AFRelationship } from 'src/core/embedders/FileEmbedder';
 
 export interface SaveOptions {
   useObjectStreams?: boolean;
