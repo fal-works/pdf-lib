@@ -1,7 +1,7 @@
 **A modified version of [pdf-lib](https://pdf-lib.js.org) for [yagisan-reports](https://denkiyagi.jp/yagisan-reports/).**
 
 * Used `fontkit 2` instead of `@pdf-lib/fontkit`.
-  * Removed `PDFDocument#registerFontkit()`. `fontkit` is included default.
+  * Removed `PDFDocument#registerFontkit()`. `fontkit` is included by default.
 * Added vertical text option.
 * Removed support for deno, umd and react-native.
 * Upgraded TypeScript version to 4.9.
