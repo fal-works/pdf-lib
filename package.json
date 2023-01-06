@@ -1,8 +1,8 @@
 {
   "name": "@denkiyagi/pdf-lib",
-  "version": "1.17.1",
+  "version": "1.17.1-mod.2023.1",
   "description": "A modified version of pdf-lib. Create and modify PDF files with JavaScript",
-  "author": "Andrew Dillon <andrew.dillon.j@gmail.com>, DenkiYagi Inc.",
+  "author": "DenkiYagi Inc. (modified version author), Andrew Dillon <andrew.dillon.j@gmail.com> (orignal version author)",
   "contributors": [
     "jerp (https://github.com/jerp)",
     "Greg Bacchus (https://github.com/gregbacchus)",
@@ -104,10 +104,9 @@
   },
   "license": "MIT",
   "private": false,
-  "homepage": "https://pdf-lib.js.org",
-  "repository": "git+https://github.com/Hopding/pdf-lib.git",
+  "repository": "https://github.com/DenkiYagi/pdf-lib",
   "bugs": {
-    "url": "https://github.com/Hopding/pdf-lib/issues"
+    "url": "https://github.com/DenkiYagi/pdf-lib/issues"
   },
   "keywords": [
     "pdf-lib",
