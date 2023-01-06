@@ -633,5 +633,5 @@ declare module 'fontkit' {
    * (such as TrueType collection files), you can pass a postscriptName
    * to get that font out of the collection instead of a collection object.
    */
-  export const create: (buffer: Buffer, postscriptName?: string) => Font;
+  export const create: (buffer: Uint8Array, postscriptName?: string) => Font;
 }

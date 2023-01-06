@@ -29,7 +29,7 @@ export class CustomFontEmbedder {
     vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    const font = createFont(Buffer.from(fontData));
+    const font = createFont(fontData);
     return new CustomFontEmbedder(
       font,
       fontData,

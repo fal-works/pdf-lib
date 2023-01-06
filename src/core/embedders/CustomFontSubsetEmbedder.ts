@@ -20,7 +20,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     vertical?: boolean,
     fontFeatures?: TypeFeatures,
   ) {
-    const font = createFont(Buffer.from(fontData));
+    const font = createFont(fontData);
     return new CustomFontSubsetEmbedder(
       font,
       fontData,
