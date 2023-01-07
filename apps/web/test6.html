@@ -4,7 +4,7 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="
-        default-src 'self' 'unsafe-inline' blob: resource: data: https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js;
+        default-src 'self' 'unsafe-inline' blob: resource:;
         object-src 'self' blob: resource: data: ;
         frame-src 'self' blob: resource: data: ;
       "
@@ -14,12 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" type="text/css" href="/apps/web/index.css" />
     <title>Test 6</title>
-    <script type="text/javascript" src="/dist/pdf-lib.min.js"></script>
+    <script type="text/javascript" src="/umd/pdf-lib.min.js"></script>
     <script type="text/javascript" src="/apps/web/utils.js"></script>
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js"
-    ></script>
   </head>
 
   <body>
@@ -73,8 +69,6 @@
       ]);
 
       const pdfDoc = await PDFDocument.load(inputPdfBytes);
-
-      pdfDoc.registerFontkit(fontkit);
 
       await pdfDoc.attach(usConstitutionPdfBytes, 'us_constitution.pdf', {
         mimeType: 'application/pdf',
