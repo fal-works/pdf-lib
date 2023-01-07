@@ -71,6 +71,7 @@
   "files": [
     "cjs/",
     "es/",
+    "umd/",
     "src/",
     "ts3.4",
     "LICENSE.md",
