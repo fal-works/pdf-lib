@@ -3,7 +3,7 @@
 * Used `fontkit 2` instead of `@pdf-lib/fontkit`.
   * Removed `PDFDocument#registerFontkit()`. `fontkit` is included by default.
 * Added vertical text option.
-* Removed support for deno, umd and react-native.
+* Removed support for deno and react-native.
 * Upgraded TypeScript version to 4.9.
   * Used `import type` and removed `export default` from any internal packages.
 

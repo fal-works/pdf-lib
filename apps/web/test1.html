@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self' 'unsafe-inline' blob: data: resource: https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js;
-        object-src 'self' blob: data:;
-        frame-src 'self' blob: data:;
-      "
-    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" type="text/css" href="/apps/web/index.css" />
     <title>Test 1</title>
-    <script type="text/javascript" src="/dist/pdf-lib.js"></script>
+    <script type="text/javascript" src="/umd/pdf-lib.js"></script>
     <script type="text/javascript" src="/apps/web/utils.js"></script>
-    <script
-      type="text/javascript"
-      src="https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js"
-    ></script>
   </head>
 
   <body>
@@ -91,8 +79,6 @@
       pdfDoc.setCreator('PDF App 9000 🤖');
       pdfDoc.setCreationDate(new Date('2018-06-24T01:58:37.228Z'));
       pdfDoc.setModificationDate(new Date('2018-12-21T07:00:11.000Z'));
-
-      pdfDoc.registerFontkit(fontkit);
 
       await pdfDoc.attach(
         await fetchBinaryAsset('images/greyscale_bird.png'),
