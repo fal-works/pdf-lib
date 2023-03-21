@@ -14,7 +14,7 @@ See also: [MODIFICATIONS.md](MODIFICATIONS.md)
   <strong>Create and modify PDF documents in any JavaScript environment.</strong>
 </div>
 <div align="center">
-  Designed to work in any modern JavaScript runtime. Tested in Node, Browser, Deno, and React Native environments.
+  Designed to work in any modern JavaScript runtime. Tested in Node and Browser environments.
 </div>
 
 <br />
