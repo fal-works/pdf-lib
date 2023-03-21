@@ -1,3 +1,4 @@
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
 import type { PDFBool } from 'src/core/objects/PDFBool';
 import type { PDFDict } from 'src/core/objects/PDFDict';
 import type { PDFHexString } from 'src/core/objects/PDFHexString';
@@ -5,13 +6,13 @@ import type { PDFName } from 'src/core/objects/PDFName';
 import type { PDFNull } from 'src/core/objects/PDFNull';
 import { PDFNumber } from 'src/core/objects/PDFNumber';
 import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
 import type { PDFRef } from 'src/core/objects/PDFRef';
 import type { PDFStream } from 'src/core/objects/PDFStream';
 import type { PDFString } from 'src/core/objects/PDFString';
 import type { PDFContext } from 'src/core/PDFContext';
 import { CharCodes } from 'src/core/syntax/CharCodes';
 import { PDFArrayIsNotRectangleError } from 'src/core/errors';
-import type { PDFRawStream } from 'src/core/objects/PDFRawStream';
 
 export class PDFArray extends PDFObject {
   static withContext = (context: PDFContext) => new PDFArray(context);
@@ -179,5 +180,21 @@ export class PDFArray extends PDFObject {
         this.set(idx, PDFNumber.of(el.asNumber() * factor));
       }
     }
+  }
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject | null {
+    const clone = PDFArray.withContext(this.context);
+    let isEncrypted = false;
+    for (const element of this.array) {
+      const encryptedElement = element.encryptWith(encrypter, reference);
+      if (encryptedElement == null) {
+        clone.push(element);
+      } else {
+        clone.push(encryptedElement);
+        isEncrypted = true;
+      }
+    }
+
+    return isEncrypted ? clone : null;
   }
 }

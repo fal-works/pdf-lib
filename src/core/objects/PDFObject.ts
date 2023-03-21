@@ -1,20 +1,24 @@
-import { MethodNotImplementedError } from 'src/core/errors';
 import type { PDFContext } from 'src/core/PDFContext';
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 
-export class PDFObject {
-  clone(_context?: PDFContext): PDFObject {
-    throw new MethodNotImplementedError(this.constructor.name, 'clone');
-  }
+export abstract class PDFObject {
+  abstract clone(context?: PDFContext): PDFObject;
 
-  toString(): string {
-    throw new MethodNotImplementedError(this.constructor.name, 'toString');
-  }
+  abstract toString(): string;
 
-  sizeInBytes(): number {
-    throw new MethodNotImplementedError(this.constructor.name, 'sizeInBytes');
-  }
+  abstract sizeInBytes(): number;
 
-  copyBytesInto(_buffer: Uint8Array, _offset: number): number {
-    throw new MethodNotImplementedError(this.constructor.name, 'copyBytesInto');
+  abstract copyBytesInto(buffer: Uint8Array, offset: number): number;
+
+  /**
+   * Encrypt this object and returns the result as a new `PDFObject`,
+   * or returns `null` if `this` can't be encrypted.
+   */
+  encryptWith(
+    _encrypter: ObjectEncrypter,
+    _reference: PDFRef,
+  ): PDFObject | null {
+    return null;
   }
 }

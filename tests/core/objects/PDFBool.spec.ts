@@ -1,5 +1,6 @@
-import { PDFBool, PrivateConstructorError } from 'src/core';
+import { PDFBool, PDFRef, PrivateConstructorError } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { security } from './shared';
 
 describe(`PDFBool`, () => {
   it(`cannot be publicly constructed`, () => {
@@ -38,5 +39,12 @@ describe(`PDFBool`, () => {
     const buffer = new Uint8Array(9).fill(toCharCode(' '));
     expect(PDFBool.False.copyBytesInto(buffer, 1)).toBe(5);
     expect(buffer).toEqual(typedArrayFor(' false   '));
+  });
+
+  it(`can never be encrypted`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+    expect(PDFBool.True.encryptWith(key, ref)).toBe(null);
+    expect(PDFBool.False.encryptWith(key, ref)).toBe(null);
   });
 });

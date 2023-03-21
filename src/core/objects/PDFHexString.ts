@@ -1,4 +1,6 @@
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
 import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 import { CharCodes } from 'src/core/syntax/CharCodes';
 import {
   copyStringIntoBuffer,
@@ -8,13 +10,15 @@ import {
   pdfDocEncodingDecode,
   parseDate,
   hasUtf16BOM,
+  uint8ArrayToHex,
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
 export class PDFHexString extends PDFObject {
-  static of = (value: string) => new PDFHexString(value);
+  static of = (value: string, preventEncryption?: boolean) =>
+    new PDFHexString(value, preventEncryption);
 
-  static fromText = (value: string) => {
+  static fromText = (value: string, preventEncryption?: boolean) => {
     const encoded = utf16Encode(value);
 
     let hex = '';
@@ -22,14 +26,19 @@ export class PDFHexString extends PDFObject {
       hex += toHexStringOfMinLength(encoded[idx], 4);
     }
 
-    return new PDFHexString(hex);
+    return new PDFHexString(hex, preventEncryption);
   };
 
-  private readonly value: string;
+  static fromUint8Array = (data: Uint8Array, preventEncryption?: boolean) =>
+    new PDFHexString(uint8ArrayToHex(data), preventEncryption);
 
-  constructor(value: string) {
+  private readonly value: string;
+  private readonly preventEncryption: boolean;
+
+  constructor(value: string, preventEncryption = false) {
     super();
     this.value = value;
+    this.preventEncryption = preventEncryption;
   }
 
   asBytes(): Uint8Array {
@@ -88,5 +97,14 @@ export class PDFHexString extends PDFObject {
     offset += copyStringIntoBuffer(this.value, buffer, offset);
     buffer[offset++] = CharCodes.GreaterThan;
     return this.value.length + 2;
+  }
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject | null {
+    if (this.preventEncryption) return null;
+
+    const buffer = this.asBytes();
+    const encrypted = encrypter.encryptObjectContent(buffer, reference);
+
+    return PDFHexString.fromUint8Array(encrypted);
   }
 }

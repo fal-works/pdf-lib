@@ -1,5 +1,7 @@
-import { PDFString } from 'src/core';
+import { PDFHexString, PDFObject, PDFRef, PDFString } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { mockRandom, resetMock } from '../security/mock';
+import { security } from './shared';
 
 describe(`PDFString`, () => {
   it(`can be constructed from PDFString.of(...)`, () => {
@@ -233,5 +235,24 @@ describe(`PDFString`, () => {
     const buffer = new Uint8Array(20).fill(toCharCode(' '));
     expect(PDFString.of(')(b\\a/))z(').copyBytesInto(buffer, 3)).toBe(12);
     expect(buffer).toEqual(typedArrayFor('   ()(b\\a/))z()     '));
+  });
+
+  it(`can be encrypted to another PDFObject`, () => {
+    mockRandom(0);
+
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const inputText = 'foobar';
+    const input = PDFString.of(inputText);
+
+    const expectedOutput = PDFHexString.fromUint8Array(
+      typedArrayFor(inputText),
+    ).encryptWith(key, ref);
+
+    expect(input.encryptWith(key, ref)).toBeInstanceOf(PDFObject);
+    expect(input.encryptWith(key, ref)).toEqual(expectedOutput);
+
+    resetMock();
   });
 });

@@ -5,7 +5,7 @@ import { UnexpectedObjectTypeError } from 'src/core/errors';
 import { PDFArray } from 'src/core/objects/PDFArray';
 import { PDFBool } from 'src/core/objects/PDFBool';
 import { PDFDict } from 'src/core/objects/PDFDict';
-import type { PDFHexString } from 'src/core/objects/PDFHexString';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { PDFName } from 'src/core/objects/PDFName';
 import { PDFNull } from 'src/core/objects/PDFNull';
 import { PDFNumber } from 'src/core/objects/PDFNumber';
@@ -16,14 +16,23 @@ import type { PDFStream } from 'src/core/objects/PDFStream';
 import type { PDFString } from 'src/core/objects/PDFString';
 import { PDFOperator } from 'src/core/operators/PDFOperator';
 import { PDFOperatorNames as Ops } from 'src/core/operators/PDFOperatorNames';
+import type { PDFSecurity } from 'src/core/security/PDFSecurity';
 import { PDFContentStream } from 'src/core/structures/PDFContentStream';
 import { typedArrayFor } from 'src/utils';
 import { SimpleRNG } from 'src/utils/rng';
 
 type LookupKey = PDFRef | PDFObject | undefined;
 
-interface LiteralObject {
+export interface LiteralObject {
   [name: string]: Literal | PDFObject;
+}
+
+export interface PDFObjectOptions {
+  /**
+   * `true` if all strings in this object shall not be encrypted,
+   * i.e. the object is a value of the `ID` or `Encrypt` entry in the trailer.
+   */
+  preventStringEncryption?: boolean;
 }
 
 interface LiteralArray {
@@ -31,6 +40,7 @@ interface LiteralArray {
 }
 
 type Literal =
+  | PDFObject
   | LiteralObject
   | LiteralArray
   | string
@@ -49,6 +59,7 @@ export class PDFContext {
 
   largestObjectNumber: number;
   header: PDFHeader;
+  security: PDFSecurity | null = null;
   trailerInfo: {
     Root?: PDFObject;
     Encrypt?: PDFObject;
@@ -188,10 +199,18 @@ export class PDFContext {
   obj(literal: string): PDFName;
   obj(literal: number): PDFNumber;
   obj(literal: boolean): PDFBool;
-  obj(literal: LiteralObject): PDFDict;
-  obj(literal: LiteralArray): PDFArray;
+  obj(literal: Uint8Array, options?: PDFObjectOptions): PDFHexString;
+  obj(literal: LiteralObject, options?: PDFObjectOptions): PDFDict;
+  obj(literal: LiteralArray, options?: PDFObjectOptions): PDFArray;
+  obj(literal: PDFObject): PDFObject;
 
-  obj(literal: Literal) {
+  /**
+   * Converts any literal value to a `PDFObject`.
+   * @param literal Any value to be converted to a `PDFObject`.
+   * @param preventEncryption `true` if the object shall not be encrypted,
+   *   i.e. the object is a value of the `Encrypt` entry in the trailer.
+   */
+  obj(literal: Literal, options?: PDFObjectOptions): PDFObject {
     if (literal instanceof PDFObject) {
       return literal;
     } else if (literal === null || literal === undefined) {
@@ -202,10 +221,15 @@ export class PDFContext {
       return PDFNumber.of(literal);
     } else if (typeof literal === 'boolean') {
       return literal ? PDFBool.True : PDFBool.False;
+    } else if (literal instanceof Uint8Array) {
+      return PDFHexString.fromUint8Array(
+        literal,
+        options?.preventStringEncryption,
+      );
     } else if (Array.isArray(literal)) {
       const array = PDFArray.withContext(this);
       for (let idx = 0, len = literal.length; idx < len; idx++) {
-        array.push(this.obj(literal[idx]));
+        array.push(this.obj(literal[idx], options));
       }
       return array;
     } else {
@@ -214,7 +238,9 @@ export class PDFContext {
       for (let idx = 0, len = keys.length; idx < len; idx++) {
         const key = keys[idx];
         const value = (literal as LiteralObject)[key] as any;
-        if (value !== undefined) dict.set(PDFName.of(key), this.obj(value));
+        if (value !== undefined) {
+          dict.set(PDFName.of(key), this.obj(value, options));
+        }
       }
       return dict;
     }

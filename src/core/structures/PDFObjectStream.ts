@@ -1,21 +1,59 @@
+import { PDFInvalidObject } from 'src/core/objects/PDFInvalidObject';
 import { PDFName } from 'src/core/objects/PDFName';
 import { PDFNumber } from 'src/core/objects/PDFNumber';
 import type { PDFObject } from 'src/core/objects/PDFObject';
 import type { PDFRef } from 'src/core/objects/PDFRef';
+import { PDFStream } from 'src/core/objects/PDFStream';
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
 import type { PDFContext } from 'src/core/PDFContext';
-import { PDFFlateStream } from 'src/core/structures/PDFFlateStream';
+import {
+  PDFFlateStream,
+  PDFFlateStreamEncryptionParams,
+} from 'src/core/structures/PDFFlateStream';
 import { CharCodes } from 'src/core/syntax/CharCodes';
 import { copyStringIntoBuffer, last } from 'src/utils';
 
 export type IndirectObject = [PDFRef, PDFObject];
 
 export class PDFObjectStream extends PDFFlateStream {
+  /**
+   * Returns `true` if `indirectObject` shall not be stored in an object stream
+   * (see ISO 32000-1 > 7.5.7. Object streams).
+   *
+   * Additional remarks:
+   * - According to the implementation of PDFBox, the `Root` shall also not be stored
+   *   in an object stream if you're going to encrypt the PDF document;
+   *   otherwise you won't be able to open the encrypted PDF with Adobe Acrobat Reader.
+   * - The value of `Length` entry in an object stream shall not be stored in another
+   *   object stream. However in our implementation the `Length` entry of a stream is
+   *   always a direct object, so it will never appear here.
+   * - In linearized files, some other objects shall also not be stored in an object stream.
+   *   However we don't support linearization for now.
+   */
+  static shallNotStore = (
+    indirectObject: IndirectObject,
+    context: PDFContext,
+  ): boolean => {
+    const [ref, obj] = indirectObject;
+    const { trailerInfo } = context;
+
+    if (trailerInfo.Encrypt != null) {
+      if (ref === trailerInfo.Encrypt || ref === trailerInfo.Root) return true;
+    }
+    if (ref.generationNumber !== 0) return true;
+    if (obj instanceof PDFStream) return true;
+    if (obj instanceof PDFInvalidObject) return true;
+
+    return false;
+  };
+
   static withContextAndObjects = (
     context: PDFContext,
     objects: IndirectObject[],
     encode = true,
-  ) => new PDFObjectStream(context, objects, encode);
+  ) => new PDFObjectStream(context, objects, encode, null);
 
+  private readonly context: PDFContext;
   private readonly objects: IndirectObject[];
   private readonly offsets: [number, number][];
   private readonly offsetsString: string;
@@ -23,10 +61,12 @@ export class PDFObjectStream extends PDFFlateStream {
   private constructor(
     context: PDFContext,
     objects: IndirectObject[],
-    encode = true,
+    encode: boolean,
+    encryption: PDFFlateStreamEncryptionParams | null,
   ) {
-    super(context.obj({}), encode);
+    super(context.obj({}), encode, encryption);
 
+    this.context = context;
     this.objects = objects;
     this.offsets = this.computeObjectOffsets();
     this.offsetsString = this.computeOffsetsString();
@@ -95,5 +135,14 @@ export class PDFObjectStream extends PDFFlateStream {
       offset += object.sizeInBytes() + 1; // '\n'
     }
     return offsets;
+  }
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject {
+    return new PDFObjectStream(
+      this.context,
+      this.objects.slice(),
+      this.encode,
+      { encrypter, reference },
+    );
   }
 }

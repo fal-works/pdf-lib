@@ -1,5 +1,8 @@
-import { PDFHexString } from 'src/core';
+import { PDFDocument } from 'src/api';
+import { PDFArray, PDFDict, PDFHexString, PDFObject, PDFRef } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { mockRandom, resetMock } from '../security/mock';
+import { security } from './shared';
 
 describe(`PDFHexString`, () => {
   it(`can be constructed from PDFHexString.of(...)`, () => {
@@ -15,6 +18,18 @@ describe(`PDFHexString`, () => {
     );
     expect(String(PDFHexString.fromText('stuff 💩 and 🎂things'))).toBe(
       '<FEFF007300740075006600660020D83DDCA900200061006E00640020D83CDF82007400680069006E00670073>',
+    );
+  });
+
+  it(`can be constructed from bytes`, () => {
+    /** Same as `PDFHexString.fromText('ä☺𠜎️☁️💩').asBytes()` */
+    const buffer = new Uint8Array([
+      254, 255, 0, 228, 38, 58, 216, 65, 223, 14, 254, 15, 38, 1, 254, 15, 216,
+      61, 220, 169,
+    ]);
+    expect(PDFHexString.fromUint8Array(buffer)).toBeInstanceOf(PDFHexString);
+    expect(String(PDFHexString.fromUint8Array(buffer))).toBe(
+      '<FEFF00E4263AD841DF0EFE0F2601FE0FD83DDCA9>',
     );
   });
 
@@ -164,5 +179,51 @@ describe(`PDFHexString`, () => {
     const buffer = new Uint8Array(11).fill(toCharCode(' '));
     expect(PDFHexString.of('901FA').copyBytesInto(buffer, 3)).toBe(7);
     expect(buffer).toEqual(typedArrayFor('   <901FA> '));
+  });
+
+  it(`can be encrypted to another PDFObject`, () => {
+    mockRandom(0);
+
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    /** Same as `PDFHexString.fromText('ä☺𠜎️☁️💩').asBytes()` */
+    const buffer = new Uint8Array([
+      254, 255, 0, 228, 38, 58, 216, 65, 223, 14, 254, 15, 38, 1, 254, 15, 216,
+      61, 220, 169,
+    ]);
+    const input = PDFHexString.fromUint8Array(buffer);
+
+    const expectedOutput = PDFHexString.fromUint8Array(
+      key.encryptObjectContent(buffer, ref),
+    );
+
+    expect(input.encryptWith(key, ref)).toBeInstanceOf(PDFObject);
+    expect(input.encryptWith(key, ref)).toEqual(expectedOutput);
+
+    resetMock();
+  });
+
+  it(`cannot be encrypted if it is contained in ID or Encrypt entry in the trailer`, async () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const pdfDoc = await PDFDocument.create();
+    pdfDoc.encrypt({ password: 'password' });
+
+    const { ID } = pdfDoc.context.trailerInfo;
+    if (!(ID instanceof PDFArray)) fail(`Invalid ID value`);
+    for (const idElement of ID.asArray()) {
+      if (!(idElement instanceof PDFHexString)) fail(`Invalid ID element`);
+      expect(idElement.encryptWith(key, ref)).toBe(null);
+    }
+
+    const Encrypt = pdfDoc.context.lookup(pdfDoc.context.trailerInfo.Encrypt);
+    if (!(Encrypt instanceof PDFDict)) fail(`Invalid Encrypt value`);
+    for (const obj of Encrypt.values()) {
+      if (obj instanceof PDFHexString) {
+        expect(obj.encryptWith(key, ref)).toBe(null);
+      }
+    }
   });
 });

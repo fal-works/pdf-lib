@@ -11,6 +11,8 @@ import {
   PDFString,
 } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { mockRandom, resetMock } from '../security/mock';
+import { security } from './shared';
 
 describe(`PDFArray`, () => {
   const context = PDFContext.create();
@@ -130,5 +132,35 @@ describe(`PDFArray`, () => {
         '   [ true <ABC123> /Foo#23Bar! null -24.179 (foobar) [ true <<\n/Foo /Bar\n>> ] 21 92 R ] ',
       ),
     );
+  });
+
+  it(`can be encrypted to another PDFObject if it contains any encryptable object`, () => {
+    mockRandom(0);
+
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const input = PDFArray.withContext(context);
+    input.push(pdfBool);
+    input.push(pdfHexString);
+
+    const expectedOutput = PDFArray.withContext(context);
+    expectedOutput.push(pdfBool);
+    expectedOutput.push(pdfHexString.encryptWith(key, ref)!);
+
+    expect(input.encryptWith(key, ref)).toEqual(expectedOutput);
+
+    resetMock();
+  });
+
+  it(`cannot be encrypted if it does not contain any encryptable object`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const input = PDFArray.withContext(context);
+    input.push(pdfBool);
+    input.push(pdfNumber);
+
+    expect(input.encryptWith(key, ref)).toBe(null);
   });
 });

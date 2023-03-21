@@ -12,6 +12,8 @@ import {
   PDFObject,
 } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { mockRandom, resetMock } from '../security/mock';
+import { security } from './shared';
 
 describe(`PDFDict`, () => {
   const context = PDFContext.create();
@@ -191,5 +193,39 @@ describe(`PDFDict`, () => {
 
     expect(new Set(dict.keys()).size).toBe(4);
     expect(dict.keys()).toEqual([anotherKey, key1, key2, key3]);
+  });
+
+  it(`can be encrypted to another PDFObject if it contains any encryptable object`, () => {
+    mockRandom(0);
+
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const input = PDFDict.withContext(context);
+    input.set(PDFName.of('Boolean'), pdfBool);
+    input.set(PDFName.of('HexString'), pdfHexString);
+
+    const expectedOutput = PDFDict.withContext(context);
+    expectedOutput.set(PDFName.of('Boolean'), pdfBool);
+    expectedOutput.set(
+      PDFName.of('HexString'),
+      pdfHexString.encryptWith(key, ref)!,
+    );
+
+    expect(input.encryptWith(key, ref)).toBeInstanceOf(PDFObject);
+    expect(input.encryptWith(key, ref)).toEqual(expectedOutput);
+
+    resetMock();
+  });
+
+  it(`cannot be encrypted if it does not contain any encryptable object`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+
+    const input = PDFDict.withContext(context);
+    input.set(PDFName.of('Boolean'), pdfBool);
+    input.set(PDFName.of('Number'), pdfNumber);
+
+    expect(input.encryptWith(key, ref)).toBe(null);
   });
 });

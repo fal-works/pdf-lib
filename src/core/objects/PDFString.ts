@@ -1,4 +1,7 @@
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
+import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { PDFObject } from 'src/core/objects/PDFObject';
+import type { PDFRef } from 'src/core/objects/PDFRef';
 import { CharCodes } from 'src/core/syntax/CharCodes';
 import {
   copyStringIntoBuffer,
@@ -8,6 +11,7 @@ import {
   toCharCode,
   parseDate,
   hasUtf16BOM,
+  typedArrayFor,
 } from 'src/utils';
 import { InvalidPDFDateStringError } from 'src/core/errors';
 
@@ -15,7 +19,8 @@ export class PDFString extends PDFObject {
   // The PDF spec allows newlines and parens to appear directly within a literal
   // string. These character _may_ be escaped. But they do not _have_ to be. So
   // for simplicity, we will not bother escaping them.
-  static of = (value: string) => new PDFString(value);
+  static of = (value: string, preventEncryption?: boolean) =>
+    new PDFString(value, preventEncryption);
 
   static fromDate = (date: Date) => {
     const year = padStart(String(date.getUTCFullYear()), 4, '0');
@@ -28,10 +33,12 @@ export class PDFString extends PDFObject {
   };
 
   private readonly value: string;
+  private readonly preventEncryption: boolean;
 
-  private constructor(value: string) {
+  private constructor(value: string, preventEncryption = false) {
     super();
     this.value = value;
+    this.preventEncryption = preventEncryption;
   }
 
   asBytes(): Uint8Array {
@@ -112,5 +119,14 @@ export class PDFString extends PDFObject {
     offset += copyStringIntoBuffer(this.value, buffer, offset);
     buffer[offset++] = CharCodes.RightParen;
     return this.value.length + 2;
+  }
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject | null {
+    if (this.preventEncryption) return null;
+
+    const buffer = typedArrayFor(this.value);
+    const encryptedBytes = encrypter.encryptObjectContent(buffer, reference);
+
+    return PDFHexString.fromUint8Array(encryptedBytes);
   }
 }

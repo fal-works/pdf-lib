@@ -1,3 +1,4 @@
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
 import type { PDFArray } from 'src/core/objects/PDFArray';
 import type { PDFBool } from 'src/core/objects/PDFBool';
 import type { PDFHexString } from 'src/core/objects/PDFHexString';
@@ -220,5 +221,21 @@ export class PDFDict extends PDFObject {
     buffer[offset++] = CharCodes.GreaterThan;
 
     return offset - initialOffset;
+  }
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject | null {
+    const clone = PDFDict.withContext(this.context);
+    let isEncrypted = false;
+    for (const [name, value] of this.dict.entries()) {
+      const encryptedValue = value.encryptWith(encrypter, reference);
+      if (encryptedValue == null) {
+        clone.set(name, value);
+      } else {
+        clone.set(name, encryptedValue);
+        isEncrypted = true;
+      }
+    }
+
+    return isEncrypted ? clone : null;
   }
 }

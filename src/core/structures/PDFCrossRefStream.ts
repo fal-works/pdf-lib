@@ -1,8 +1,13 @@
 import type { PDFDict } from 'src/core/objects/PDFDict';
 import { PDFName } from 'src/core/objects/PDFName';
+import type { PDFObject } from 'src/core/objects/PDFObject';
 import { PDFRef } from 'src/core/objects/PDFRef';
+import type { ObjectEncrypter } from 'src/core/objects/ObjectEncrypter';
 import type { PDFContext } from 'src/core/PDFContext';
-import { PDFFlateStream } from 'src/core/structures/PDFFlateStream';
+import {
+  PDFFlateStreamEncryptionParams,
+  PDFFlateStream,
+} from 'src/core/structures/PDFFlateStream';
 import { bytesFor, Cache, reverseArray, sizeInBytes, sum } from 'src/utils';
 
 export enum EntryType {
@@ -41,21 +46,26 @@ export type EntryTuple = [number, number, number];
  */
 export class PDFCrossRefStream extends PDFFlateStream {
   static create = (dict: PDFDict, encode = true) => {
-    const stream = new PDFCrossRefStream(dict, [], encode);
+    const stream = new PDFCrossRefStream(dict, [], encode, null);
     stream.addDeletedEntry(PDFRef.of(0, 65535), 0);
     return stream;
   };
 
   static of = (dict: PDFDict, entries: Entry[], encode = true) =>
-    new PDFCrossRefStream(dict, entries, encode);
+    new PDFCrossRefStream(dict, entries, encode, null);
 
   private readonly entries: Entry[];
   private readonly entryTuplesCache: Cache<EntryTuple[]>;
   private readonly maxByteWidthsCache: Cache<[number, number, number]>;
   private readonly indexCache: Cache<number[]>;
 
-  private constructor(dict: PDFDict, entries?: Entry[], encode = true) {
-    super(dict, encode);
+  private constructor(
+    dict: PDFDict,
+    entries: Entry[],
+    encode: boolean,
+    encryption: PDFFlateStreamEncryptionParams | null,
+  ) {
+    super(dict, encode, encryption);
 
     this.entries = entries || [];
     this.entryTuplesCache = Cache.populatedBy(this.computeEntryTuples);
@@ -241,4 +251,13 @@ export class PDFCrossRefStream extends PDFFlateStream {
 
     return widths;
   };
+
+  encryptWith(encrypter: ObjectEncrypter, reference: PDFRef): PDFObject {
+    return new PDFCrossRefStream(
+      this.dict.clone(this.dict.context),
+      this.entries.slice(),
+      this.encode,
+      { encrypter, reference },
+    );
+  }
 }

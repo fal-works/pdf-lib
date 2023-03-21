@@ -1,11 +1,9 @@
 import { PDFHeader } from 'src/core/document/PDFHeader';
 import { PDFTrailer } from 'src/core/document/PDFTrailer';
-import { PDFInvalidObject } from 'src/core/objects/PDFInvalidObject';
 import { PDFName } from 'src/core/objects/PDFName';
 import { PDFNumber } from 'src/core/objects/PDFNumber';
 import type { PDFObject } from 'src/core/objects/PDFObject';
 import { PDFRef } from 'src/core/objects/PDFRef';
-import { PDFStream } from 'src/core/objects/PDFStream';
 import type { PDFContext } from 'src/core/PDFContext';
 import { PDFCrossRefStream } from 'src/core/structures/PDFCrossRefStream';
 import { PDFObjectStream } from 'src/core/structures/PDFObjectStream';
@@ -58,22 +56,24 @@ export class PDFStreamWriter extends PDFWriter {
     const objectStreamRefs: PDFRef[] = [];
 
     const indirectObjects = this.context.enumerateIndirectObjects();
+    const encryptionKey = this.context.security?.encryptionKey;
+
     for (let idx = 0, len = indirectObjects.length; idx < len; idx++) {
       const indirectObject = indirectObjects[idx];
-      const [ref, object] = indirectObject;
+      const [ref] = indirectObject;
 
-      const shouldNotCompress =
-        ref === this.context.trailerInfo.Encrypt ||
-        object instanceof PDFStream ||
-        object instanceof PDFInvalidObject ||
-        ref.generationNumber !== 0;
+      if (PDFObjectStream.shallNotStore(indirectObject, this.context)) {
+        // Encrypt each object (which is not to be compressed) before computing size.
+        if (encryptionKey != null) {
+          encryptionKey.encryptIfPossible(indirectObject);
+        }
 
-      if (shouldNotCompress) {
         uncompressedObjects.push(indirectObject);
         xrefStream.addUncompressedEntry(ref, size);
         size += this.computeIndirectObjectSize(indirectObject);
         if (this.shouldWaitForTick(1)) await waitForTick();
       } else {
+        // We don't encrypt the object here as it will be encrypted after storing in object stream.
         let chunk = last(compressedObjects);
         let objectStreamRef = last(objectStreamRefs);
         if (!chunk || chunk.length % this.objectsPerStream === 0) {
@@ -96,11 +96,17 @@ export class PDFStreamWriter extends PDFWriter {
         chunk,
         this.encodeStreams,
       );
+      const indirectObject: [PDFRef, PDFObject] = [ref, objectStream];
+
+      // Encrypt each object stream before computing size.
+      if (encryptionKey != null) {
+        encryptionKey.encryptIfPossible(indirectObject);
+      }
 
       xrefStream.addUncompressedEntry(ref, size);
-      size += this.computeIndirectObjectSize([ref, objectStream]);
+      size += this.computeIndirectObjectSize(indirectObject);
 
-      uncompressedObjects.push([ref, objectStream]);
+      uncompressedObjects.push(indirectObject);
 
       if (this.shouldWaitForTick(chunk.length)) await waitForTick();
     }

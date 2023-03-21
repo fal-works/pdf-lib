@@ -1,4 +1,5 @@
-import { PDFInvalidObject } from 'src/core';
+import { PDFInvalidObject, PDFRef } from 'src/core';
+import { security } from './shared';
 
 describe(`PDFInvalidObject`, () => {
   const data = new Uint8Array([12, 39, 92, 38, 38, 28, 49]);
@@ -28,5 +29,11 @@ describe(`PDFInvalidObject`, () => {
     expect(buffer).toEqual(
       new Uint8Array([0, 0, 0, 12, 39, 92, 38, 38, 28, 49, 0]),
     );
+  });
+
+  it(`can never be encrypted`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+    expect(PDFInvalidObject.of(data).encryptWith(key, ref)).toBe(null);
   });
 });

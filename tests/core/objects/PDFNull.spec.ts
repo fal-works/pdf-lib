@@ -1,5 +1,6 @@
-import { PDFNull } from 'src/core';
+import { PDFNull, PDFRef } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { security } from './shared';
 
 describe(`PDFNull`, () => {
   it(`cannot be publicly constructed`, () => {
@@ -26,5 +27,11 @@ describe(`PDFNull`, () => {
     const buffer = new Uint8Array(8).fill(toCharCode(' '));
     expect(PDFNull.copyBytesInto(buffer, 3)).toBe(4);
     expect(buffer).toEqual(typedArrayFor('   null '));
+  });
+
+  it(`can never be encrypted`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+    expect(PDFNull.encryptWith(key, ref)).toBe(null);
   });
 });

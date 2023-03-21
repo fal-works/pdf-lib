@@ -1,5 +1,6 @@
-import { PDFName, PrivateConstructorError } from 'src/core';
+import { PDFName, PDFRef, PrivateConstructorError } from 'src/core';
 import { toCharCode, typedArrayFor } from 'src/utils';
+import { security } from './shared';
 
 describe(`PDFName`, () => {
   it(`can be constructed from PDFName.of(...)`, () => {
@@ -118,5 +119,11 @@ describe(`PDFName`, () => {
     const buffer3 = new Uint8Array(7).fill(toCharCode(' '));
     expect(PDFName.of('A#42').copyBytesInto(buffer3, 4)).toBe(3);
     expect(buffer3).toEqual(typedArrayFor('    /AB'));
+  });
+
+  it(`can never be encrypted`, () => {
+    const { encryptionKey: key } = security;
+    const ref = PDFRef.of(1);
+    expect(PDFName.of('foobar').encryptWith(key, ref)).toBe(null);
   });
 });
