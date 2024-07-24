@@ -1,6 +1,6 @@
 {
   "name": "@denkiyagi/pdf-lib",
-  "version": "1.17.1-mod.2023.6",
+  "version": "1.17.1-mod.2024.1-alpha.0",
   "description": "A modified version of pdf-lib. Create and modify PDF files with JavaScript",
   "author": "DenkiYagi Inc. (modified version author), Andrew Dillon <andrew.dillon.j@gmail.com> (orignal version author)",
   "contributors": [
@@ -58,9 +58,9 @@
     "apps:node": "tsc --build apps/node/tsconfig.json && node apps/node-build/index.js",
     "apps:web": "http-server -c-1 ."
   },
-  "main": "cjs/index.js",
-  "module": "es/index.js",
-  "types": "cjs/index.d.ts",
+  "main": "cjs/all.js",
+  "module": "es/all.js",
+  "types": "cjs/all.d.ts",
   "typesVersions": {
     "<=3.5": {
       "*": [
