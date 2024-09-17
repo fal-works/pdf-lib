@@ -2,7 +2,7 @@
 
 ## [1.17.1-mod.2024.1]
 
-- Exposed additional modules (including `core`) by replacing `index.js` -> `all.js` in `package.json`
+- (to be added)
 
 ## [1.17.1-mod.2023.6]
 
