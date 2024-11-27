@@ -1,7 +1,3 @@
-/* tslint:disable */
-/// <reference path="../@types/fontkit/index.ts"/>
-/* tslint:enable */
-import type { TypeFeatures } from 'fontkit';
 import type { EmbeddedFileOptions } from 'src/core/embedders/FileEmbedder';
 
 export enum ParseSpeeds {
@@ -41,7 +37,7 @@ export interface EmbedFontOptions {
   subset?: boolean;
   customName?: string;
   vertical?: boolean;
-  features?: TypeFeatures;
+  features?: Record<string, boolean>;
 }
 
 export interface SetTitleOptions {

@@ -1,8 +1,5 @@
-/* tslint:disable */
-/// <reference path="../../@types/fontkit/index.ts"/>
-/* tslint:enable */
-import { create as createFont } from 'fontkit';
-import type { Font, Glyph, TypeFeatures } from 'fontkit';
+import { create as createFont } from '@denkiyagi/fontkit';
+import type { TTFFont, Glyph } from '@denkiyagi/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
 import { deriveFontFlags } from 'src/core/embedders/FontFlags';
@@ -27,9 +24,11 @@ export class CustomFontEmbedder {
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: Record<string, boolean>,
   ) {
     const font = createFont(fontData);
+    if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
+
     return new CustomFontEmbedder(
       font,
       fontData,
@@ -39,23 +38,23 @@ export class CustomFontEmbedder {
     );
   }
 
-  readonly font: Font;
+  readonly font: TTFFont;
   readonly scale: number;
   readonly fontData: Uint8Array;
   readonly fontName: string;
   readonly customName: string | undefined;
   readonly vertical: boolean | undefined;
-  readonly fontFeatures: TypeFeatures | undefined;
+  readonly fontFeatures: Record<string, boolean> | undefined;
 
   protected baseFontName: string;
   protected glyphCache: Cache<Glyph[]>;
 
   protected constructor(
-    font: Font,
+    font: TTFFont,
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: Record<string, boolean>,
   ) {
     this.font = font;
     this.scale = 1000 / this.font.unitsPerEm;

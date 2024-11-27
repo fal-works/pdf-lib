@@ -1,4 +1,4 @@
-import fontkit, { Font, Glyph } from 'fontkit';
+import fontkit, { Font, Glyph } from '@denkiyagi/fontkit';
 import fs from 'fs';
 
 import { createCmap } from 'src/core/embedders/CMap';
@@ -28,6 +28,7 @@ const allGlyphsInFontSortedById = (font: Font) => {
 describe(`createCmap`, () => {
   it(`creates CMaps for embedded Ubuntu-R font files`, () => {
     const font = fontkit.create(ubuntuFont);
+    if (font.type !== 'TTF') fail(`Invalid font type: ${font.type}`);
 
     const glyphs = allGlyphsInFontSortedById(font);
     const cmap = createCmap(glyphs, (g) => (g ? g.id : -1));
@@ -37,6 +38,7 @@ describe(`createCmap`, () => {
 
   it(`creates CMaps for embedded SourceHanSerifJP-Regular font files`, () => {
     const font = fontkit.create(sourceHansJpFont);
+    if (font.type !== 'TTF') fail(`Invalid font type: ${font.type}`);
 
     const glyphs = allGlyphsInFontSortedById(font);
     const cmap = createCmap(glyphs, (g) => (g ? g.id : -1));

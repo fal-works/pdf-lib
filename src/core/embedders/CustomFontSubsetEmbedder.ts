@@ -1,8 +1,5 @@
-/* tslint:disable */
-/// <reference path="../../@types/fontkit/index.ts"/>
-/* tslint:enable */
-import { create as createFont } from 'fontkit';
-import type { Font, Glyph, TypeFeatures, Subset } from 'fontkit';
+import { create as createFont } from '@denkiyagi/fontkit';
+import type { TTFFont, Glyph, Subset } from '@denkiyagi/fontkit';
 
 import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
 import { PDFHexString } from 'src/core/objects/PDFHexString';
@@ -18,9 +15,11 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: Record<string, boolean>,
   ) {
     const font = createFont(fontData);
+    if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
+
     return new CustomFontSubsetEmbedder(
       font,
       fontData,
@@ -35,11 +34,11 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   private readonly glyphIdMap: Map<number, number>;
 
   private constructor(
-    font: Font,
+    font: TTFFont,
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    fontFeatures?: Record<string, boolean>,
   ) {
     super(font, fontData, customFontName, vertical, fontFeatures);
 
@@ -68,7 +67,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   }
 
   protected isCFF(): boolean {
-    return (this.subset as any).cff;
+    return this.subset.type === "CFF";
   }
 
   protected glyphId(glyph?: Glyph): number {
