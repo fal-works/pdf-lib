@@ -190,7 +190,8 @@ export class CustomFontEmbedder {
         Supplement: 0,
       },
       FontDescriptor: fontDescriptorRef,
-      W: this.computeW(),
+      W: this.vertical ? undefined : this.computeW(),
+      W2: this.vertical ? this.computeW2() : undefined,
     });
 
     return context.register(cidFontDict);
@@ -245,6 +246,10 @@ export class CustomFontEmbedder {
     return glyph ? glyph.id : -1;
   }
 
+  /**
+   * @see {@link https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf} "9.7.4.3 Glyph Metrics in CIDFonts"
+   * @returns Array to be assigned to the `W` entry in the CIDFont dictionary
+   */
   protected computeW(): (number | number[])[] {
     const glyphs = this.glyphCache.access();
     const { scale } = this;
@@ -273,6 +278,48 @@ export class CustomFontEmbedder {
     W.push(currSection);
 
     return W;
+  }
+
+  /**
+   * @see {@link https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf} "9.7.4.3 Glyph Metrics in CIDFonts"
+   * @returns Array to be assigned to the `W2` entry in the CIDFont dictionary
+   */
+  protected computeW2(): (number | number[])[] {
+    const glyphs = this.glyphCache.access();
+    const { scale } = this;
+    let defaultVertOriginY = this.font.defaultVertOriginY;
+    defaultVertOriginY =
+      defaultVertOriginY != null ? defaultVertOriginY * scale : 880;
+
+    const W2: (number | number[])[] = [];
+    let currSection: number[] = [];
+
+    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+      const currGlyph = glyphs[idx];
+      const prevGlyph = glyphs[idx - 1];
+
+      const currGlyphId = this.glyphId(currGlyph);
+      const prevGlyphId = this.glyphId(prevGlyph);
+
+      if (idx === 0) {
+        W2.push(currGlyphId);
+      } else if (currGlyphId - prevGlyphId !== 1) {
+        W2.push(currSection);
+        W2.push(currGlyphId);
+        currSection = [];
+      }
+
+      const vertOriginY = currGlyph.vertOriginY;
+      currSection.push(
+        -currGlyph.advanceHeight * scale,
+        (currGlyph.advanceWidth * scale) / 2,
+        vertOriginY != null ? vertOriginY * scale : defaultVertOriginY,
+      );
+    }
+
+    W2.push(currSection);
+
+    return W2;
   }
 
   private allGlyphsInFontSortedById = (): Glyph[] => {
