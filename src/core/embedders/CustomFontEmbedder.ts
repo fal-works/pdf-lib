@@ -185,7 +185,7 @@ export class CustomFontEmbedder {
         Supplement: 0,
       },
       FontDescriptor: fontDescriptorRef,
-      W: this.computeWidths(),
+      W: this.computeW(),
     });
 
     return context.register(cidFontDict);
@@ -240,10 +240,11 @@ export class CustomFontEmbedder {
     return glyph ? glyph.id : -1;
   }
 
-  protected computeWidths(): (number | number[])[] {
+  protected computeW(): (number | number[])[] {
     const glyphs = this.glyphCache.access();
+    const { scale } = this;
 
-    const widths: (number | number[])[] = [];
+    const W: (number | number[])[] = [];
     let currSection: number[] = [];
 
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
@@ -254,19 +255,19 @@ export class CustomFontEmbedder {
       const prevGlyphId = this.glyphId(prevGlyph);
 
       if (idx === 0) {
-        widths.push(currGlyphId);
+        W.push(currGlyphId);
       } else if (currGlyphId - prevGlyphId !== 1) {
-        widths.push(currSection);
-        widths.push(currGlyphId);
+        W.push(currSection);
+        W.push(currGlyphId);
         currSection = [];
       }
 
-      currSection.push(currGlyph.advanceWidth * this.scale);
+      currSection.push(currGlyph.advanceWidth * scale);
     }
 
-    widths.push(currSection);
+    W.push(currSection);
 
-    return widths;
+    return W;
   }
 
   private allGlyphsInFontSortedById = (): Glyph[] => {
