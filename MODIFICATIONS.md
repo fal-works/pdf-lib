@@ -6,6 +6,7 @@
 - Improved `options` parameter of `PDFDocument#embedFont`
     - At default `pdf-lib` will use its own preset `Shaper` when processing glyphs (see also `TTFFont#layout` in `@denkiyagi/fontkit`)
 - Fix `CustomFontEmbedder#embedCIDFontDict` so that it respects glyph metrics when embedding vertical fonts
+- Add `PDFFont#getRawStandardFont` and `PDFFont#getRawCustomFont`
 
 ## [1.17.1-mod.2023.6]
 

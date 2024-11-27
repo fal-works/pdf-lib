@@ -1,3 +1,5 @@
+import type { TTFFont } from '@denkiyagi/fontkit';
+import type { Font as RawStandardFont } from '@pdf-lib/standard-fonts';
 import type { Embeddable } from 'src/api//Embeddable';
 import { PDFDocument } from 'src/api/PDFDocument';
 import {
@@ -132,6 +134,28 @@ export class PDFFont implements Embeddable {
       return this.embedder.encoding.supportedCodePoints;
     } else {
       return this.embedder.font.characterSet;
+    }
+  }
+
+  /**
+   * @returns The raw standard font instance if `this` is a standard font, otherwise `null`.
+   */
+  getRawStandardFont(): RawStandardFont | null {
+    if (this.embedder instanceof StandardFontEmbedder) {
+      return this.embedder.font;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * @returns The raw standard font instance if `this` is a custom font, otherwise `null`.
+   */
+  getRawCustomFont(): TTFFont | null {
+    if (this.embedder instanceof CustomFontEmbedder) {
+      return this.embedder.font;
+    } else {
+      return null;
     }
   }
 
