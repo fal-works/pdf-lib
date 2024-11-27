@@ -14,9 +14,14 @@ import {
   toHexStringOfMinLength,
 } from 'src/utils';
 import type { EmbedFontAdvancedOptions } from 'src/api';
-import { PresetShapers } from './preset-shapers';
+import { HorizontalPresetShaper } from './HorizontalPresetShaper';
+import { VerticalPresetShaper } from './VerticalPresetShaper';
 
 const emptyObject = {};
+const presetShapers = {
+  horizontal: new HorizontalPresetShaper(),
+  vertical: new VerticalPresetShaper(),
+} as const;
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -76,8 +81,8 @@ export class CustomFontEmbedder {
     };
     if (!advanced.disablePresetShaper) {
       this.layoutAdvancedParams.shaper = vertical
-        ? PresetShapers.vertical
-        : PresetShapers.horizontal;
+        ? presetShapers.vertical
+        : presetShapers.horizontal;
     }
 
     this.baseFontName = '';
