@@ -4,6 +4,7 @@ import type { TTFFont, Glyph, Subset } from '@denkiyagi/fontkit';
 import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
 import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { Cache, toHexStringOfMinLength } from 'src/utils';
+import type { EmbedFontAdvancedOptions } from 'src/api';
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -15,7 +16,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: Record<string, boolean>,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
     const font = createFont(fontData);
     if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
@@ -25,7 +26,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
       fontData,
       customFontName,
       vertical,
-      fontFeatures,
+      advanced,
     );
   }
 
@@ -38,9 +39,9 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: Record<string, boolean>,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
-    super(font, fontData, customFontName, vertical, fontFeatures);
+    super(font, fontData, customFontName, vertical, advanced);
 
     this.subset = this.font.createSubset();
     this.glyphs = [];
@@ -49,7 +50,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   }
 
   encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
+    const { glyphs } = this.font.layout(text, this.fontFeatures, this.layoutAdvancedParams);
     const hexCodes = new Array(glyphs.length);
 
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {

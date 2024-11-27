@@ -37,7 +37,15 @@ export interface EmbedFontOptions {
   subset?: boolean;
   customName?: string;
   vertical?: boolean;
-  features?: Record<string, boolean>;
+  advanced?: EmbedFontAdvancedOptions;
+}
+
+export interface EmbedFontAdvancedOptions {
+  fontFeatures?: Record<string, boolean>;
+  script?: string;
+  language?: string;
+  direction?: 'ltr' | 'rtl';
+  disablePresetShaper?: boolean;
 }
 
 export interface SetTitleOptions {

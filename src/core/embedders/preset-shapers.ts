@@ -1,6 +1,10 @@
 import { DefaultShaper, type ShapingPlan } from '@denkiyagi/fontkit';
 
-const HORIZONTAL_FEATURES = [
+/**
+ * Commonly used [OpenType Features](https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist)
+ * related to [glyph substitution](https://learn.microsoft.com/en-us/typography/opentype/spec/gsub).
+ */
+const COMMON_FEATURES = [
   'ccmp',
   'locl',
   'calt',
@@ -9,9 +13,13 @@ const HORIZONTAL_FEATURES = [
   'liga',
   'rlig',
 ];
-const VERTICAL_FEATURES = HORIZONTAL_FEATURES.concat(['vert']);
+const VERTICAL_FEATURES = [
+  'vert', // NOTE: If you apply 'vrt2' instead, 'vert' must be disabled.
+];
 
-export class HorizontalPresetShaper extends DefaultShaper {
+class HorizontalPresetShaper extends DefaultShaper {
+  static defaultFeatures = COMMON_FEATURES;
+
   override planPreprocessing(_: ShapingPlan): void {
     // Do nothing
   }
@@ -20,12 +28,14 @@ export class HorizontalPresetShaper extends DefaultShaper {
     plan: ShapingPlan,
     userFeatures: string[] | Record<string, boolean>,
   ): void {
-    plan.add(HORIZONTAL_FEATURES);
+    plan.add(HorizontalPresetShaper.defaultFeatures);
     plan.setFeatureOverrides(userFeatures);
   }
 }
 
-export class VerticalPresetShaper extends DefaultShaper {
+class VerticalPresetShaper extends DefaultShaper {
+  static defaultFeatures = COMMON_FEATURES.concat(VERTICAL_FEATURES);
+
   override planPreprocessing(_: ShapingPlan): void {
     // Do nothing
   }
@@ -34,7 +44,12 @@ export class VerticalPresetShaper extends DefaultShaper {
     plan: ShapingPlan,
     userFeatures: string[] | Record<string, boolean>,
   ): void {
-    plan.add(VERTICAL_FEATURES);
+    plan.add(VerticalPresetShaper.defaultFeatures);
     plan.setFeatureOverrides(userFeatures);
   }
+}
+
+export class PresetShapers {
+  static horizontal = new HorizontalPresetShaper();
+  static vertical = new VerticalPresetShaper();
 }

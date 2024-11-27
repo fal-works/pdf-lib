@@ -1,4 +1,4 @@
-import { create as createFont } from '@denkiyagi/fontkit';
+import { create as createFont, LayoutAdvancedParams } from '@denkiyagi/fontkit';
 import type { TTFFont, Glyph } from '@denkiyagi/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
@@ -13,6 +13,10 @@ import {
   sortedUniq,
   toHexStringOfMinLength,
 } from 'src/utils';
+import type { EmbedFontAdvancedOptions } from 'src/api';
+import { PresetShapers } from './preset-shapers';
+
+const emptyObject = {};
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -24,7 +28,7 @@ export class CustomFontEmbedder {
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: Record<string, boolean>,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
     const font = createFont(fontData);
     if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
@@ -34,7 +38,7 @@ export class CustomFontEmbedder {
       fontData,
       customName,
       vertical,
-      fontFeatures,
+      advanced,
     );
   }
 
@@ -45,6 +49,7 @@ export class CustomFontEmbedder {
   readonly customName: string | undefined;
   readonly vertical: boolean | undefined;
   readonly fontFeatures: Record<string, boolean> | undefined;
+  readonly layoutAdvancedParams: LayoutAdvancedParams;
 
   protected baseFontName: string;
   protected glyphCache: Cache<Glyph[]>;
@@ -54,7 +59,7 @@ export class CustomFontEmbedder {
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: Record<string, boolean>,
+    advanced: EmbedFontAdvancedOptions = emptyObject,
   ) {
     this.font = font;
     this.scale = 1000 / this.font.unitsPerEm;
@@ -62,7 +67,18 @@ export class CustomFontEmbedder {
     this.fontName = this.font.postscriptName || 'Font';
     this.customName = customName;
     this.vertical = vertical;
-    this.fontFeatures = fontFeatures;
+    this.fontFeatures = advanced.fontFeatures;
+    this.layoutAdvancedParams = {
+      script: advanced.script,
+      language: advanced.language,
+      direction: advanced.direction,
+      skipPerGlyphPositioning: true,
+    };
+    if (!advanced.disablePresetShaper) {
+      this.layoutAdvancedParams.shaper = vertical
+        ? PresetShapers.vertical
+        : PresetShapers.horizontal;
+    }
 
     this.baseFontName = '';
     this.glyphCache = Cache.populatedBy(this.allGlyphsInFontSortedById);
@@ -73,7 +89,11 @@ export class CustomFontEmbedder {
    * Unicode, but embedded fonts use their own custom encodings)
    */
   encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
+    const { glyphs } = this.font.layout(
+      text,
+      this.fontFeatures,
+      this.layoutAdvancedParams,
+    );
     const hexCodes = new Array(glyphs.length);
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
       hexCodes[idx] = toHexStringOfMinLength(glyphs[idx].id, 4);
@@ -84,7 +104,11 @@ export class CustomFontEmbedder {
   // The advanceWidth takes into account kerning automatically, so we don't
   // have to do that manually like we do for the standard fonts.
   widthOfTextAtSize(text: string, size: number): number {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
+    const { glyphs } = this.font.layout(
+      text,
+      this.fontFeatures,
+      this.layoutAdvancedParams,
+    );
     let totalWidth = 0;
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
       totalWidth += glyphs[idx].advanceWidth * this.scale;
