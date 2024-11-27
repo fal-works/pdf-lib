@@ -50,7 +50,11 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   }
 
   encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(text, this.fontFeatures, this.layoutAdvancedParams);
+    const { glyphs } = this.font.layout(
+      text,
+      this.fontFeatures,
+      this.layoutAdvancedParams,
+    );
     const hexCodes = new Array(glyphs.length);
 
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
@@ -68,7 +72,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   }
 
   protected isCFF(): boolean {
-    return this.subset.type === "CFF";
+    return this.subset.type === 'CFF';
   }
 
   protected glyphId(glyph?: Glyph): number {
