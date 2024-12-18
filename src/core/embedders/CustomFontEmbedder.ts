@@ -14,8 +14,8 @@ import {
   toHexStringOfMinLength,
 } from 'src/utils';
 import type { EmbedFontAdvancedOptions } from 'src/api';
-import { HorizontalPresetShaper } from './HorizontalPresetShaper';
-import { VerticalPresetShaper } from './VerticalPresetShaper';
+import { HorizontalPresetShaper } from './shapers/HorizontalPresetShaper';
+import { VerticalPresetShaper } from './shapers/VerticalPresetShaper';
 
 const emptyObject = {};
 const presetShapers = {
