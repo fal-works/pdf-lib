@@ -16,6 +16,7 @@ import {
 import type { EmbedFontAdvancedOptions } from 'src/api';
 import { HorizontalPresetShaper } from './shapers/HorizontalPresetShaper';
 import { VerticalPresetShaper } from './shapers/VerticalPresetShaper';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 
 const emptyObject = {};
 const presetShapers = {
@@ -93,16 +94,26 @@ export class CustomFontEmbedder {
    * Encode the JavaScript string into this font. (JavaScript encodes strings in
    * Unicode, but embedded fonts use their own custom encodings)
    */
-  encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(
-      text,
-      this.fontFeatures,
-      this.layoutAdvancedParams,
-    );
-    const hexCodes = new Array(glyphs.length);
-    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
-      hexCodes[idx] = toHexStringOfMinLength(glyphs[idx].id, 4);
+  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+    let hexCodes: string[];
+    if (typeof text === 'string') {
+      const { glyphs } = this.font.layout(
+        text,
+        this.fontFeatures,
+        this.layoutAdvancedParams,
+      );
+      hexCodes = new Array(glyphs.length);
+      for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+        hexCodes[idx] = toHexStringOfMinLength(glyphs[idx].id, 4);
+      }
+    } else {
+      const glyphIds = text;
+      hexCodes = new Array(glyphIds.length);
+      for (let idx = 0, len = glyphIds.length; idx < len; idx++) {
+        hexCodes[idx] = toHexStringOfMinLength(glyphIds[idx], 4);
+      }
     }
+
     return PDFHexString.of(hexCodes.join(''));
   }
 

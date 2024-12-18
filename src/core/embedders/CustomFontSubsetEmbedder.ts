@@ -5,6 +5,7 @@ import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
 import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { Cache, toHexStringOfMinLength } from 'src/utils';
 import type { EmbedFontAdvancedOptions } from 'src/api';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -49,22 +50,38 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     this.glyphIdMap = new Map();
   }
 
-  encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(
-      text,
-      this.fontFeatures,
-      this.layoutAdvancedParams,
-    );
-    const hexCodes = new Array(glyphs.length);
+  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+    let hexCodes: string[];
+    if (typeof text === 'string') {
+      const { glyphs } = this.font.layout(
+        text,
+        this.fontFeatures,
+        this.layoutAdvancedParams,
+      );
+      hexCodes = new Array(glyphs.length);
 
-    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
-      const glyph = glyphs[idx];
-      const subsetGlyphId = this.subset.includeGlyph(glyph);
+      for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+        const glyph = glyphs[idx];
+        const subsetGlyphId = this.subset.includeGlyph(glyph);
 
-      this.glyphs[subsetGlyphId - 1] = glyph;
-      this.glyphIdMap.set(glyph.id, subsetGlyphId);
+        this.glyphs[subsetGlyphId - 1] = glyph;
+        this.glyphIdMap.set(glyph.id, subsetGlyphId);
 
-      hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+        hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+      }
+    } else {
+      const glyphIds = text;
+      hexCodes = new Array(glyphIds.length);
+
+      for (let idx = 0, len = glyphIds.length; idx < len; idx++) {
+        const glyph = this.font.getGlyph(glyphIds[idx]);
+        const subsetGlyphId = this.subset.includeGlyph(glyph);
+
+        this.glyphs[subsetGlyphId - 1] = glyph;
+        this.glyphIdMap.set(glyph.id, subsetGlyphId);
+
+        hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+      }
     }
 
     this.glyphCache.invalidate();

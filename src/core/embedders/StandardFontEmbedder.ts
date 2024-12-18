@@ -8,6 +8,7 @@ import {
 import { PDFHexString } from 'src/core/objects/PDFHexString';
 import type { PDFRef } from 'src/core/objects/PDFRef';
 import type { PDFContext } from 'src/core/PDFContext';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 import { toCodePoint, toHexString } from 'src/utils';
 
 export interface Glyph {
@@ -46,12 +47,22 @@ export class StandardFontEmbedder {
    * Unicode, but standard fonts use either WinAnsi, ZapfDingbats, or Symbol
    * encodings)
    */
-  encodeText(text: string): PDFHexString {
-    const glyphs = this.encodeTextAsGlyphs(text);
-    const hexCodes = new Array(glyphs.length);
-    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
-      hexCodes[idx] = toHexString(glyphs[idx].code);
+  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+    let hexCodes: string[];
+    if (typeof text === 'string') {
+      const glyphs = this.encodeTextAsGlyphs(text);
+      hexCodes = new Array(glyphs.length);
+      for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+        hexCodes[idx] = toHexString(glyphs[idx].code);
+      }
+    } else {
+      const glyphCodes = text;
+      hexCodes = new Array(glyphCodes.length);
+      for (let idx = 0, len = glyphCodes.length; idx < len; idx++) {
+        hexCodes[idx] = toHexString(glyphCodes[idx]);
+      }
     }
+
     return PDFHexString.of(hexCodes.join(''));
   }
 

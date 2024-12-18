@@ -8,6 +8,7 @@ import {
   PDFRef,
   StandardFontEmbedder,
 } from 'src/core';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 import { assertIs, assertOrUndefined } from 'src/utils';
 
 export type FontEmbedder = CustomFontEmbedder | StandardFontEmbedder;
@@ -68,8 +69,8 @@ export class PDFFont implements Embeddable {
    * @param text The text to be encoded.
    * @returns The encoded text as a hex string.
    */
-  encodeText(text: string): PDFHexString {
-    assertIs(text, 'text', ['string']);
+  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+    assertIs(text, 'text', ['string', Array]);
     this.modified = true;
     return this.embedder.encodeText(text);
   }
