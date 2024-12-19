@@ -70,7 +70,7 @@ export class PDFFont implements Embeddable {
    * @returns The encoded text as a hex string.
    */
   encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
-    assertIs(text, 'text', ['string', Array]);
+    assertIs(text, 'text', ['string', Array, Uint16Array, Uint32Array]);
     this.modified = true;
     return this.embedder.encodeText(text);
   }

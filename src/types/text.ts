@@ -15,4 +15,4 @@ export type SingleLineTextOrGlyphs = string | GlyphLine;
 /**
  * Single-line text represented by an array of glyph IDs.
  */
-export type GlyphLine = readonly number[];
+export type GlyphLine = readonly number[] | Uint16Array | Uint32Array;
