@@ -10,12 +10,7 @@ export class BasicPresetShaper extends DefaultShaper {
    * related to glyph substitution,
    * excluding non-required ligatures and contextual alternates (liga, clig, calt).
    */
-  static basicFeatures = [
-    'ccmp',
-    'locl',
-    'rclt',
-    'rlig',
-  ];
+  static basicFeatures = ['ccmp', 'locl', 'rclt', 'rlig'];
 
   override planPreprocessing(_: ShapingPlan): void {
     // Do nothing

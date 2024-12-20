@@ -43,7 +43,10 @@ import {
   PDFDict,
   PDFArray,
 } from 'src/core';
-import type { MultiLineTextOrGlyphs, SingleLineTextOrGlyphs } from 'src/types/text';
+import type {
+  MultiLineTextOrGlyphs,
+  SingleLineTextOrGlyphs,
+} from 'src/types/text';
 import {
   assertEachIs,
   assertIs,
@@ -967,7 +970,10 @@ export class PDFPage {
    *     the formatting process described above will be skipped.
    * @param options The options to be used when drawing the text.
    */
-  drawText(text: MultiLineTextOrGlyphs, options: PDFPageDrawTextOptions = {}): void {
+  drawText(
+    text: MultiLineTextOrGlyphs,
+    options: PDFPageDrawTextOptions = {},
+  ): void {
     assertIs(text, 'text', ['string', Array]);
     assertOrUndefined(options.color, 'options.color', [[Object, 'Color']]);
     assertRangeOrUndefined(options.opacity, 'opacity.opacity', 0, 1);
