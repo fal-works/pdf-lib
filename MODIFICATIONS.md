@@ -5,7 +5,8 @@
 - Changed npm dependency `fontkit` to `@denkiyagi/fontkit`
 - Improved `options` parameter of `PDFDocument#embedFont`
 - Fix `CustomFontEmbedder#embedCIDFontDict` so that it respects glyph metrics when embedding vertical fonts
-- Add `PDFFont#getRawStandardFont` and `PDFFont#getRawCustomFont`
+- Add methods `PDFFont#getRawStandardFont` and `PDFFont#getRawCustomFont`
+- Add `fontLayoutAdvancedParams` property to the `options` parameter of `PDFPage#drawText`
 
 ## [1.17.1-mod.2023.6]
 
