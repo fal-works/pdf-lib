@@ -1,4 +1,4 @@
-import { create as createFont } from '@denkiyagi/fontkit';
+import { create as createFont, LayoutAdvancedParams } from '@denkiyagi/fontkit';
 import type { TTFFont, Glyph, Subset } from '@denkiyagi/fontkit';
 
 import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
@@ -50,13 +50,19 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     this.glyphIdMap = new Map();
   }
 
-  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+  /**
+   * @param layoutAdvancedParams Specify this to pass it to `fontkit` instead of the one that `this` embedder itself has.
+   */
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
     let hexCodes: string[];
     if (typeof text === 'string') {
       const { glyphs } = this.font.layout(
         text,
         this.fontFeatures,
-        this.layoutAdvancedParams,
+        layoutAdvancedParams ?? this.layoutAdvancedParams,
       );
       hexCodes = new Array(glyphs.length);
 
