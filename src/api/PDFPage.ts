@@ -1003,7 +1003,7 @@ export class PDFPage {
 
     const encodedLines = new Array(lines.length) as PDFHexString[];
     for (let idx = 0, len = lines.length; idx < len; idx++) {
-      encodedLines[idx] = newFont.encodeText(lines[idx]);
+      encodedLines[idx] = newFont.encodeText(lines[idx], options.fontLayoutAdvancedParams);
     }
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({

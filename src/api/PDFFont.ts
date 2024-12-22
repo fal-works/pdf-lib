@@ -1,4 +1,4 @@
-import type { TTFFont } from '@denkiyagi/fontkit';
+import type { LayoutAdvancedParams, TTFFont } from '@denkiyagi/fontkit';
 import type { Font as RawStandardFont } from '@pdf-lib/standard-fonts';
 import type { Embeddable } from 'src/api//Embeddable';
 import { PDFDocument } from 'src/api/PDFDocument';
@@ -67,12 +67,16 @@ export class PDFFont implements Embeddable {
    * Encodes a string of text in this font.
    *
    * @param text The text to be encoded.
+   * @param layoutAdvancedParams Only for custom fonts. Specify this to pass it to `fontkit` instead of the one that the font embedder itself has.
    * @returns The encoded text as a hex string.
    */
-  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
     assertIs(text, 'text', ['string', Array, Uint16Array, Uint32Array]);
     this.modified = true;
-    return this.embedder.encodeText(text);
+    return this.embedder.encodeText(text, layoutAdvancedParams);
   }
 
   /**

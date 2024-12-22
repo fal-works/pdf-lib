@@ -83,14 +83,19 @@ export class CustomFontEmbedder {
   /**
    * Encode the JavaScript string into this font. (JavaScript encodes strings in
    * Unicode, but embedded fonts use their own custom encodings)
+   *
+   * @param layoutAdvancedParams Specify this to pass it to `fontkit` instead of the one that `this` embedder itself has.
    */
-  encodeText(text: SingleLineTextOrGlyphs): PDFHexString {
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
     let hexCodes: string[];
     if (typeof text === 'string') {
       const { glyphs } = this.font.layout(
         text,
         this.fontFeatures,
-        this.layoutAdvancedParams,
+        layoutAdvancedParams ?? this.layoutAdvancedParams,
       );
       hexCodes = new Array(glyphs.length);
       for (let idx = 0, len = glyphs.length; idx < len; idx++) {
