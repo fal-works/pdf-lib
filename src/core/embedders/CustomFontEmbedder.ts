@@ -14,15 +14,9 @@ import {
   toHexStringOfMinLength,
 } from 'src/utils';
 import type { EmbedFontAdvancedOptions } from 'src/api';
-import { HorizontalPresetShaper } from './shapers/HorizontalPresetShaper';
-import { VerticalPresetShaper } from './shapers/VerticalPresetShaper';
 import type { SingleLineTextOrGlyphs } from 'src/types/text';
 
 const emptyObject = {};
-const presetShapers = {
-  horizontal: new HorizontalPresetShaper(),
-  vertical: new VerticalPresetShaper(),
-} as const;
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -78,13 +72,9 @@ export class CustomFontEmbedder {
       script: advanced.script,
       language: advanced.language,
       direction: advanced.direction,
+      shaper: advanced.shaper,
       skipPerGlyphPositioning: true,
     };
-    if (!advanced.disablePresetShaper) {
-      this.layoutAdvancedParams.shaper = vertical
-        ? presetShapers.vertical
-        : presetShapers.horizontal;
-    }
 
     this.baseFontName = '';
     this.glyphCache = Cache.populatedBy(this.allGlyphsInFontSortedById);

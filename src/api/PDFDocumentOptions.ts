@@ -1,3 +1,4 @@
+import type { Shaper } from '@denkiyagi/fontkit';
 import type { EmbeddedFileOptions } from 'src/core/embedders/FileEmbedder';
 
 export enum ParseSpeeds {
@@ -41,11 +42,29 @@ export interface EmbedFontOptions {
 }
 
 export interface EmbedFontAdvancedOptions {
+  /**
+   * [Features](https://learn.microsoft.com/en-us/typography/opentype/spec/featurelist) to override.
+   */
   fontFeatures?: Record<string, boolean>;
+
+  /**
+   * Any [Script tag](https://learn.microsoft.com/en-us/typography/opentype/spec/scripttags).
+   */
   script?: string;
+
+  /**
+   * Any [Language tag](https://learn.microsoft.com/en-us/typography/opentype/spec/languagetags).
+   */
   language?: string;
+
   direction?: 'ltr' | 'rtl';
-  disablePresetShaper?: boolean;
+
+  /**
+   * You may choose one of preset shapers (e.g. `HorizontalPresetShaper`) that `pdf-lib` provides,
+   * or make your own that satisfies the `Shaper` type of `fontkit`,
+   * or do not specify to let it go with the `fontkit` default behavior.
+   */
+  shaper?: Shaper;
 }
 
 export interface SetTitleOptions {
