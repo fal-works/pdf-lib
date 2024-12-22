@@ -6,7 +6,9 @@
 - Improved `options` parameter of `PDFDocument#embedFont`
 - Fix `CustomFontEmbedder#embedCIDFontDict` so that it respects glyph metrics when embedding vertical fonts
 - Add methods `PDFFont#getRawStandardFont` and `PDFFont#getRawCustomFont`
-- Add `fontLayoutAdvancedParams` property to the `options` parameter of `PDFPage#drawText`
+- Improve parameters of `PDFPage#drawText`:
+    - Expand the data type of the `text` parameter so that it also accepts Glyph IDs instead of string
+    - Add `fontLayoutAdvancedParams` property to the `options` parameter
 
 ## [1.17.1-mod.2023.6]
 
