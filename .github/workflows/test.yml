@@ -2,29 +2,36 @@ name: Test
 
 on:
   push:
-    branches: [ "denkiyagi-fork" ]
+    branches: ['denkiyagi-fork']
   pull_request:
-    branches: [ "denkiyagi-fork" ]
+    branches: ['denkiyagi-fork']
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
 
     strategy:
       matrix:
         node-version: [16.x, 18.x]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: yarn
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
+          scope: '@denkiyagi'
+          cache: yarn
 
-    - run: yarn install --frozen-lockfile
+      - run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - run: yarn typecheck
-    - run: yarn lint
-    - run: yarn test
+      - run: yarn typecheck
+      - run: yarn lint
+      - run: yarn test
