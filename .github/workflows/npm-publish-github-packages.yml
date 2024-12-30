@@ -22,8 +22,10 @@ jobs:
         with:
           name: build-output
           path: |
-            dist/
-            types/
+            cjs/
+            es/
+            umd/
+            ts3.4/
 
   publish-gpr:
     needs: build
