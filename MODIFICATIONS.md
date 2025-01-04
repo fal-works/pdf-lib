@@ -1,6 +1,6 @@
 # Modifications
 
-## [1.17.1-mod.2024.1]
+## [1.17.1-mod.2025.1]
 
 - Changed npm dependency `fontkit` to `@denkiyagi/fontkit`
 - Improved `options` parameter of `PDFDocument#embedFont`
