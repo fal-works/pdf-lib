@@ -73,6 +73,8 @@ import {
   wordArrayToBytes,
 } from 'src/utils/crypt';
 
+const emptyObject = {};
+
 /**
  * Represents a PDF document.
  */
@@ -915,9 +917,9 @@ export class PDFDocument {
    */
   embedFont(
     font: StandardFonts | string | Uint8Array | ArrayBuffer,
-    options: EmbedFontOptions = {},
+    options: EmbedFontOptions = emptyObject,
   ): PDFFont {
-    const { subset = false, customName, vertical, features } = options;
+    const { subset = false, customName, vertical, advanced } = options;
 
     assertIs(font, 'font', ['string', Uint8Array, ArrayBuffer]);
     assertIs(subset, 'subset', ['boolean']);
@@ -928,8 +930,8 @@ export class PDFDocument {
     } else if (canBeConvertedToUint8Array(font)) {
       const bytes = toUint8Array(font);
       embedder = subset
-        ? CustomFontSubsetEmbedder.for(bytes, customName, vertical, features)
-        : CustomFontEmbedder.for(bytes, customName, vertical, features);
+        ? CustomFontSubsetEmbedder.for(bytes, customName, vertical, advanced)
+        : CustomFontEmbedder.for(bytes, customName, vertical, advanced);
     } else {
       throw new TypeError(
         '`font` must be one of `StandardFonts | string | Uint8Array | ArrayBuffer`',

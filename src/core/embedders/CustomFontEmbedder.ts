@@ -1,8 +1,5 @@
-/* tslint:disable */
-/// <reference path="../../@types/fontkit/index.ts"/>
-/* tslint:enable */
-import { create as createFont } from 'fontkit';
-import type { Font, Glyph, TypeFeatures } from 'fontkit';
+import { create as createFont, LayoutAdvancedParams } from '@denkiyagi/fontkit';
+import type { TTFFont, Glyph } from '@denkiyagi/fontkit';
 
 import { createCmap } from 'src/core/embedders/CMap';
 import { deriveFontFlags } from 'src/core/embedders/FontFlags';
@@ -16,6 +13,10 @@ import {
   sortedUniq,
   toHexStringOfMinLength,
 } from 'src/utils';
+import type { EmbedFontAdvancedOptions } from 'src/api';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
+
+const emptyObject = {};
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -27,35 +28,38 @@ export class CustomFontEmbedder {
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
     const font = createFont(fontData);
+    if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
+
     return new CustomFontEmbedder(
       font,
       fontData,
       customName,
       vertical,
-      fontFeatures,
+      advanced,
     );
   }
 
-  readonly font: Font;
+  readonly font: TTFFont;
   readonly scale: number;
   readonly fontData: Uint8Array;
   readonly fontName: string;
   readonly customName: string | undefined;
   readonly vertical: boolean | undefined;
-  readonly fontFeatures: TypeFeatures | undefined;
+  readonly fontFeatures: Record<string, boolean> | undefined;
+  readonly layoutAdvancedParams: LayoutAdvancedParams;
 
   protected baseFontName: string;
   protected glyphCache: Cache<Glyph[]>;
 
   protected constructor(
-    font: Font,
+    font: TTFFont,
     fontData: Uint8Array,
     customName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    advanced: EmbedFontAdvancedOptions = emptyObject,
   ) {
     this.font = font;
     this.scale = 1000 / this.font.unitsPerEm;
@@ -63,7 +67,14 @@ export class CustomFontEmbedder {
     this.fontName = this.font.postscriptName || 'Font';
     this.customName = customName;
     this.vertical = vertical;
-    this.fontFeatures = fontFeatures;
+    this.fontFeatures = advanced.fontFeatures;
+    this.layoutAdvancedParams = {
+      script: advanced.script,
+      language: advanced.language,
+      direction: advanced.direction,
+      shaper: advanced.shaper,
+      skipPerGlyphPositioning: true,
+    };
 
     this.baseFontName = '';
     this.glyphCache = Cache.populatedBy(this.allGlyphsInFontSortedById);
@@ -72,20 +83,43 @@ export class CustomFontEmbedder {
   /**
    * Encode the JavaScript string into this font. (JavaScript encodes strings in
    * Unicode, but embedded fonts use their own custom encodings)
+   *
+   * @param layoutAdvancedParams Specify this to pass it to `fontkit` instead of the one that `this` embedder itself has.
    */
-  encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
-    const hexCodes = new Array(glyphs.length);
-    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
-      hexCodes[idx] = toHexStringOfMinLength(glyphs[idx].id, 4);
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
+    let hexCodes: string[];
+    if (typeof text === 'string') {
+      const { glyphs } = this.font.layout(
+        text,
+        this.fontFeatures,
+        layoutAdvancedParams ?? this.layoutAdvancedParams,
+      );
+      hexCodes = new Array(glyphs.length);
+      for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+        hexCodes[idx] = toHexStringOfMinLength(glyphs[idx].id, 4);
+      }
+    } else {
+      const glyphIds = text;
+      hexCodes = new Array(glyphIds.length);
+      for (let idx = 0, len = glyphIds.length; idx < len; idx++) {
+        hexCodes[idx] = toHexStringOfMinLength(glyphIds[idx], 4);
+      }
     }
+
     return PDFHexString.of(hexCodes.join(''));
   }
 
   // The advanceWidth takes into account kerning automatically, so we don't
   // have to do that manually like we do for the standard fonts.
   widthOfTextAtSize(text: string, size: number): number {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
+    const { glyphs } = this.font.layout(
+      text,
+      this.fontFeatures,
+      this.layoutAdvancedParams,
+    );
     let totalWidth = 0;
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
       totalWidth += glyphs[idx].advanceWidth * this.scale;
@@ -162,7 +196,8 @@ export class CustomFontEmbedder {
         Supplement: 0,
       },
       FontDescriptor: fontDescriptorRef,
-      W: this.computeWidths(),
+      W: this.vertical ? undefined : this.computeW(),
+      W2: this.vertical ? this.computeW2() : undefined,
     });
 
     return context.register(cidFontDict);
@@ -217,10 +252,15 @@ export class CustomFontEmbedder {
     return glyph ? glyph.id : -1;
   }
 
-  protected computeWidths(): (number | number[])[] {
+  /**
+   * @see {@link https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf} "9.7.4.3 Glyph Metrics in CIDFonts"
+   * @returns Array to be assigned to the `W` entry in the CIDFont dictionary
+   */
+  protected computeW(): (number | number[])[] {
     const glyphs = this.glyphCache.access();
+    const { scale } = this;
 
-    const widths: (number | number[])[] = [];
+    const W: (number | number[])[] = [];
     let currSection: number[] = [];
 
     for (let idx = 0, len = glyphs.length; idx < len; idx++) {
@@ -231,19 +271,61 @@ export class CustomFontEmbedder {
       const prevGlyphId = this.glyphId(prevGlyph);
 
       if (idx === 0) {
-        widths.push(currGlyphId);
+        W.push(currGlyphId);
       } else if (currGlyphId - prevGlyphId !== 1) {
-        widths.push(currSection);
-        widths.push(currGlyphId);
+        W.push(currSection);
+        W.push(currGlyphId);
         currSection = [];
       }
 
-      currSection.push(currGlyph.advanceWidth * this.scale);
+      currSection.push(currGlyph.advanceWidth * scale);
     }
 
-    widths.push(currSection);
+    W.push(currSection);
 
-    return widths;
+    return W;
+  }
+
+  /**
+   * @see {@link https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf} "9.7.4.3 Glyph Metrics in CIDFonts"
+   * @returns Array to be assigned to the `W2` entry in the CIDFont dictionary
+   */
+  protected computeW2(): (number | number[])[] {
+    const glyphs = this.glyphCache.access();
+    const { scale } = this;
+    let defaultVertOriginY = this.font.defaultVertOriginY;
+    defaultVertOriginY =
+      defaultVertOriginY != null ? defaultVertOriginY * scale : 880;
+
+    const W2: (number | number[])[] = [];
+    let currSection: number[] = [];
+
+    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+      const currGlyph = glyphs[idx];
+      const prevGlyph = glyphs[idx - 1];
+
+      const currGlyphId = this.glyphId(currGlyph);
+      const prevGlyphId = this.glyphId(prevGlyph);
+
+      if (idx === 0) {
+        W2.push(currGlyphId);
+      } else if (currGlyphId - prevGlyphId !== 1) {
+        W2.push(currSection);
+        W2.push(currGlyphId);
+        currSection = [];
+      }
+
+      const vertOriginY = currGlyph.vertOriginY;
+      currSection.push(
+        -currGlyph.advanceHeight * scale,
+        (currGlyph.advanceWidth * scale) / 2,
+        vertOriginY != null ? vertOriginY * scale : defaultVertOriginY,
+      );
+    }
+
+    W2.push(currSection);
+
+    return W2;
   }
 
   private allGlyphsInFontSortedById = (): Glyph[] => {

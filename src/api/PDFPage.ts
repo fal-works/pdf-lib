@@ -43,6 +43,10 @@ import {
   PDFDict,
   PDFArray,
 } from 'src/core';
+import type {
+  MultiLineTextOrGlyphs,
+  SingleLineTextOrGlyphs,
+} from 'src/types/text';
 import {
   assertEachIs,
   assertIs,
@@ -960,10 +964,17 @@ export class PDFPage {
    * )
    * ```
    * @param text The text to be drawn.
+   *   - If `text` is a type of `string`, this method will automatically call `lineSplit()` and `cleanText()`
+   *     and then the characters will be converted to glyph IDs.
+   *   - If `text` is a type of `GlyphLine[]` (which already consists of glyph IDs),
+   *     the formatting process described above will be skipped.
    * @param options The options to be used when drawing the text.
    */
-  drawText(text: string, options: PDFPageDrawTextOptions = {}): void {
-    assertIs(text, 'text', ['string']);
+  drawText(
+    text: MultiLineTextOrGlyphs,
+    options: PDFPageDrawTextOptions = {},
+  ): void {
+    assertIs(text, 'text', ['string', Array]);
     assertOrUndefined(options.color, 'options.color', [[Object, 'Color']]);
     assertRangeOrUndefined(options.opacity, 'opacity.opacity', 0, 1);
     assertOrUndefined(options.font, 'options.font', [[PDFFont, 'PDFFont']]);
@@ -983,14 +994,19 @@ export class PDFPage {
 
     const wordBreaks = options.wordBreaks || this.doc.defaultWordBreaks;
     const textWidth = (t: string) => newFont.widthOfTextAtSize(t, fontSize);
-    const lines =
-      options.maxWidth === undefined
-        ? lineSplit(cleanText(text))
-        : breakTextIntoLines(text, wordBreaks, options.maxWidth, textWidth);
+    const lines: readonly SingleLineTextOrGlyphs[] =
+      typeof text === 'string'
+        ? options.maxWidth === undefined
+          ? lineSplit(cleanText(text))
+          : breakTextIntoLines(text, wordBreaks, options.maxWidth, textWidth)
+        : text;
 
     const encodedLines = new Array(lines.length) as PDFHexString[];
     for (let idx = 0, len = lines.length; idx < len; idx++) {
-      encodedLines[idx] = newFont.encodeText(lines[idx]);
+      encodedLines[idx] = newFont.encodeText(
+        lines[idx],
+        options.fontLayoutAdvancedParams,
+      );
     }
 
     const graphicsStateKey = this.maybeEmbedGraphicsState({

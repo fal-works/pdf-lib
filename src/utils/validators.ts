@@ -97,6 +97,8 @@ export type TypeDescriptor =
   | DateConstructor
   | ArrayConstructor
   | Uint8ArrayConstructor
+  | Uint16ArrayConstructor
+  | Uint32ArrayConstructor
   | ArrayBufferConstructor
   | FunctionConstructor
   | [Function, string];
@@ -112,6 +114,8 @@ export const isType = (value: any, type: TypeDescriptor) => {
   if (type === Date) return value instanceof Date;
   if (type === Array) return value instanceof Array;
   if (type === Uint8Array) return value instanceof Uint8Array;
+  if (type === Uint16Array) return value instanceof Uint16Array;
+  if (type === Uint32Array) return value instanceof Uint32Array;
   if (type === ArrayBuffer) return value instanceof ArrayBuffer;
   if (type === Function) return value instanceof Function;
   return value instanceof (type as [Function, string])[0];
@@ -135,6 +139,8 @@ export const createTypeErrorMsg = (
     else if (type === 'bigint') allowedTypes[idx] = backtick('bigint');
     else if (type === Array) allowedTypes[idx] = backtick('Array');
     else if (type === Uint8Array) allowedTypes[idx] = backtick('Uint8Array');
+    else if (type === Uint16Array) allowedTypes[idx] = backtick('Uint16Array');
+    else if (type === Uint32Array) allowedTypes[idx] = backtick('Uint32Array');
     else if (type === ArrayBuffer) allowedTypes[idx] = backtick('ArrayBuffer');
     else allowedTypes[idx] = backtick((type as [Function, string])[1]);
   }

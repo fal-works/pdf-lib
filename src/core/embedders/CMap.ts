@@ -1,4 +1,4 @@
-import type { Glyph } from 'fontkit';
+import type { Glyph } from '@denkiyagi/fontkit';
 
 import { toHexString, toHexStringOfMinLength } from 'src/utils';
 import {

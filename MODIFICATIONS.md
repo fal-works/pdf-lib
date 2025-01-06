@@ -1,8 +1,14 @@
 # Modifications
 
-## [1.17.1-mod.2024.1]
+## [1.17.1-mod.2025.1]
 
-- Exposed additional modules (including `core`) by replacing `index.js` -> `all.js` in `package.json`
+- Changed npm dependency `fontkit` to `@denkiyagi/fontkit`
+- Improved `options` parameter of `PDFDocument#embedFont`
+- Fix `CustomFontEmbedder#embedCIDFontDict` so that it respects glyph metrics when embedding vertical fonts
+- Add methods `PDFFont#getRawStandardFont` and `PDFFont#getRawCustomFont`
+- Improve parameters of `PDFPage#drawText`:
+    - Expand the data type of the `text` parameter so that it also accepts Glyph IDs instead of string
+    - Add `fontLayoutAdvancedParams` property to the `options` parameter
 
 ## [1.17.1-mod.2023.6]
 

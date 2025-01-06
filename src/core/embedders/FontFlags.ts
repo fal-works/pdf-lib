@@ -1,4 +1,4 @@
-import type { Font } from 'fontkit';
+import type { Font } from '@denkiyagi/fontkit';
 
 export interface FontFlagOptions {
   fixedPitch?: boolean;
@@ -35,7 +35,7 @@ const makeFontFlags = (options: FontFlagOptions) => {
 export const deriveFontFlags = (font: Font): number => {
   const familyClass = font['OS/2'] ? font['OS/2'].sFamilyClass : 0;
   const flags = makeFontFlags({
-    fixedPitch: font.post.isFixedPitch,
+    fixedPitch: font.post?.isFixedPitch,
     serif: 1 <= familyClass && familyClass <= 7,
     symbolic: true, // Assume the font uses non-latin characters
     script: familyClass === 10,

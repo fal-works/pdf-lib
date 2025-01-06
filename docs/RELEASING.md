@@ -17,9 +17,6 @@ Regarding steps 2, 6 and 7, follow another process if you do not have push permi
 
 ## Release
 
-1.  (Prepare `.npmrc` if needed, according to your situation)
-2.  Run `npm publish`
+Create a release on GitHub.
 
-## Post-release
-
-1.  Add version tag such as `v1.17.1-mod.2023.3`
+This triggers an automatic publish to GitHub Packages.

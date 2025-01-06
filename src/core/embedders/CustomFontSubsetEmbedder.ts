@@ -1,12 +1,11 @@
-/* tslint:disable */
-/// <reference path="../../@types/fontkit/index.ts"/>
-/* tslint:enable */
-import { create as createFont } from 'fontkit';
-import type { Font, Glyph, TypeFeatures, Subset } from 'fontkit';
+import { create as createFont, LayoutAdvancedParams } from '@denkiyagi/fontkit';
+import type { TTFFont, Glyph, Subset } from '@denkiyagi/fontkit';
 
 import { CustomFontEmbedder } from 'src/core/embedders/CustomFontEmbedder';
 import { PDFHexString } from 'src/core/objects/PDFHexString';
 import { Cache, toHexStringOfMinLength } from 'src/utils';
+import type { EmbedFontAdvancedOptions } from 'src/api';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 
 /**
  * A note of thanks to the developers of https://github.com/foliojs/pdfkit, as
@@ -18,15 +17,17 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
     const font = createFont(fontData);
+    if (font.type !== 'TTF') throw new Error(`Invalid font type: ${font.type}`);
+
     return new CustomFontSubsetEmbedder(
       font,
       fontData,
       customFontName,
       vertical,
-      fontFeatures,
+      advanced,
     );
   }
 
@@ -35,13 +36,13 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   private readonly glyphIdMap: Map<number, number>;
 
   private constructor(
-    font: Font,
+    font: TTFFont,
     fontData: Uint8Array,
     customFontName?: string,
     vertical?: boolean,
-    fontFeatures?: TypeFeatures,
+    advanced?: EmbedFontAdvancedOptions,
   ) {
-    super(font, fontData, customFontName, vertical, fontFeatures);
+    super(font, fontData, customFontName, vertical, advanced);
 
     this.subset = this.font.createSubset();
     this.glyphs = [];
@@ -49,18 +50,44 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
     this.glyphIdMap = new Map();
   }
 
-  encodeText(text: string): PDFHexString {
-    const { glyphs } = this.font.layout(text, this.fontFeatures);
-    const hexCodes = new Array(glyphs.length);
+  /**
+   * @param layoutAdvancedParams Specify this to pass it to `fontkit` instead of the one that `this` embedder itself has.
+   */
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
+    let hexCodes: string[];
+    if (typeof text === 'string') {
+      const { glyphs } = this.font.layout(
+        text,
+        this.fontFeatures,
+        layoutAdvancedParams ?? this.layoutAdvancedParams,
+      );
+      hexCodes = new Array(glyphs.length);
 
-    for (let idx = 0, len = glyphs.length; idx < len; idx++) {
-      const glyph = glyphs[idx];
-      const subsetGlyphId = this.subset.includeGlyph(glyph);
+      for (let idx = 0, len = glyphs.length; idx < len; idx++) {
+        const glyph = glyphs[idx];
+        const subsetGlyphId = this.subset.includeGlyph(glyph);
 
-      this.glyphs[subsetGlyphId - 1] = glyph;
-      this.glyphIdMap.set(glyph.id, subsetGlyphId);
+        this.glyphs[subsetGlyphId - 1] = glyph;
+        this.glyphIdMap.set(glyph.id, subsetGlyphId);
 
-      hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+        hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+      }
+    } else {
+      const glyphIds = text;
+      hexCodes = new Array(glyphIds.length);
+
+      for (let idx = 0, len = glyphIds.length; idx < len; idx++) {
+        const glyph = this.font.getGlyph(glyphIds[idx]);
+        const subsetGlyphId = this.subset.includeGlyph(glyph);
+
+        this.glyphs[subsetGlyphId - 1] = glyph;
+        this.glyphIdMap.set(glyph.id, subsetGlyphId);
+
+        hexCodes[idx] = toHexStringOfMinLength(subsetGlyphId, 4);
+      }
     }
 
     this.glyphCache.invalidate();
@@ -68,7 +95,7 @@ export class CustomFontSubsetEmbedder extends CustomFontEmbedder {
   }
 
   protected isCFF(): boolean {
-    return (this.subset as any).cff;
+    return this.subset.type === 'CFF';
   }
 
   protected glyphId(glyph?: Glyph): number {

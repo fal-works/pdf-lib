@@ -2,6 +2,7 @@ import type { Color } from 'src/api/colors';
 import type { PDFFont } from 'src/api/PDFFont';
 import type { Rotation } from 'src/api/rotations';
 import type { LineCapStyle } from 'src/api/operators';
+import type { LayoutAdvancedParams } from '@denkiyagi/fontkit';
 
 export enum BlendMode {
   Normal = 'Normal',
@@ -32,6 +33,12 @@ export interface PDFPageDrawTextOptions {
   lineHeight?: number;
   maxWidth?: number;
   wordBreaks?: string[];
+
+  /**
+   * Only for custom fonts.
+   * Specify this to pass it to `fontkit` instead of the one that the font embedder itself has.
+   */
+  fontLayoutAdvancedParams?: LayoutAdvancedParams;
 }
 
 export interface PDFPageDrawImageOptions {

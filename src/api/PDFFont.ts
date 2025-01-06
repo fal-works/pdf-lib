@@ -1,3 +1,5 @@
+import type { LayoutAdvancedParams, TTFFont } from '@denkiyagi/fontkit';
+import type { Font as RawStandardFont } from '@pdf-lib/standard-fonts';
 import type { Embeddable } from 'src/api//Embeddable';
 import { PDFDocument } from 'src/api/PDFDocument';
 import {
@@ -6,6 +8,7 @@ import {
   PDFRef,
   StandardFontEmbedder,
 } from 'src/core';
+import type { SingleLineTextOrGlyphs } from 'src/types/text';
 import { assertIs, assertOrUndefined } from 'src/utils';
 
 export type FontEmbedder = CustomFontEmbedder | StandardFontEmbedder;
@@ -64,12 +67,16 @@ export class PDFFont implements Embeddable {
    * Encodes a string of text in this font.
    *
    * @param text The text to be encoded.
+   * @param layoutAdvancedParams Only for custom fonts. Specify this to pass it to `fontkit` instead of the one that the font embedder itself has.
    * @returns The encoded text as a hex string.
    */
-  encodeText(text: string): PDFHexString {
-    assertIs(text, 'text', ['string']);
+  encodeText(
+    text: SingleLineTextOrGlyphs,
+    layoutAdvancedParams?: LayoutAdvancedParams,
+  ): PDFHexString {
+    assertIs(text, 'text', ['string', Array, Uint16Array, Uint32Array]);
     this.modified = true;
-    return this.embedder.encodeText(text);
+    return this.embedder.encodeText(text, layoutAdvancedParams);
   }
 
   /**
@@ -132,6 +139,28 @@ export class PDFFont implements Embeddable {
       return this.embedder.encoding.supportedCodePoints;
     } else {
       return this.embedder.font.characterSet;
+    }
+  }
+
+  /**
+   * @returns The raw standard font instance if `this` is a standard font, otherwise `null`.
+   */
+  getRawStandardFont(): RawStandardFont | null {
+    if (this.embedder instanceof StandardFontEmbedder) {
+      return this.embedder.font;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * @returns The raw standard font instance if `this` is a custom font, otherwise `null`.
+   */
+  getRawCustomFont(): TTFFont | null {
+    if (this.embedder instanceof CustomFontEmbedder) {
+      return this.embedder.font;
+    } else {
+      return null;
     }
   }
 
